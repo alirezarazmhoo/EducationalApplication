@@ -7,6 +7,12 @@ namespace EducationalApplication.Infrastructure
 {
 	public interface IUnitOfWorkRepo
 	{
+		IEducationPostRepo IEducationPostRepo { get; }
+		ITeacherRepo ITeacherRepo { get; }
+		ISchoolNameRepo ISchoolNameRepo { get;  }
+		IGradeRepo IGradeRepo { get; }
+		IMajorRepo IMajorRepo { get; }
+
 		Task SaveAsync();
 	}
 }

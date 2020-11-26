@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EducationalApplication.Infrastructure;
 using EducationalApplication.Services;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.WindowsAPICodePack.Shell.PropertySystem;
 
 namespace EducationalApplication
 {
@@ -33,6 +35,8 @@ namespace EducationalApplication
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<IUnitOfWorkRepo, UnitOfWork>();
+
+
 			services.AddDefaultIdentity<IdentityUser>(options => {
 				options.SignIn.RequireConfirmedAccount = false;
 				options.Password.RequireUppercase = false;
@@ -42,7 +46,12 @@ namespace EducationalApplication
 	         .AddEntityFrameworkStores<ApplicationDbContext>();
 			services.AddControllersWithViews();
 			services.AddRazorPages();
-
+			services.AddControllersWithViews()
+		.AddNewtonsoftJson(options =>
+		options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+	);
+			services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+			services.AddControllersWithViews().AddRazorRuntimeCompilation();
 		}
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
