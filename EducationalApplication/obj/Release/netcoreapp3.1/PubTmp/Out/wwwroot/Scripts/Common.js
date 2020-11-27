@@ -173,15 +173,20 @@ function EditAjax(ActionName, id) {
                 $.each(response.listItem, function () {                  
                     $('#' + this.key + '').val(this.value);
                 });
-                if (response.listartists != null) {                        
-                    $.each(response.listartists, function () {
-                        $("#ArtistsId option[value=" + this.key + "]").attr("selected", true);
-                    });        
-                }
-                if (response.genreitem != null) {
-                    $.each(response.genreitem, function () {
-                        $("#GenreId option[value=" + this.key + "]").attr("selected", true);
+                //if (response.listartists != null) {                        
+                //    $.each(response.listartists, function () {
+                //        $("#ArtistsId option[value=" + this.key + "]").attr("selected", true);
+                //    });        
+                //}
+                if (response.majoritem != null) {
+                    $.each(response.majoritem, function () {
+                        $("#MajorId option[value=" + this.key + "]").attr("selected", true);
                     });         
+                }
+                if (response.gradeitem != null) {
+                    $.each(response.gradeitem, function () {
+                        $("#GradeId option[value=" + this.key + "]").attr("selected", true);
+                    });
                 }
                 if (response.teacherfiles != null) {
                     var Filescontent = "";
@@ -192,20 +197,29 @@ function EditAjax(ActionName, id) {
                     });
                     $('#RemoveImageItems').html(Filescontent);
                 } 
-                if (response.audio != null) {
-                    var audiocontent = '<audio controls><source src="../Upload/Music/' + response.audio + '" ></audio>';
-                    $('#MusicItem').html(audiocontent);
-                }
-                if (response.musicattachedfiles != null) {
-                    var MusicFilescontent = "";
+                if (response.studentfiles != null) {
+                    var Filescontent2 = "";
 
-                    $.each(response.musicattachedfiles, function () {
-                        if (this.specialtypefile == "Picture") {
-                            MusicFilescontent +='<div id= "' + this.id + '"><img src="../Upload/MusicFiles/' + this.url + '" style="width: 70px; height: 60px;id="' + this.id + '" " /><button type="button"  class="btn btn-danger btn-sm btnremovefile"   style="width:30px;margin-left:30%;"><i class="fa fa-remove"></i></button></div>';
-                        }
-                        $('#RemoveMusicFilesItems').html(MusicFilescontent);
-                    }); 
-                }             
+                    $.each(response.teacherfiles, function () {
+
+                        Filescontent2 += '<div id= "' + this.id + '"><img src="../' + this.url + '" style="width: 70px; height: 60px;id="' + this.id + '" " /></div>';
+                    });
+                    $('#RemoveImageItems').html(Filescontent2);
+                }
+                //if (response.audio != null) {
+                //    var audiocontent = '<audio controls><source src="../Upload/Music/' + response.audio + '" ></audio>';
+                //    $('#MusicItem').html(audiocontent);
+                //}
+                //if (response.musicattachedfiles != null) {
+                //    var MusicFilescontent = "";
+
+                //    $.each(response.musicattachedfiles, function () {
+                //        if (this.specialtypefile == "Picture") {
+                //            MusicFilescontent +='<div id= "' + this.id + '"><img src="../Upload/MusicFiles/' + this.url + '" style="width: 70px; height: 60px;id="' + this.id + '" " /><button type="button"  class="btn btn-danger btn-sm btnremovefile"   style="width:30px;margin-left:30%;"><i class="fa fa-remove"></i></button></div>';
+                //        }
+                //        $('#RemoveMusicFilesItems').html(MusicFilescontent);
+                //    }); 
+                //}             
                 $('#myModal').modal('show');
             }
             else {

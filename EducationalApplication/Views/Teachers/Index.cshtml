@@ -107,7 +107,7 @@
                         @item.Password
                     </td>
                     <td>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this)" data-assigned-id="@item.Id"> حدف</button> |
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this)" data-assigned-id="@item.Id"> حذف</button> |
                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EditModal" id="@item.Id"> ویرایش</button>
                     </td>
                 </tr>
@@ -210,7 +210,7 @@
             var bodyStyle = document.body.style;
             bodyStyle.removeProperty('padding-right');
 		});
-		SetInputFilter(["Mobile"]);
+		SetInputFilter(["Mobile","NationalCode"]);
     }
     function Save() {
         if (checkvalidity('register') === 0) {

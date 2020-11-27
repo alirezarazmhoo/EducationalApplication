@@ -12,6 +12,7 @@ namespace EducationalApplication.Infrastructure
 		ISchoolNameRepo ISchoolNameRepo { get;  }
 		IGradeRepo IGradeRepo { get; }
 		IMajorRepo IMajorRepo { get; }
+		IStudentRepo IStudentRepo { get; }
 
 		Task SaveAsync();
 	}

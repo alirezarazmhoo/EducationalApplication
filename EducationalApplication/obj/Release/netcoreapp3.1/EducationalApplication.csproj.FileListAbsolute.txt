@@ -503,3 +503,4 @@ D:\Educationalapplication\EducationalApplication\EducationalApplication\obj\Rele
 D:\Educationalapplication\EducationalApplication\EducationalApplication\obj\Release\netcoreapp3.1\Razor\Views\Tests\Edit.cshtml.g.cs
 D:\Educationalapplication\EducationalApplication\EducationalApplication\obj\Release\netcoreapp3.1\Razor\Views\Tests\Index.cshtml.g.cs
 D:\Educationalapplication\EducationalApplication\EducationalApplication\obj\Release\netcoreapp3.1\Razor\Views\Teachers\Index.cshtml.g.cs
+D:\Educationalapplication\EducationalApplication\EducationalApplication\obj\Release\netcoreapp3.1\Razor\Views\Students\Index.cshtml.g.cs

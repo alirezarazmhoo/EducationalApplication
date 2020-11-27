@@ -15,4 +15,9 @@ namespace EducationalApplication.Models.ViewModels
 		public int id { get; set; }
 		public string url { get; set; }
 	}
+	public class ComboBoxViewModel
+	{
+		public int id { get; set; }
+		public string name { get; set; }
+	}
 }

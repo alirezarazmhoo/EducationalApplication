@@ -30,6 +30,7 @@
     <Folder Include="wwwroot\Scripts\" />
     <Folder Include="wwwroot\Upload\Post\Media\" />
     <Folder Include="wwwroot\Upload\Post\Icon\" />
+    <Folder Include="wwwroot\Upload\Student\File\" />
     <Folder Include="wwwroot\Upload\Teacher\File\" />
   </ItemGroup>
 

@@ -15,6 +15,8 @@ namespace EducationalApplication.Services
 		private ISchoolNameRepo _ISchoolNameRepo;
 		private IGradeRepo _IGradeRepo;
 		private IMajorRepo _IMajorRepo;
+		private IStudentRepo _IStudentRepo;
+
 
 		public UnitOfWork(ApplicationDbContext DbContext)
 		{
@@ -57,6 +59,13 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _IMajorRepo = _IMajorRepo ?? new MajorRepo(_DbContext);
+			}
+		}
+		public IStudentRepo IStudentRepo
+		{
+			get
+			{
+				return _IStudentRepo = _IStudentRepo ?? new StudentRepo(_DbContext);
 			}
 		}
 	}

@@ -107,9 +107,9 @@ namespace EducationalApplication.Services
                 //Update(model);
             }
         }
-        public IEnumerable<EducationPost>  GetAll(int Id)
+        public async Task<IEnumerable<EducationPost>> GetAll(int Id)
         {
-            var Items = _DbContext.EducationPosts.Include(s=>s.Medias).Where(s=>s.TeacherId == Id).OrderByDescending(s=>s.Id).ToList();
+            var Items =await _DbContext.EducationPosts.Include(s=>s.Medias).Where(s=>s.TeacherId == Id).OrderByDescending(s=>s.Id).ToListAsync();
             return Items; 
         }
         public async Task<EducationPost>  GetById(int Id)

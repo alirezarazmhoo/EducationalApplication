@@ -28,7 +28,7 @@ namespace EducationalApplication.Controllers.api
             try
             {
             
-                if (_unitofwork.ITeacherRepo.GetById(model.TeacherId) == null)
+                if (await _unitofwork.ITeacherRepo.GetById(model.TeacherId) == null)
                 {
                     return ApiResponse.Fail(null ,404, $"معلمی با ای دی {model.TeacherId} یافت نشد.");
                 }
@@ -43,17 +43,17 @@ namespace EducationalApplication.Controllers.api
             }
         }
         [Route("GetAll")]
-        public ApiModel GetAll(int Id)
+        public async Task<ApiModel>  GetAll(int Id)
         {
             try
             {
 
-            if (_unitofwork.ITeacherRepo.GetById(Id)== null)
+            if (await _unitofwork.ITeacherRepo.GetById(Id)== null)
             {
               return ApiResponse.Fail(null, 404, $"معلمی با ای دی {Id} یافت نشد.");
             }
 
-                return ApiResponse.Success(_unitofwork.IEducationPostRepo.GetAll(Id));
+                return ApiResponse.Success(await _unitofwork.IEducationPostRepo.GetAll(Id));
             }
             catch (Exception ex)
             {

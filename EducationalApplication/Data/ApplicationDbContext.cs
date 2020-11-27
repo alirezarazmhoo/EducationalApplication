@@ -20,15 +20,11 @@ namespace EducationalApplication.Data
 		public DbSet<SchoolName>SchoolName{ get; set; }
 		public DbSet<Grade> Grades { get; set; }
 		public DbSet<Major> Majors { get; set; }
-
-		
-
+		public DbSet<Students> Students { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Seed();
 		}
-	
-
 	}
 }
