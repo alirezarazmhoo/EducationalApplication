@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationalApplication.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,14 +17,5 @@ namespace EducationalApplication.Models
 		public EducationPost EducationPost { get; set; }
 		public MediaType MediaType { get; set; }
 	}
-	public enum MediaType
-	{
-		Pdf , 
-		Word , 
-		Picture ,
-		Video ,
-		Audio , 
-		Undefined , 
-		PowerPoint
-	}
+
 }

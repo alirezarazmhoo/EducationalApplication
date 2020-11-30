@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EducationalApplication.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,18 +24,6 @@ namespace EducationalApplication.Models
 		public Teacher Teacher { get; set; }
 	}
 
-	public enum accessType
-	{
-		Free,
-		IncludesCost
-	}
 
-	public enum category
-	{
-		Math ,
-		Science ,
-		Geography ,
-		biology
-	}
 
 }

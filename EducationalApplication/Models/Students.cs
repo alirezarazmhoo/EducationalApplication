@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationalApplication.Models;
+using EducationalApplication.Models.Enums;
+
 namespace EducationalApplication.Models
 {
 	public class Students
@@ -26,6 +28,8 @@ namespace EducationalApplication.Models
 		public Major Major { get; set; }
 		public int GradeId  { get; set; }
 		public Grade Grade { get; set; }
+
+		public UserType UserType { get; set; } = UserType.Student;
 
 	}
 }
