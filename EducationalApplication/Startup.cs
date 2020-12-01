@@ -35,9 +35,9 @@ namespace EducationalApplication
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
 			services.AddTransient<IUnitOfWorkRepo, UnitOfWork>();
+			
 
-
-			services.AddDefaultIdentity<IdentityUser>(options => {
+			services.AddDefaultIdentity<ApplicationUser >(options => {
 				options.SignIn.RequireConfirmedAccount = false;
 				options.Password.RequireUppercase = false;
 				options.Password.RequireNonAlphanumeric = false;
@@ -73,7 +73,7 @@ namespace EducationalApplication
 
 			app.UseAuthentication();
 			app.UseAuthorization();
-
+	
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllerRoute(

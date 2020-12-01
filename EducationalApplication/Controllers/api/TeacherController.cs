@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
 using EducationalApplication.Models;
 using EducationalApplication.Models.ViewModels;
@@ -23,7 +24,7 @@ namespace EducationalApplication.Controllers.api
 
         [Route("Login")]
         [HttpPost]
-        public ApiModel Login(Teacher model)
+        public ApiModel Login(ApplicationUser model)
         {
             if(string.IsNullOrEmpty(model.Password) || string.IsNullOrEmpty(model.UserName))
             {
@@ -33,7 +34,7 @@ namespace EducationalApplication.Controllers.api
                 ApiModel.data = null;
                 return ApiModel; 
             }
-            var item = _unitofwork.ITeacherRepo.Authorize(model);
+            var item = _unitofwork.IUserRepo.Authorize(model);
             if(item.Count() == 0)
             {
                 ApiModel.status = 404;

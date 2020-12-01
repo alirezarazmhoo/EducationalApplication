@@ -1,23 +1,22 @@
 ﻿using EducationalApplication.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EducationalApplication.Models
+namespace EducationalApplication.Data
 {
-	public class Teacher
+	public class ApplicationUser :IdentityUser
 	{
-		public int Id { get; set; }
+	
 		public string FullName { get; set; }
 		public long Mobile { get; set; }
 		public string Address { get; set; }
 		public string NationalCode { get; set; }
 		public string ApiToken { get; set; }
 		public string Url { get; set; }
-		public string UserName { get; set; }
 		public string Password { get; set; }
-		public UserType UserType { get; set; } = UserType.Teacher;
-
+		public UserType UserType { get; set; } 
 	}
 }

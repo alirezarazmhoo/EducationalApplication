@@ -1,4 +1,5 @@
-﻿using EducationalApplication.Models.Enums;
+﻿using EducationalApplication.Data;
+using EducationalApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,8 +20,8 @@ namespace EducationalApplication.Models
 		public ICollection<BannerToPost> BannerToPosts { get; set; }
 		public int? CategoryId { get; set; }
 		public Category Category { get; set; }
-
-
+		public string ApplicationUserId { get; set; }
+		public ApplicationUser ApplicationUser { get; set; }
 		public bool ShowOnMainPage { get; set; }
 	}
 }

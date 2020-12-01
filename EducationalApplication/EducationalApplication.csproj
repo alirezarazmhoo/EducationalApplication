@@ -26,6 +26,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Data\Migrations\" />
     <Folder Include="wwwroot\Admin\" />
     <Folder Include="wwwroot\Scripts\" />
     <Folder Include="wwwroot\Upload\Banner\File\" />

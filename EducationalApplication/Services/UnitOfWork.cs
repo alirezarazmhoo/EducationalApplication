@@ -1,5 +1,6 @@
 ﻿using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,9 @@ namespace EducationalApplication.Services
 	public class UnitOfWork : IUnitOfWorkRepo
 	{
 		private ApplicationDbContext _DbContext;
+	
 		private IEducationPostRepo _IEducationPostRepo;
-		private ITeacherRepo _ITeacherRepo;
+		private IUserRepo _IUserRepo;
 		private ISchoolNameRepo _ISchoolNameRepo;
 		private IGradeRepo _IGradeRepo;
 		private IMajorRepo _IMajorRepo;
@@ -33,11 +35,11 @@ namespace EducationalApplication.Services
 				return _IEducationPostRepo = _IEducationPostRepo ?? new EducationPostRepo(_DbContext);
 			}
 		}
-		public ITeacherRepo  ITeacherRepo
+		public IUserRepo IUserRepo
 		{
 			get
 			{
-				return _ITeacherRepo = _ITeacherRepo ?? new TeacherRepo(_DbContext);
+				return _IUserRepo = _IUserRepo ?? new UserRepo(_DbContext);
 			}
 		}
 		public ISchoolNameRepo  ISchoolNameRepo
