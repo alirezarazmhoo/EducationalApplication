@@ -51,7 +51,7 @@ namespace EducationalApplication
             });
             services.AddOurSwaager();
 
-            services.AddTransient<IBanerServices, BanerService>();
+            services.AddTransient<IBanerRepo, BanerRepo>();
 
 
 
@@ -95,23 +95,6 @@ namespace EducationalApplication
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             
             });
-    
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             if (env.IsDevelopment())
             {

@@ -5,6 +5,13 @@
     <UserSecretsId>aspnet-EducationalApplication-E597E485-3026-4F8F-AB3E-B3DFAA2E7591</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Data\Migrations\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Google.Apis.Core" Version="1.49.0" />
@@ -33,7 +40,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
     <Folder Include="wwwroot\Admin\" />
     <Folder Include="wwwroot\Scripts\" />
     <Folder Include="wwwroot\Upload\Banner\File\" />

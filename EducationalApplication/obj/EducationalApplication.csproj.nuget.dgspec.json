@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mohammad\\Desktop\\EducationApp\\New folder\\EducationApp\\EducationApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {}
+    "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mohammad\\Desktop\\EducationApp\\New folder\\EducationApp\\EducationApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {
+    "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohammad\\Desktop\\EducationApp\\New folder\\EducationApp\\EducationApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
+        "projectUniqueName": "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
         "projectName": "EducationalApplication",
-        "projectPath": "C:\\Users\\Mohammad\\Desktop\\EducationApp\\New folder\\EducationApp\\EducationApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
-        "packagesPath": "C:\\Users\\Mohammad\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohammad\\Desktop\\EducationApp\\New folder\\EducationApp\\EducationApp\\EducationalApplication\\EducationalApplication\\obj\\",
+        "projectPath": "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
+        "packagesPath": "C:\\Users\\Razmjoo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "G:\\InstallProgram\\DEV\\Offline Packages"
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Mohammad\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 20.2.config",
+          "C:\\Users\\Razmjoo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,12 +25,10 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "G:\\InstallProgram\\DEV\\System\\Components\\Packages": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -43,7 +40,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Google.Apis.Core": {
               "target": "Package",
@@ -158,7 +154,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -13,7 +13,7 @@ namespace EducationalApplication.Infrastructure
 		IGradeRepo IGradeRepo { get; }
 		IMajorRepo IMajorRepo { get; }
 		IStudentRepo IStudentRepo { get; }
-        IBanerServices IBannerRepo { get; }
+        IBanerRepo IBannerRepo { get; }
 
 		Task SaveAsync();
 	}
