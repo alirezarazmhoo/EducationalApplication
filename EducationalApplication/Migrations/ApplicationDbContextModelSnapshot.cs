@@ -136,6 +136,9 @@ namespace EducationalApplication.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("EducationPostId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ShowOnMainPage")
                         .HasColumnType("bit");
 

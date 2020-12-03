@@ -18,6 +18,7 @@ namespace EducationalApplication.Services
 		private IGradeRepo _IGradeRepo;
 		private IMajorRepo _IMajorRepo;
 		private IStudentRepo _IStudentRepo;
+        private IBanerServices _IBannerRepo;
 
 
 		public UnitOfWork(ApplicationDbContext DbContext)
@@ -70,5 +71,14 @@ namespace EducationalApplication.Services
 				return _IStudentRepo = _IStudentRepo ?? new StudentRepo(_DbContext);
 			}
 		}
-	}
+        public IBanerServices IBannerRepo
+		{
+            get
+            {
+                return _IBannerRepo = _IBannerRepo ?? new BanerService(_DbContext);
+            }
+        }
+
+		
+    }
 }
