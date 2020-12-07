@@ -46,13 +46,10 @@ namespace EducationalApplication.Services
 				Create(model);
 				smsParameters.Add(new SmsParameters() {  Parameter = "UserName" , ParameterValue =model.UserName });
 				smsParameters.Add(new SmsParameters() { Parameter = "Password", ParameterValue = model.Password });
-
 				SendSms.CallSmSMethodAdvanced(model.Mobile, 38325, smsParameters);
-
 			}
 			else
 			{
-
 				var item = await _DbContext.Students.FindAsync(model.Id);
 				if (_File != null)
 				{
@@ -80,18 +77,16 @@ namespace EducationalApplication.Services
 					item.FullName = model.FullName;
 					item.Address = model.Address;
 				}
-
 			}
 		}
 		public async Task<Students> GetById(int Id)
 		{
 			return await FindByCondition(s => s.Id.Equals(Id))
 				.FirstOrDefaultAsync();
-
 		}
-		public IQueryable<Students> Authorize(Students model)
+		public IQueryable<Students> Authorize(string UserName,string Password)
 		{
-			var item = FindByCondition(s => s.UserName == model.UserName && s.Password == model.Password);
+			var item = FindByCondition(s => s.UserName == UserName && s.Password == Password);
 			return item;
 		}
 		public void Remove(Students model)

@@ -17,6 +17,7 @@ namespace EducationalApplication.Data
 		public string ApiToken { get; set; }
 		public string Url { get; set; }
 		public string Password { get; set; }
+		public DateTime CreateDate { get; set; } = DateTime.Now;
 		public UserType UserType { get; set; } 
 	}
 }

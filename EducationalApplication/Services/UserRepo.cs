@@ -25,7 +25,7 @@ namespace EducationalApplication.Services
 		public async Task<IEnumerable<ApplicationUser>> GetAll()
 		{
 			return await FindAll(null)
-		  .OrderByDescending(s => s.Id)
+		  .OrderByDescending(s => s.CreateDate)
 		  .ToListAsync();
 		}
 		public async Task AddOrUpdate(ApplicationUser model, IFormFile _File)

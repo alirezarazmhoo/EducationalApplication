@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {}
+    "D:\\Educationalapplication\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {
+    "D:\\Educationalapplication\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
+        "projectUniqueName": "D:\\Educationalapplication\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
         "projectName": "EducationalApplication",
-        "projectPath": "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
+        "projectPath": "D:\\Educationalapplication\\EducationalApplication\\EducationalApplication\\EducationalApplication.csproj",
         "packagesPath": "C:\\Users\\Razmjoo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Razmjoo\\Desktop\\Projects\\EducaionApp\\EducationalApplication\\EducationalApplication\\obj\\",
+        "outputPath": "D:\\Educationalapplication\\EducationalApplication\\EducationalApplication\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
