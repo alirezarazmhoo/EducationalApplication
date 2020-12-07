@@ -98,5 +98,7 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
+
+
     }
 }

@@ -10,12 +10,12 @@ using EducationalApplication.Models.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using WebApplication1.Utility;
 
 namespace EducationalApplication.Services
 {
 	public class UserRepo : RepositoryBase<ApplicationUser>, IUserRepo
 	{
-		
 		public UserRepo(ApplicationDbContext DbContext  )
 	   : base(DbContext)
 		{
@@ -31,10 +31,11 @@ namespace EducationalApplication.Services
 		public async Task AddOrUpdate(ApplicationUser model, IFormFile _File)
 		{
 			Random random = new Random();
-			//if(string.IsNullOrEmpty(model.Id))
-			//{
-			try
+			List<SmsParameters> smsParameters = new List<SmsParameters>();
+
+			if (string.IsNullOrEmpty(model.Id))
 			{
+
 				if (_File != null)
 				{
 					var fileName = Path.GetFileName(_File.FileName);
@@ -48,44 +49,40 @@ namespace EducationalApplication.Services
 				model.UserName = model.Mobile.ToString();
 				string UserPass = random.Next(10000, 99999).ToString();
 				var user = new ApplicationUser { UserName = model.Mobile.ToString(), Email = model.Mobile + "yahoo.com", Password = UserPass, FullName = model.FullName, Address = model.Address, Mobile = model.Mobile, NationalCode = model.NationalCode, Url = model.Url, UserType = UserType.Teacher, PhoneNumber = "0" };
-				//var result = await _userManager.CreateAsync(user, UserPass);
 				Create(user);
+				smsParameters.Add(new SmsParameters() { Parameter = "UserName", ParameterValue = user.UserName });
+				smsParameters.Add(new SmsParameters() { Parameter = "Password", ParameterValue = user.Password });
+				SendSms.CallSmSMethodAdvanced(model.Mobile, 38324, smsParameters);
 			}
-			catch(Exception ex)
+			else
 			{
 
+				var item = await _DbContext.Users.FindAsync(model.Id);
+				if (_File != null)
+				{
+					if (item != null)
+					{
+						if (!string.IsNullOrEmpty(item.Url))
+						{
+							File.Delete($"wwwroot/{item.Url}");
+						}
+					}
+					var fileName = Path.GetFileName(_File.FileName);
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Teacher\File", fileName);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						_File.CopyTo(stream);
+					}
+					item.Url = "/Upload/Teacher/File/" + fileName;
+				}
+				if (item != null)
+				{
+					item.Mobile = model.Mobile;
+					item.NationalCode = model.NationalCode;
+					item.FullName = model.FullName;
+					item.Address = model.Address;
+				}
 			}
-			//}
-			//else
-			//{
-
-				//var item = await _DbContext.Users.FindAsync(model.Id);
-				//if (_File != null)
-				//{
-				//	if(item != null)
-				//	{
-				//	if (!string.IsNullOrEmpty(item.Url))
-				//	{
-				//		File.Delete($"wwwroot/{item.Url}");
-				//	}
-				//	}
-				//	var fileName = Path.GetFileName(_File.FileName);
-				//	var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Teacher\File", fileName);
-				//	using (var stream = new FileStream(filePath, FileMode.Create))
-				//	{
-				//		_File.CopyTo(stream);
-				//	}
-				//	item.Url = "/Upload/Teacher/File/" + fileName;
-				//}
-				//if (item != null)
-				//{
-				//	item.Mobile = model.Mobile;
-				//	item.NationalCode = model.NationalCode;
-				//	item.FullName = model.FullName;
-				//	item.Address = model.Address;
-				//}
-
-			//}
 		}
 		public async Task<ApplicationUser>  GetById(string Id)
 		{
@@ -111,5 +108,19 @@ namespace EducationalApplication.Services
 			return await FindByCondition(s => s.FullName.Contains(txtsearch))
 			.ToListAsync();
 		}
+
+		public bool ForgetPassword(long Mobile)
+		{
+			var Item = _DbContext.Users.Where(s => s.Mobile == Mobile).FirstOrDefault();
+			if(Item != null)
+			{
+				return SendSms.CallSmSMethod(Mobile , 38082 , "VerificationCode" , Item.Password);
+			}
+			else
+			{
+				return false;
+			}
+		}
+
 	}
 }

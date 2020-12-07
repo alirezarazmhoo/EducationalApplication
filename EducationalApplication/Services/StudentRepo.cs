@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Utility;
 
 namespace EducationalApplication.Services
 {
@@ -27,6 +28,7 @@ namespace EducationalApplication.Services
 		public async Task AddOrUpdate(Students model, IFormFile _File)
 		{
 			Random random = new Random();
+			List<SmsParameters> smsParameters = new List<SmsParameters>();
 			if (model.Id == 0)
 			{
 				if (_File != null)
@@ -42,6 +44,11 @@ namespace EducationalApplication.Services
 				model.UserName = model.Mobile.ToString();
 				model.Password = random.Next(10000, 99999).ToString();
 				Create(model);
+				smsParameters.Add(new SmsParameters() {  Parameter = "UserName" , ParameterValue =model.UserName });
+				smsParameters.Add(new SmsParameters() { Parameter = "Password", ParameterValue = model.Password });
+
+				SendSms.CallSmSMethodAdvanced(model.Mobile, 38325, smsParameters);
+
 			}
 			else
 			{

@@ -2560,8 +2560,6 @@ C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\Educational
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.csprojAssemblyReference.cache
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\staticwebassets\EducationalApplication.StaticWebAssets.Manifest.cache
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\staticwebassets\EducationalApplication.StaticWebAssets.xml
-C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.RazorAssemblyInfo.cache
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.RazorAssemblyInfo.cs
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.AssemblyInfoInputs.cache
@@ -2604,3 +2602,6 @@ C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\Educational
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.csproj.CopyComplete
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.dll
 C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.pdb
+C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\bin\Debug\netcoreapp3.1\SmsIrRestful.dll
+C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Razmjoo\Desktop\Projects\EducaionApp\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\EducationalApplication.MvcApplicationPartsAssemblyInfo.cache
