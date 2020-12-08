@@ -58,10 +58,10 @@ namespace EducationalApplication.Services
                     if (_File != null)
                     {
                         //*************  Delete Image
-                        if (!string.IsNullOrEmpty(getBanner.Url))
-                        {
-                            File.Delete($"wwwroot/{getBanner.Url}");
-                        }
+                        //if (!string.IsNullOrEmpty(getBanner.Url))
+                        //{
+                        //    File.Delete($"wwwroot/{getBanner.Url}");
+                        //}
                         //*************   Add Image
                         var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + _File.FileName.Split('.')[1];
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Banner\File", fileName);
@@ -94,6 +94,15 @@ namespace EducationalApplication.Services
             }
             Delete(model);
            
+        }
+        public async Task RemoveFile(int Id)
+        {
+            Banner Item = await _DbContext.Banners.FindAsync(Id);
+            if (Item != null)
+            {
+                File.Delete($"wwwroot/{Item.Url}");
+            }
+
         }
     }
 }

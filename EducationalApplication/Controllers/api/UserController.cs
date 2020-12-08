@@ -77,6 +77,25 @@ namespace EducationalApplication.Controllers.api
                 }
             }
         }
-
+        [Route("ForgetPassword")]
+        [HttpGet]
+        public async Task<ApiModel> ForgetPassword(string Mobile)
+        {
+            if(string.IsNullOrEmpty(Mobile))
+            {
+                return ApiResponse.Fail(null, 403, CustomeMessages.Empty);
+            }
+            else
+            {
+                if(await _unitofwork.IUserRepo.ForgetPassword(Convert.ToInt64(Mobile)))
+                {
+                    return ApiResponse.Success(null);
+                }
+                else
+                {
+                    return ApiResponse.Fail(null, 403, CustomeMessages.UserNotFound);
+                }
+            }
         }
+    }
 }

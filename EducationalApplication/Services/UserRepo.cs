@@ -109,12 +109,18 @@ namespace EducationalApplication.Services
 			.ToListAsync();
 		}
 
-		public bool ForgetPassword(long Mobile)
+		public async Task<bool> ForgetPassword(long Mobile)
 		{
 			var Item = _DbContext.Users.Where(s => s.Mobile == Mobile).FirstOrDefault();
-			if(Item != null)
+			
+			var StudentItem =await _DbContext.Students.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
+			if (Item != null)
 			{
-				return SendSms.CallSmSMethod(Mobile , 38082 , "VerificationCode" , Item.Password);
+				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", Item.Password);
+			}
+			else if (StudentItem != null)
+			{
+				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", Item.Password);
 			}
 			else
 			{

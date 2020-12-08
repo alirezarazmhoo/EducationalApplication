@@ -98,6 +98,24 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
+        [Route("RemoveFile")]
+        public async Task<ApiModel> RemoveFile(int Id)
+        {
+            try
+            {
+                Banner item = await _unitofwork.IBannerRepo.GetById(Id);
+                if (item == null)
+                {
+                    return ApiResponse.Fail(null, 404, $"بنر مورد نظر وجود ندارد ");
+                }
+                await _unitofwork.IBannerRepo.RemoveFile(Id);
+                return ApiResponse.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
 
 
     }

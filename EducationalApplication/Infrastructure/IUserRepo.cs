@@ -15,7 +15,8 @@ namespace EducationalApplication.Infrastructure
 		void Remove(ApplicationUser model);
 		Task<IEnumerable<ApplicationUser>> GetAll();
 		Task<IEnumerable<ApplicationUser>> search(string txtsearch);
-		bool ForgetPassword(long Mobile);
-		
+		Task<bool> ForgetPassword(long Mobile);
+
+
 	}
 }

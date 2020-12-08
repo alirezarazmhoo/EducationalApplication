@@ -12,6 +12,7 @@ namespace EducationalApplication.Infrastructure
        Task<List<Banner>> GetAll(string Id);
        Task<Banner> GetById(int banerId);
        Task AddOrUpdate(Banner baner, IFormFile _File);
-       void Remove(Banner model); 
+       void Remove(Banner model);
+        Task RemoveFile(int Id);
    }
 }
