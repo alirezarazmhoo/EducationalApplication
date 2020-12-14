@@ -91,16 +91,40 @@
                     <td>
                         @item.Mobile
                     </td>
-                    <td>
-                        @item.Address
-                    </td>
-                    <td>
-                        @item.NationalCode
-                    </td>
+                    @{
+                        if (string.IsNullOrEmpty(item.Address))
+                        {
+                            <td class="text text-danger">
+                                بدون آدرس
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @item.Address
+                            </td>
+                        }
+                    }
+                    @{
+                        if (string.IsNullOrEmpty(item.NationalCode))
+                        {
+                            <td class="text text-danger">
+                                بدون کد ملی
+                            </td>
+                        }
+                        else
+                        {
+
+                            <td>
+                                @item.NationalCode
+                            </td>
+                        }
+
+                    }
                     @{
                         if (string.IsNullOrEmpty(item.Url))
                         {
-                            <td>
+                            <td class="text text-danger">
                                 بدون عکس
                             </td>
                         }
@@ -170,7 +194,7 @@
                     </div>
                     <div class="form-group" style="margin-right:5px">
                         <label for="exampleInputEmail1"> کدملی :</label>
-                        <input display="کدملی" id="NationalCode" name="NationalCode" placeholder=" شماره همراه را وارد کنید" class="form-control" style="width:70%" required>
+                        <input display="کدملی" id="NationalCode" name="NationalCode" placeholder=" شماره همراه را وارد کنید" class="form-control" style="width:70%" >
                     </div>
                     <div class="form-group" style="margin-right:5px">
                         <label for="exampleInputEmail1"> آدرس :</label>

@@ -52,7 +52,9 @@ namespace EducationalApplication.Services
 				Create(user);
 				smsParameters.Add(new SmsParameters() { Parameter = "UserName", ParameterValue = user.UserName });
 				smsParameters.Add(new SmsParameters() { Parameter = "Password", ParameterValue = user.Password });
-				SendSms.CallSmSMethodAdvanced(model.Mobile, 38324, smsParameters);
+				var mob = model.Mobile.ToString();
+			  	mob =mob.Insert(0, "0");
+				SendSms.CallSmSMethodAdvanced(Convert.ToInt64(mob), 38324, smsParameters);
 			}
 			else
 			{
@@ -111,16 +113,15 @@ namespace EducationalApplication.Services
 
 		public async Task<bool> ForgetPassword(long Mobile)
 		{
-			var Item = _DbContext.Users.Where(s => s.Mobile == Mobile).FirstOrDefault();
-			
+			var TeacherItem =await _DbContext.Users.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
 			var StudentItem =await _DbContext.Students.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
-			if (Item != null)
+			if (TeacherItem != null)
 			{
-				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", Item.Password);
+				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", TeacherItem.Password);
 			}
 			else if (StudentItem != null)
 			{
-				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", Item.Password);
+				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", StudentItem.Password);
 			}
 			else
 			{
