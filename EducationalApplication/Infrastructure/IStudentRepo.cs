@@ -11,7 +11,7 @@ namespace EducationalApplication.Infrastructure
 	{
 		Task AddOrUpdate(Students model, IFormFile File);
 		Task<Students> GetById(int Id);
-		IQueryable<Students> Authorize(Students model);
+		IQueryable<Students> Authorize(string UserName, string Password);
 		void Remove(Students model);
 		Task<IEnumerable<Students>> GetAll();
 		Task<IEnumerable<Students>> search(string txtsearch);

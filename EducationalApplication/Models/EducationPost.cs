@@ -1,4 +1,5 @@
-﻿using EducationalApplication.Models.Enums;
+﻿using EducationalApplication.Data;
+using EducationalApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ namespace EducationalApplication.Models
 
 		public category category { get; set; }
 
-		public int TeacherId { get; set; }
+		public string ApplicationUserId { get; set; }
 
-		public Teacher Teacher { get; set; }
+		public ApplicationUser  ApplicationUser { get; set; }
 	}
 
 

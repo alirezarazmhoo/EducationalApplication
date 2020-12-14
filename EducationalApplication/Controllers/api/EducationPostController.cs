@@ -16,7 +16,6 @@ namespace EducationalApplication.Controllers.api
     public class EducationPostController : ControllerBase
     {
         private IUnitOfWorkRepo _unitofwork;
-        ApiModel ApiModel = new ApiModel();
         public EducationPostController(IUnitOfWorkRepo unitOfWork)
         {
             _unitofwork = unitOfWork;
@@ -28,9 +27,9 @@ namespace EducationalApplication.Controllers.api
             try
             {
             
-                if (await _unitofwork.ITeacherRepo.GetById(model.TeacherId) == null)
+                if (await _unitofwork.IUserRepo.GetById(model.ApplicationUserId) == null)
                 {
-                    return ApiResponse.Fail(null ,404, $"معلمی با ای دی {model.TeacherId} یافت نشد.");
+                    return ApiResponse.Fail(null ,404, $"معلمی با ای دی {model.ApplicationUserId} یافت نشد.");
                 }
                await _unitofwork.IEducationPostRepo.AddOrUpdate(model, Icon, file);
                 await _unitofwork.SaveAsync();
@@ -43,12 +42,12 @@ namespace EducationalApplication.Controllers.api
             }
         }
         [Route("GetAll")]
-        public async Task<ApiModel>  GetAll(int Id)
+        public async Task<ApiModel>  GetAll(string Id)
         {
             try
             {
 
-            if (await _unitofwork.ITeacherRepo.GetById(Id)== null)
+            if (await _unitofwork.IUserRepo.GetById(Id)== null)
             {
               return ApiResponse.Fail(null, 404, $"معلمی با ای دی {Id} یافت نشد.");
             }

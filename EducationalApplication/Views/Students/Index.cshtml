@@ -106,16 +106,29 @@
                     <td>
                         @item.NationalCode
                     </td>
-                    <th>
-                        <img src="..@item.Url" style="width:60px;height:50px" />
-                    </th>
+                    @{
+                        if (string.IsNullOrEmpty(item.Url))
+                        {
+                            <td>
+                                بدون عکس
+                            </td>
+                        }
+                        else
+                        {
+                            <th>
+                                <img src="..@item.Url" style="width:60px;height:50px" />
+                            </th>
+                        }
+                    }
+
+
                     <td>
                         @item.Major.Name
                     </td>
                     <td>
                         @item.Grade.Name
                     </td>
-               
+
                     <td>
                         @item.UserName
                     </td>

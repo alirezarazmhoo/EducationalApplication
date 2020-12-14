@@ -18,5 +18,6 @@ namespace EducationalApplication.Models
 		[MaxLength(50, ErrorMessage = "نام رشته تحصیلی بسیار طولانی است ")]
 		[DisplayName("نام")]
 		public string Name { get; set; }
+	
 	}
 }

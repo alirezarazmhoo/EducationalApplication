@@ -1,5 +1,6 @@
 ﻿using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,17 @@ namespace EducationalApplication.Services
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {
         protected ApplicationDbContext _DbContext;
-
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         public RepositoryBase(ApplicationDbContext DbContext)
         {
             this._DbContext = DbContext;
+        }
+        public RepositoryBase(ApplicationDbContext DbContext , UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            this._DbContext = DbContext;
+           this. _userManager = userManager;
+          this.  _signInManager = signInManager;
         }
         public IQueryable<T> FindAll(Expression<Func<T, object>> expression)
         {

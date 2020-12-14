@@ -1,4 +1,5 @@
-﻿using EducationalApplication.Models.Enums;
+﻿using EducationalApplication.Data;
+using EducationalApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace EducationalApplication.Models
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string Url { get; set; }
-		public int CreatorId { get; set; }
+		public string ApplicationUserId { get; set; }
+		public ApplicationUser ApplicationUser { get; set; }
 		public UserType UserType { get; set; }
 	}
 }
