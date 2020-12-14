@@ -89,7 +89,7 @@ namespace EducationalApplication.Controllers.api
             {
                 if(await _unitofwork.IUserRepo.ForgetPassword(Convert.ToInt64(Mobile)))
                 {
-                    return ApiResponse.Success(null);
+                    return ApiResponse.Success(null , "پیامک با موفقیت ارسال شد");
                 }
                 else
                 {

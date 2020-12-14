@@ -46,7 +46,9 @@ namespace EducationalApplication.Services
 				Create(model);
 				smsParameters.Add(new SmsParameters() {  Parameter = "UserName" , ParameterValue =model.UserName });
 				smsParameters.Add(new SmsParameters() { Parameter = "Password", ParameterValue = model.Password });
-				SendSms.CallSmSMethodAdvanced(model.Mobile, 38325, smsParameters);
+				var mob = model.Mobile.ToString();	
+			    mob = mob.Insert(0, "0");				
+				SendSms.CallSmSMethodAdvanced(Convert.ToInt64(mob), 38325, smsParameters);
 			}
 			else
 			{

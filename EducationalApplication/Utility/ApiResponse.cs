@@ -8,12 +8,12 @@ namespace EducationalApplication.Utility
 {
 	public static class ApiResponse
 	{  
-		public static ApiModel Success(object  data=null)
+		public static ApiModel Success(object  data=null , string message = "عملیات انجام شد")
 		{
 			ApiModel apiModel = new ApiModel();
 			apiModel.status = 200;
 			apiModel.success = true;
-			apiModel.message = "عملیات انجام شد";
+			apiModel.message = message;
 			apiModel.data = data;
 			return apiModel; 
 
