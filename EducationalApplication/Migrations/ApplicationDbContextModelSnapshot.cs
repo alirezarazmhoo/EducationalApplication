@@ -205,6 +205,38 @@ namespace EducationalApplication.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("EducationalApplication.Models.ClassRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Code")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("GradeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MajorId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GradeId");
+
+                    b.HasIndex("MajorId");
+
+                    b.ToTable("ClassRooms");
+                });
+
             modelBuilder.Entity("EducationalApplication.Models.EducationPost", b =>
                 {
                     b.Property<int>("Id")
@@ -356,6 +388,9 @@ namespace EducationalApplication.Migrations
                     b.Property<string>("ApiToken")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ClassRoomId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,11 +422,35 @@ namespace EducationalApplication.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassRoomId");
+
                     b.HasIndex("GradeId");
 
                     b.HasIndex("MajorId");
 
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("EducationalApplication.Models.TeachersToClassRoom", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("ClassRoomId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ClassRoomId");
+
+                    b.ToTable("TeachersToClassRooms");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -562,6 +621,21 @@ namespace EducationalApplication.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
+            modelBuilder.Entity("EducationalApplication.Models.ClassRoom", b =>
+                {
+                    b.HasOne("EducationalApplication.Models.Grade", "Grade")
+                        .WithMany()
+                        .HasForeignKey("GradeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EducationalApplication.Models.Major", "Major")
+                        .WithMany()
+                        .HasForeignKey("MajorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EducationalApplication.Models.EducationPost", b =>
                 {
                     b.HasOne("EducationalApplication.Data.ApplicationUser", "ApplicationUser")
@@ -580,6 +654,10 @@ namespace EducationalApplication.Migrations
 
             modelBuilder.Entity("EducationalApplication.Models.Students", b =>
                 {
+                    b.HasOne("EducationalApplication.Models.ClassRoom", null)
+                        .WithMany("Students")
+                        .HasForeignKey("ClassRoomId");
+
                     b.HasOne("EducationalApplication.Models.Grade", "Grade")
                         .WithMany()
                         .HasForeignKey("GradeId")
@@ -591,6 +669,17 @@ namespace EducationalApplication.Migrations
                         .HasForeignKey("MajorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EducationalApplication.Models.TeachersToClassRoom", b =>
+                {
+                    b.HasOne("EducationalApplication.Data.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("EducationalApplication.Models.ClassRoom", null)
+                        .WithMany("TeachersToClassRoom")
+                        .HasForeignKey("ClassRoomId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

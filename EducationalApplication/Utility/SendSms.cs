@@ -8,12 +8,9 @@ namespace WebApplication1.Utility
 {
 	public static class SendSms
 	{
-
 		static Token tk = new Token();
 		public static string userApiKey { get; } = "bd117f7d7554053b8e6d72fc";
 		public static string secretKey { get; } = "AtrinEducationApp";
-		public static string LineNumber { get; } = "30004005550505";
-
 		static List<UltraFastParameters> UltraFastParameters = new List<UltraFastParameters>();
 		public static bool CallSmSMethod(long MobileNumber , int TemplateId , string ParameterName , string ParameterValue)
 		{

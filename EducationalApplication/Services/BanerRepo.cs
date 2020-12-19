@@ -22,7 +22,7 @@ namespace EducationalApplication.Services
         }
         public async Task<List<Banner>> GetAll(string Id)
         {
-            return await FindAll(null).Include(c => c.BannerToPosts).Include(c => c.Category).Where(s=>s.ApplicationUserId == Id).OrderByDescending(c => c.Id)
+            return await FindAll(null).Include(c => c.BannerToPosts).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
         public async Task<Banner> GetById(int Id)

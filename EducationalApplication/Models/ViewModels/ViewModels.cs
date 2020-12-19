@@ -27,4 +27,10 @@ namespace EducationalApplication.Models.ViewModels
 		public ApplicationUser User { get; set; }
 		public string School { get; set; }
 	}
+	public class ClassRoomViewModel :ClassRoom
+	{
+		public int TeacherCount { get; set; }
+		public int StudentCount { get; set; }
+
+	}
 }

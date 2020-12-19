@@ -109,7 +109,7 @@ namespace EducationalApplication.Services
         }
         public async Task<IEnumerable<EducationPost>> GetAll(string Id)
         {
-            var Items =await _DbContext.EducationPosts.Include(s=>s.Medias).Where(s=>s.ApplicationUserId == Id).OrderByDescending(s=>s.Id).ToListAsync();
+            var Items =await _DbContext.EducationPosts.Include(s=>s.Medias)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(s=>s.Id).ToListAsync();
             return Items; 
         }
         public async Task<EducationPost>  GetById(int Id)

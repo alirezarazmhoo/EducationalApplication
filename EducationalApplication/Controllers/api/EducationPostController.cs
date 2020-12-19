@@ -47,10 +47,10 @@ namespace EducationalApplication.Controllers.api
             try
             {
 
-            if (await _unitofwork.IUserRepo.GetById(Id)== null)
-            {
-              return ApiResponse.Fail(null, 404, $"معلمی با ای دی {Id} یافت نشد.");
-            }
+            //if (await _unitofwork.IUserRepo.GetById(Id)== null)
+            //{
+            //  return ApiResponse.Fail(null, 404, $"معلمی با ای دی {Id} یافت نشد.");
+            //}
 
                 return ApiResponse.Success(await _unitofwork.IEducationPostRepo.GetAll(Id));
             }

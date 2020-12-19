@@ -2624,3 +2624,4 @@ D:\Educationalapplication\EducationalApplication\EducationalApplication\bin\Debu
 D:\Educationalapplication\EducationalApplication\EducationalApplication\bin\Debug\netcoreapp3.1\Swashbuckle.Core.dll
 D:\Educationalapplication\EducationalApplication\EducationalApplication\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
 D:\Educationalapplication\EducationalApplication\EducationalApplication\bin\Debug\netcoreapp3.1\WebActivatorEx.dll
+D:\Educationalapplication\EducationalApplication\EducationalApplication\obj\Debug\netcoreapp3.1\Razor\Views\ClassRooms\Index.cshtml.g.cs

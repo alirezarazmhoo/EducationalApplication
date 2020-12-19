@@ -19,6 +19,8 @@ namespace EducationalApplication.Services
 		private IMajorRepo _IMajorRepo;
 		private IStudentRepo _IStudentRepo;
         private IBanerRepo _IBannerRepo;
+		private IClassRoomRepo _IClassRoomRepo;
+
 
 
 		public UnitOfWork(ApplicationDbContext DbContext)
@@ -79,6 +81,13 @@ namespace EducationalApplication.Services
             }
         }
 
-		
-    }
+		public IClassRoomRepo IClassRoomRepo
+		{
+			get
+			{
+				return _IClassRoomRepo = _IClassRoomRepo ?? new ClassRoomRepo(_DbContext);
+			}
+		}
+
+	}
 }
