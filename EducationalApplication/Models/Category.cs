@@ -14,6 +14,5 @@ namespace EducationalApplication.Models
 		public string Url { get; set; }
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser ApplicationUser { get; set; }
-		public UserType UserType { get; set; }
 	}
 }

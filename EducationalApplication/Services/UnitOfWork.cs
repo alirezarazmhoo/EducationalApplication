@@ -20,7 +20,7 @@ namespace EducationalApplication.Services
 		private IStudentRepo _IStudentRepo;
         private IBanerRepo _IBannerRepo;
 		private IClassRoomRepo _IClassRoomRepo;
-
+		private ICategoryRepo _ICategoryRepo;
 
 
 		public UnitOfWork(ApplicationDbContext DbContext)
@@ -86,6 +86,13 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _IClassRoomRepo = _IClassRoomRepo ?? new ClassRoomRepo(_DbContext);
+			}
+		}
+		public ICategoryRepo ICategoryRepo
+		{
+			get
+			{
+				return _ICategoryRepo = _ICategoryRepo ?? new CategoryRepo(_DbContext);
 			}
 		}
 

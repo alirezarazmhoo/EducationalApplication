@@ -15,8 +15,7 @@ namespace EducationalApplication.Infrastructure
 		IStudentRepo IStudentRepo { get; }
         IBanerRepo IBannerRepo { get; }
 		IClassRoomRepo IClassRoomRepo { get; }
-
-
+		ICategoryRepo ICategoryRepo { get; }
 		Task SaveAsync();
 	}
 }

@@ -27,8 +27,7 @@ namespace EducationalApplication.Services
         }
         public async Task<Banner> GetById(int Id)
         {
- 
-            return await FindByCondition(b => b.Id.Equals(Id)).FirstOrDefaultAsync();
+             return await FindByCondition(b => b.Id.Equals(Id)).FirstOrDefaultAsync();
         }
         public async Task AddOrUpdate(Banner model, IFormFile _File)
         {
