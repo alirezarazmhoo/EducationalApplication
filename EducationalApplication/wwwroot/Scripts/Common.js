@@ -138,8 +138,8 @@ function FillComboBox(ActionName,Target) {
         success: function (response) {
             if (response.success) {
                 $.each(response.list, function () {
-                  
-               $('#' + Target + '').append($("<option/>").val(this.id).text(this.name));
+                    
+                $('#' + Target + '').append($("<option/>").val(this.id).text(this.name));
                 });
             }
             else {

@@ -23,6 +23,9 @@ namespace EducationalApplication.Models
 		public Grade Grade { get; set; }
 		public UserType UserType { get; set; } = UserType.Student;
 
+		public int? ClassRoomId { get; set; }
+		public ClassRoom ClassRoom { get; set; }
+
 
 	}
 }

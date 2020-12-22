@@ -42,9 +42,14 @@ namespace EducationalApplication.Controllers
         {
             try
             {
+                ModelState.Remove("ClassRoomId");
                 if (!ModelState.IsValid)
                 {
                     return Json(new { success = false, responseText = CustomeMessages.Empty });
+                }
+                if (await _unitofwork.IClassRoomRepo.CheckCode(model.Code) && !ClassRoomId.HasValue)
+                {
+                    return Json(new { success = false, responseText = CustomeMessages.ItrateCode });
                 }
                 else
                 {
@@ -93,8 +98,9 @@ namespace EducationalApplication.Controllers
                 {
                     return Json(new { success = false, responseText = CustomeMessages.Fail });
                 }
-                List<EditViewModels> edit = new List<EditViewModels>();
+                List<EditViewModels> edit = new List<EditViewModels>();            
                 edit.Add(new EditViewModels() { key = "Name", value = item.Name });
+                edit.Add(new EditViewModels() { key = "ClassRoomId", value = item.Id.ToString() });
                 edit.Add(new EditViewModels() { key = "Code", value = item.Code.ToString() });
                 edit.Add(new EditViewModels() { key = "GradeId", value = item.GradeId.ToString() });
                 edit.Add(new EditViewModels() { key = "MajorId", value = item.MajorId.ToString() });
@@ -106,5 +112,76 @@ namespace EducationalApplication.Controllers
             }
         }
 
+
+        public async Task<JsonResult> LoadMajors()
+        {
+            List<ComboBoxViewModel> items = new List<ComboBoxViewModel>();
+
+            try
+            {
+                foreach (var item in await _unitofwork.IMajorRepo.GetAll())
+                {
+                    items.Add(new ComboBoxViewModel() { id = item.Id, name = item.Name });
+
+                }
+                return Json(new { success = true, list = items.ToList() });
+            }
+            catch (Exception )
+            {
+                return Json(new { response = false, responseText = CustomeMessages.Fail });
+
+            }
+        }
+        public async Task<JsonResult> LoadGrades()
+        {
+            List<ComboBoxViewModel> items = new List<ComboBoxViewModel>();
+            try
+            {
+                foreach (var item in await _unitofwork.IGradeRepo.GetAll())
+                {
+                    items.Add(new ComboBoxViewModel() { id = item.Id, name = item.Name });
+
+                }
+                return Json(new { success = true, list = items.ToList() });
+            }
+            catch (Exception)
+            {
+                return Json(new { response = false, responseText = CustomeMessages.Fail });
+
+            }
+        }
+        public async Task<IActionResult>  AssignStudent(string searchString,int? Id ,int? pageNumber)
+        {           
+            try
+            {           
+                int pageSize = 3;
+                ViewBag.ClassId = Id.Value;
+                var items = await _unitofwork.IClassRoomRepo.GetAvalibleStudents(searchString , Id.Value);
+                return View(PaginatedList<Students>.CreateAsync(items.AsQueryable(), pageNumber ?? 1, pageSize));
+            }
+            catch (Exception)
+            {
+                return Content(CustomeMessages.Try);
+            }
+        }
+   
+        public async Task<IActionResult> AddToClassRoom(int?Id , string UserId  , int Mode , int? pageNumber)
+        {
+            try
+            {
+                if(!Id.HasValue || string.IsNullOrEmpty(UserId))
+                {
+                    return Json(new { response = false, responseText = CustomeMessages.Empty });
+                }
+                await _unitofwork.IClassRoomRepo.AddPerson(UserId, Mode, Id.Value);
+                await  _unitofwork.SaveAsync();
+                return RedirectToAction("AssignStudent", "ClassRooms", new { Id = Id.Value , pageNumber= pageNumber });
+            }
+            catch (Exception)
+            {
+                return Content(CustomeMessages.Try);
+
+            }
+        }
     }
 }

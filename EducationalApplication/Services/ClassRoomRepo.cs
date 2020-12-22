@@ -20,7 +20,7 @@ namespace EducationalApplication.Services
 		{
 			return await FindAll(null)
 			  .OrderByDescending(s => s.Id).Include(s=>s.Grade).
-			  Include(s=>s.Major).Include(s=>s.TeachersToClassRoom)
+			  Include(s=>s.Major).Include(s=>s.TeachersToClassRoom).Include(s=>s.Students)
 			  .ToListAsync();
 		}
 		public async Task<ClassRoom> GetById(int Id)
@@ -47,7 +47,54 @@ namespace EducationalApplication.Services
 			.ToListAsync();
 		}
 		public void  Remove(ClassRoom model) => Delete(model);
+		public async Task<bool> CheckCode(int code)
+		{
+	     return await _DbContext.ClassRooms.AnyAsync(s => s.Code == code);
+		}
+		public async Task<IEnumerable<Students>> GetAvalibleStudents(string txtSearch , int Id)
+		{
+			if (!string.IsNullOrEmpty(txtSearch))
+			{
+			return await _DbContext.Students.Where(s => s.ClassRoomId.HasValue == false || s.ClassRoomId == Id).Where(s=>s.FullName.Contains(txtSearch)).Include(s => s.Major).Include(s => s.Grade).ToListAsync();
+			}
+			else
+			{
+			return await _DbContext.Students.Where(s => s.ClassRoomId.HasValue == false || s.ClassRoomId == Id).Include(s=>s.Major).Include(s=>s.Grade).ToListAsync();
+			}
+		}
 
+		public async Task RemovePerson(string Id, int Mode)
+		{
+	        int n;
+			if(Mode == 1)
+			{
+				if(int.TryParse(Id, out n))
+				{
+					int StudentId = int.Parse(Id);
+					Students Item =await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == StudentId);
+					if(Item != null)
+					{
+						Item.ClassRoomId = null;
+					}
+				}
+			}
+		}
 
+		public async Task AddPerson(string Id, int Mode , int ClassId)
+		{
+			int n;
+			if (Mode == 1)
+			{
+				if (int.TryParse(Id, out n))
+				{
+					int StudentId = int.Parse(Id);
+					Students Item = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == StudentId);
+					if (Item != null)
+					{
+						Item.ClassRoomId = ClassId;
+					}
+			}
 	}
+}
+}
 }

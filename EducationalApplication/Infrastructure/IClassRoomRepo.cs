@@ -12,8 +12,10 @@ namespace EducationalApplication.Infrastructure
 		Task<ClassRoom> GetById(int Id);
 		Task CreateOrUpdate(ClassRoom model);
 		void Remove(ClassRoom model);
-		//Task RemovePerson(string Id );
-		Task<IEnumerable<ClassRoom>> search(string txtsearch); 
-
+		Task RemovePerson(string Id , int mode );
+		Task<IEnumerable<ClassRoom>> search(string txtsearch);
+		Task<bool> CheckCode(int code);
+		Task<IEnumerable<Students>> GetAvalibleStudents(string txtSearch, int Id);
+		Task AddPerson(string Id, int Mode, int ClassId); 
 	}
 }

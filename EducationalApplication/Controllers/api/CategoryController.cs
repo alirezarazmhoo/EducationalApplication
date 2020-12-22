@@ -80,7 +80,7 @@ namespace EducationalApplication.Controllers.api
                 Category item = await _unitofwork.ICategoryRepo.GetById(Id);
                 if (item == null)
                 {
-                    return ApiResponse.Fail(null, 404, $"بنر مورد نظر وجود ندارد ");
+                    return ApiResponse.Fail(null, 404, $"بنر مورد  نظر وجود ندارد ");
                 }
                 _unitofwork.ICategoryRepo.Remove(item);
                 await _unitofwork.SaveAsync();

@@ -98,8 +98,11 @@
                                 @item.TeachersToClassRoom.Count() نفر
                             </td>
                             <td>
-                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this)" data-assigned-id="@item.Id"> حدف</button> |
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this)" data-assigned-id="@item.Id"> حذف</button> |
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EditModal" id="@item.Id"> ویرایش</button>
+                                <a  href="/ClassRooms/AssignTeacher"  class="btn btn-adn btn-sm" >تخصیص معلم</a>
+                                <a href="/ClassRooms/AssignStudent?Id=@item.Id" class="btn btn-success btn-sm" style="margin-top:2px"> تخصیص دانش آموز</a>
+
                             </td>
                         </tr>
                     }
@@ -135,7 +138,7 @@
             <div class="modal-body" style="height:auto">
 
                 <form id="register">
-                    <input id="GradeId" name="GradeId" hidden />
+                    <input id="ClassRoomId" name="ClassRoomId" hidden />
                     <div class="form-group" style="margin-right:5px">
                         <label for="exampleInputEmail1"> نام :</label>
                         <input display="عنوان کلاس" id="Name" name="Name" placeholder="نام کلاس را وارد کنید" class="form-control" style="width:70%" required>
@@ -145,9 +148,10 @@
                         <input display="کد" id="Code" name="Code" placeholder="کد کلاس را وارد کنید" class="form-control" style="width:70%" required>
                     </div>
                     <div class="form-group" style="margin-right:5px">
-                        <label for="exampleInputEmail1"> مقطع  :</label>
+                        <label for="exampleInputEmail1"> مقطع :</label>
                         <select class="form-control" style="width:160px" name="GradeId" id="GradeId">
                             <option value="0">انتخاب کنید</option>
+
                         </select>
                     </div>
                     <div class="form-group" style="margin-right:5px">
