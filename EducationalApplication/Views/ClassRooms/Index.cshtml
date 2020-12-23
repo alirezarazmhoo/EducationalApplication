@@ -100,8 +100,10 @@
                             <td>
                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#QuestionModal" onclick="AssignButtonClicked(this)" data-assigned-id="@item.Id"> حذف</button> |
                                 <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#EditModal" id="@item.Id"> ویرایش</button>
-                                <a  href="/ClassRooms/AssignTeacher"  class="btn btn-adn btn-sm" >تخصیص معلم</a>
+                                <a href="/ClassRooms/AssignTeacher?Id=@item.Id" class="btn btn-adn btn-sm">تخصیص معلم</a>
                                 <a href="/ClassRooms/AssignStudent?Id=@item.Id" class="btn btn-success btn-sm" style="margin-top:2px"> تخصیص دانش آموز</a>
+                                <a href="/ClassRooms/GetAllPersons?Id=@item.Id" class="btn btn-primary btn-sm" style="margin-top:2px">افراددراین کلاس</a>
+
 
                             </td>
                         </tr>

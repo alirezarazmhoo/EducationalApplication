@@ -11,5 +11,7 @@ namespace EducationalApplication.Models
 		public int Id { get; set; }
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser ApplicationUser { get; set; }
+		public int ClassRoomId { get; set; }
+		public ClassRoom ClassRoom { get; set; }
 	}
 }

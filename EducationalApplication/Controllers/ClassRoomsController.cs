@@ -77,7 +77,7 @@ namespace EducationalApplication.Controllers
                 {
                     return Json(new { success = false, responseText = CustomeMessages.Try });
                 }
-                _unitofwork.IClassRoomRepo.Remove(item);
+               await _unitofwork.IClassRoomRepo.Remove(item);
                 await _unitofwork.SaveAsync();
                 return Json(new { success = true, responseText = CustomeMessages.Succcess });
 
@@ -154,7 +154,7 @@ namespace EducationalApplication.Controllers
         {           
             try
             {           
-                int pageSize = 3;
+                int pageSize = 5;
                 ViewBag.ClassId = Id.Value;
                 var items = await _unitofwork.IClassRoomRepo.GetAvalibleStudents(searchString , Id.Value);
                 return View(PaginatedList<Students>.CreateAsync(items.AsQueryable(), pageNumber ?? 1, pageSize));
@@ -169,13 +169,32 @@ namespace EducationalApplication.Controllers
         {
             try
             {
+                if(Mode == 1)
+                {
                 if(!Id.HasValue || string.IsNullOrEmpty(UserId))
                 {
-                    return Json(new { response = false, responseText = CustomeMessages.Empty });
+                    return RedirectToAction("AssignStudent", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+
                 }
                 await _unitofwork.IClassRoomRepo.AddPerson(UserId, Mode, Id.Value);
                 await  _unitofwork.SaveAsync();
                 return RedirectToAction("AssignStudent", "ClassRooms", new { Id = Id.Value , pageNumber= pageNumber });
+                }
+                if(Mode == 2)
+                {
+                    if (!Id.HasValue || string.IsNullOrEmpty(UserId))
+                    {
+                        return RedirectToAction("AssignTeacher", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+                    }
+                    await _unitofwork.IClassRoomRepo.AddPerson(UserId, Mode, Id.Value);
+                    await _unitofwork.SaveAsync();
+                    return RedirectToAction("AssignTeacher", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             catch (Exception)
             {
@@ -183,5 +202,69 @@ namespace EducationalApplication.Controllers
 
             }
         }
+        public async Task<IActionResult> RemoveFromClassRoom(int? Id, string UserId, int Mode, int? pageNumber)
+        {
+            try
+            {
+                if(Mode == 1)
+                {
+                if (!Id.HasValue || string.IsNullOrEmpty(UserId))
+                {
+                    return RedirectToAction("AssignStudent", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+                }
+                await _unitofwork.IClassRoomRepo.RemovePerson(UserId, Mode , null);
+                await _unitofwork.SaveAsync();
+                return RedirectToAction("AssignStudent", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+                }
+                if(Mode == 2)
+                {
+                    if (!Id.HasValue || string.IsNullOrEmpty(UserId))
+                    {
+                        return RedirectToAction("AssignTeacher", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+                    }
+                    await _unitofwork.IClassRoomRepo.RemovePerson(UserId, Mode, Id.Value);
+                    await _unitofwork.SaveAsync();
+                    return RedirectToAction("AssignTeacher", "ClassRooms", new { Id = Id.Value, pageNumber = pageNumber });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (Exception)
+            {
+                return Content(CustomeMessages.Try);
+            }
+        }
+        public async Task<IActionResult> AssignTeacher(string searchString, int? Id, int? pageNumber)
+        {
+            try
+            {
+                int pageSize = 5;
+                ViewBag.ClassId = Id.Value;
+                var items = await _unitofwork.IClassRoomRepo.GetAllTeachers( Id.Value, searchString);
+                return View(PaginatedList<TeacherToClassRoomViewModel>.CreateAsync(items.AsQueryable(), pageNumber ?? 1, pageSize));
+            }
+            catch (Exception)
+            {
+                return Content(CustomeMessages.Try);
+            }
+        }
+
+        public async Task<IActionResult> GetAllPersons(string searchString, int? Id)
+        {
+            try
+            {
+                ViewBag.ClassId = Id.Value;
+                ViewBag.ClassName = await _unitofwork.IClassRoomRepo.GetName(Id.Value);
+                return View(await _unitofwork.IClassRoomRepo.GetAllPersons(Id.Value , searchString));
+            }
+            catch (Exception)
+            {
+                return Content(CustomeMessages.Try);
+            }
+        }
+
+            
     }
 }

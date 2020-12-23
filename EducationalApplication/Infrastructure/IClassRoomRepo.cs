@@ -1,4 +1,5 @@
 ﻿using EducationalApplication.Models;
+using EducationalApplication.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,15 @@ namespace EducationalApplication.Infrastructure
 		Task<IEnumerable<ClassRoom>>  GetAll();
 		Task<ClassRoom> GetById(int Id);
 		Task CreateOrUpdate(ClassRoom model);
-		void Remove(ClassRoom model);
-		Task RemovePerson(string Id , int mode );
+		Task Remove(ClassRoom model);
+		Task RemovePerson(string Id , int mode , int? ClassId);
 		Task<IEnumerable<ClassRoom>> search(string txtsearch);
 		Task<bool> CheckCode(int code);
 		Task<IEnumerable<Students>> GetAvalibleStudents(string txtSearch, int Id);
-		Task AddPerson(string Id, int Mode, int ClassId); 
+		Task AddPerson(string Id, int Mode, int ClassId);
+		Task<IEnumerable<TeacherToClassRoomViewModel>> GetAllTeachers(int? ClassId, string txtSearch);
+		Task<AllPersonsClassRoomViewModel> GetAllPersons(int? ClassId , string txtSearch);
+		Task<string> GetName(int ClassId); 
+
 	}
 }

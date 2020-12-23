@@ -1,11 +1,11 @@
-﻿@model EducationalApplication.Utility.PaginatedList<EducationalApplication.Models.Students>
+﻿@model EducationalApplication.Utility.PaginatedList<EducationalApplication.Models.ViewModels.TeacherToClassRoomViewModel>
 
 @{
-    ViewData["Title"] = "AssignStudent";
+    ViewData["Title"] = "AssignTeacher";
 }
 <section class="content-header">
     <h1 style="float:right;margin-bottom:10px">
-        دانش آموزان در کلاس
+        تخصیص معلمان
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> خانه</a></li>
@@ -14,12 +14,13 @@
 </section>
 <div class="row" style="margin-top:20px">
     <div class="col-sm-12">
-        <div class="text-center" style="border-style: solid; border-color: dimgray">
+        <div class="text-center" style="        border-style: solid;
+        border-color: dimgray">
             <h2 style="font-size:medium">جستجو</h2>
         </div>
-        @using (Html.BeginForm("AssignStudent",
- "ClassRooms",
- FormMethod.Post))
+        @using (Html.BeginForm("AssignTeacher",
+"ClassRooms",
+FormMethod.Post))
         {
 
             <div class="box zmdi-border-color" style="height:auto">
@@ -39,8 +40,6 @@
         }
     </div>
 </div>
-
-
 <div class="row">
     <div class="col-xs-12">
         <div class="box">
@@ -57,13 +56,6 @@
                             عکس پرسنلی
                         </th>
                         <th>
-                            رشته
-                        </th>
-                        <th>
-                            مقطع
-                        </th>
-
-                        <th>
                             عملیات
                         </th>
                     </tr>
@@ -75,10 +67,10 @@
                                 @(rowNo += 1)
                             </td>
                             <td>
-                                @item.FullName
+                                @item.Teacher.FullName
                             </td>
                             @{
-                                if (string.IsNullOrEmpty(item.Url))
+                                if (string.IsNullOrEmpty(item.Teacher.Url))
                                 {
                                     <td class="text text-danger">
                                         بدون عکس
@@ -87,27 +79,22 @@
                                 else
                                 {
                                     <th>
-                                        <img src="..@item.Url" style="width:60px;height:50px" />
+                                        <img src="..@item.Teacher.Url" style="width:60px;height:50px" />
                                     </th>
                                 }
                             }
-                            <td>
-                                @item.Major.Name
-                            </td>
-                            <td>
-                                @item.Grade.Name
-                            </td>
+                      
                             <td>
                                 @{
 
-                                    if (item.ClassRoomId.HasValue)
+                                    if (item.IsInClass && item.ClassId == ViewBag.ClassId )
                                     {
 
-                                        <a href="/ClassRooms/RemoveFromClassRoom?Id=@ViewBag.ClassId&UserId=@item.Id&Mode=1&pageNumber=@Model.PageIndex" class="btn btn-danger">حذف</a>
+                                        <a href="/ClassRooms/RemoveFromClassRoom?Id=@ViewBag.ClassId&UserId=@item.Teacher.Id&Mode=2&pageNumber=@Model.PageIndex" class="btn btn-danger">حذف</a>
                                     }
                                     else
                                     {
-                                        <a href="/ClassRooms/AddToClassRoom?Id=@ViewBag.ClassId&UserId=@item.Id&Mode=1&pageNumber=@Model.PageIndex" class="btn btn-success">تخصیص</a>
+                                        <a href="/ClassRooms/AddToClassRoom?Id=@ViewBag.ClassId&UserId=@item.Teacher.Id&Mode=2&pageNumber=@Model.PageIndex" class="btn btn-success">تخصیص</a>
                                     }
                                 }
                             </td>

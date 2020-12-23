@@ -33,4 +33,17 @@ namespace EducationalApplication.Models.ViewModels
 		public int StudentCount { get; set; }
 
 	}
+
+	public class TeacherToClassRoomViewModel 
+	{
+		public ApplicationUser Teacher { get; set; }
+		public  bool IsInClass  { get; set; }
+		public int ClassId { get; set; }
+	}
+
+	public class AllPersonsClassRoomViewModel { 
+	    public List<TeacherToClassRoomViewModel> Teachers { get; set; }
+		public List<Students> Students { get; set; }
+	}
+
 }

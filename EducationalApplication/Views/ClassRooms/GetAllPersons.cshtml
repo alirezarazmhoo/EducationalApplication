@@ -1,0 +1,168 @@
+﻿@model  EducationalApplication.Models.ViewModels.AllPersonsClassRoomViewModel
+
+@{
+    ViewData["Title"] = "GetAllPersons";
+}
+<section class="content-header">
+    <h1 style="float:right;margin-bottom:10px">
+        افراد در کلاس @ViewBag.ClassName
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> خانه</a></li>
+        <li class="active"></li>
+    </ol>
+</section>
+<div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+        <div class="text-center" style="border-style: solid;border-color:dimgray">
+            <h2 style="font-size:medium">جستجو</h2>
+        </div>
+        @using (Html.BeginForm("GetAllPersons",
+"ClassRooms",
+FormMethod.Post))
+        {
+
+            <div class="box zmdi-border-color" style="height:auto">
+                <div class="box-body table-responsive no-padding row ">
+                    <div style="width:90%;margin-right:40px;margin-top:10px">
+                        <div class="row">
+                            <label for="exampleInputEmail1">عنوان جستجو:</label>
+
+                            <input name="Id" value="@ViewBag.ClassId" hidden>
+                            <input name="searchString" placeholder="متن را وارد کنید" class="" style="width:260px">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:20px" dir="rtl">
+                    <button style="margin-right:20px;" type="submit" class="btn btn-primary">جتسجو یا بارگزاری مجدد</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<section class="content-header">
+    <h1 style="float:right;margin-bottom:10px;font-size:medium">
+        معلمان
+    </h1>
+  
+</section> 
+<div class="row"  style="margin-bottom:10px">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover text-center">
+                    <tr>
+                        <th>
+                            ردیف
+                        </th>
+                        <th>
+                            نام و نام خانوادگی
+                        </th>
+                        <th>
+                            عکس پرسنلی
+                        </th>
+                 
+                    </tr>
+                    @{ int rowNo = 0; }
+                    @foreach (var item in Model.Teachers)
+                    {
+                        <tr>
+                            <td>
+                                @(rowNo += 1)
+                            </td>
+                            <td>
+                                @item.Teacher.FullName
+                            </td>
+                            @{
+                                if (string.IsNullOrEmpty(item.Teacher.Url))
+                                {
+                                    <td class="text text-danger">
+                                        بدون عکس
+                                    </td>
+                                }
+                                else
+                                {
+                        <th>
+                            <img src="..@item.Teacher.Url" style="width:60px;height:50px" />
+
+                        </th>
+                                }
+                            }
+
+                        
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="content-header">
+    <h1 style="float:right;margin-bottom:10px;font-size:medium"  >
+        دانش آموزان
+    </h1>
+</section>
+<div class="row" >
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover text-center">
+                    <tr>
+                        <th>
+                            ردیف
+                        </th>
+                        <th>
+                            نام و نام خانوادگی
+                        </th>
+                        <th>
+                            عکس پرسنلی
+                        </th>
+                        <th>
+                            مقطع
+                        </th>
+                        <th>
+                            رشته
+                        </th>
+                    
+                    </tr>
+                    @{ int rowNo2 = 0; }
+                    @foreach (var item in Model.Students)
+                    {
+                <tr>
+                    <td>
+                        @(rowNo2 += 1)
+                    </td>
+                    <td>
+                        @item.FullName
+                    </td>
+                    @{
+                        if (string.IsNullOrEmpty(item.Url))
+                        {
+                            <td class="text text-danger">
+                                بدون عکس
+                            </td>
+                        }
+                        else
+                        {
+                            <th>
+                                <img src="..@item.Url" style="width:60px;height:50px" />
+
+                            </th>
+                        }
+                    }
+                    <th>
+                        @item.Grade.Name
+                    </th>
+                    <th>
+                        @item.Major.Name
+                    </th>
+                </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <a class="btn btn-warning btn-sm" asp-action="Index">بازگشت به لیست کلاس ها</a>
+
+    </div>
+
+</div>
