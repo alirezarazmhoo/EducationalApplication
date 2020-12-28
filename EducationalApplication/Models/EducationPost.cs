@@ -17,11 +17,9 @@ namespace EducationalApplication.Models
 		public int Number { get; set; }
 		public accessType AccessType { get; set; }
 		public bool Pin { get; set; }
-
-		public category category { get; set; }
-
+		public int? CategoryId { get; set; }
+		public Category Category { get; set; }
 		public string ApplicationUserId { get; set; }
-
 		public ApplicationUser  ApplicationUser { get; set; }
 	}
 

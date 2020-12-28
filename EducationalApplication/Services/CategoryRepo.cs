@@ -20,7 +20,7 @@ namespace EducationalApplication.Services
 		}
 		public async Task<IEnumerable<Category>> GetAll(string Id)
 		{
-		return await FindAll(null)
+		return await FindAll(null).Where(s=>s.ApplicationUserId == Id)
 		  .OrderByDescending(s => s.Id)
 		  .ToListAsync();
 		}
@@ -63,10 +63,11 @@ namespace EducationalApplication.Services
 						{
 							_File.CopyTo(fileStream);
 						}
-						model.Url = "/Upload/Category/File/" + fileName;
+						getCategory.Url = "/Upload/Category/File/" + fileName;
 					}
-				model.Name = model.Name;
-			
+				    model.Name = model.Name;
+					model.Url = getCategory.Url; 
+					
 				Update(model);
 				}
 			}

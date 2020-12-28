@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EducationalApplication.Migrations
 {
-    public partial class initial431232432 : Migration
+    public partial class initial42346456e : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -210,40 +210,13 @@ namespace EducationalApplication.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Url = table.Column<string>(nullable: true),
-                    ApplicationUserId = table.Column<string>(nullable: true),
-                    UserType = table.Column<int>(nullable: false)
+                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Categories_AspNetUsers_ApplicationUserId",
-                        column: x => x.ApplicationUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EducationPosts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(nullable: true),
-                    Description = table.Column<string>(nullable: true),
-                    IconUrl = table.Column<string>(nullable: true),
-                    Number = table.Column<int>(nullable: false),
-                    AccessType = table.Column<int>(nullable: false),
-                    Pin = table.Column<bool>(nullable: false),
-                    category = table.Column<int>(nullable: false),
-                    ApplicationUserId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EducationPosts", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EducationPosts_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -314,27 +287,35 @@ namespace EducationalApplication.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Medias",
+                name: "EducationPosts",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(nullable: true),
-                    Url = table.Column<string>(nullable: true),
-                    EducationPostId = table.Column<int>(nullable: false),
-                    DurationTime = table.Column<string>(nullable: true),
-                    lenght = table.Column<string>(nullable: true),
-                    MediaType = table.Column<int>(nullable: false)
+                    Description = table.Column<string>(nullable: true),
+                    IconUrl = table.Column<string>(nullable: true),
+                    Number = table.Column<int>(nullable: false),
+                    AccessType = table.Column<int>(nullable: false),
+                    Pin = table.Column<bool>(nullable: false),
+                    CategoryId = table.Column<int>(nullable: true),
+                    ApplicationUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Medias", x => x.Id);
+                    table.PrimaryKey("PK_EducationPosts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Medias_EducationPosts_EducationPostId",
-                        column: x => x.EducationPostId,
-                        principalTable: "EducationPosts",
+                        name: "FK_EducationPosts_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_EducationPosts_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -386,7 +367,7 @@ namespace EducationalApplication.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationUserId = table.Column<string>(nullable: true),
-                    ClassRoomId = table.Column<int>(nullable: true)
+                    ClassRoomId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -402,7 +383,7 @@ namespace EducationalApplication.Migrations
                         column: x => x.ClassRoomId,
                         principalTable: "ClassRooms",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -425,6 +406,30 @@ namespace EducationalApplication.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BannerToPosts_EducationPosts_EducationPostId",
+                        column: x => x.EducationPostId,
+                        principalTable: "EducationPosts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Medias",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: true),
+                    Url = table.Column<string>(nullable: true),
+                    EducationPostId = table.Column<int>(nullable: false),
+                    DurationTime = table.Column<string>(nullable: true),
+                    lenght = table.Column<string>(nullable: true),
+                    MediaType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Medias", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Medias_EducationPosts_EducationPostId",
                         column: x => x.EducationPostId,
                         principalTable: "EducationPosts",
                         principalColumn: "Id",
@@ -514,6 +519,11 @@ namespace EducationalApplication.Migrations
                 name: "IX_EducationPosts_ApplicationUserId",
                 table: "EducationPosts",
                 column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EducationPosts_CategoryId",
+                table: "EducationPosts",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Medias_EducationPostId",

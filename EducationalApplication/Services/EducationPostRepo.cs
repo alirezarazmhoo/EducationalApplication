@@ -26,7 +26,7 @@ namespace EducationalApplication.Services
             {
                 if (Icon != null && Icon.Length > 1)
                 {
-                    var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + Icon.FileName.Split('.')[1];
+                    var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(Icon.FileName).ToLower(); ;
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Post\Icon", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -40,7 +40,7 @@ namespace EducationalApplication.Services
                 {
                     foreach (var item in files)
                     {
-                        var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + item.FileName.Split('.')[1];
+                        var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(item.FileName).ToLower(); ;
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Post\Media\", fileName);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
@@ -57,11 +57,10 @@ namespace EducationalApplication.Services
                         });
                     }
                 }
-              
             }
             else
             {
-                    var MainItem = await GetById(model.Id);
+                var MainItem = await GetById(model.Id);
                 if (Icon != null && Icon.Length > 1)
                 {
                     if (!string.IsNullOrEmpty(MainItem.IconUrl))
@@ -69,7 +68,7 @@ namespace EducationalApplication.Services
                         File.Delete($"wwwroot/{MainItem.IconUrl}");
                     }
 
-                    var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + Icon.FileName.Split('.')[1];
+                    var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(Icon.FileName).ToLower(); 
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Post\Icon", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -81,7 +80,7 @@ namespace EducationalApplication.Services
                 {
                     foreach (var item in files)
                     {
-                        var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + item.FileName.Split('.')[1];
+                        var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(item.FileName).ToLower();
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Post\Media\", fileName);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
@@ -99,7 +98,7 @@ namespace EducationalApplication.Services
                     }
                 }
                 MainItem.AccessType = model.AccessType;
-                MainItem.category = model.category;
+                MainItem.CategoryId = model.CategoryId;
                 MainItem.Description = model.Description;
          
                 MainItem.Number = model.Number;

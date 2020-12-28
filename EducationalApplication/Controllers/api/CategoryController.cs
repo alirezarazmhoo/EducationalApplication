@@ -109,5 +109,27 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
+
+        [Route("Search")]
+        public async Task<ApiModel> Search(string txtSearch , string UserId)
+        {
+            try
+            {
+                if (await _unitofwork.IUserRepo.GetById(UserId) == null)
+                {
+                    return ApiResponse.Fail(null, 404, $"معلمی با ای دی {UserId} یافت نشد.");
+                }
+                var item = await _unitofwork.ICategoryRepo.search(txtSearch , UserId);
+                if (item == null)
+                {
+                    return ApiResponse.Fail(null, 404, $"داده ای یافت نشد ");
+                }
+                return ApiResponse.Success(item);
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
     }
 }

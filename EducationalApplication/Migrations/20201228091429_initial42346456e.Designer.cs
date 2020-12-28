@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationalApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201221071444_initial45243")]
-    partial class initial45243
+    [Migration("20201228091429_initial42346456e")]
+    partial class initial42346456e
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -249,6 +249,9 @@ namespace EducationalApplication.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -264,12 +267,11 @@ namespace EducationalApplication.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("category")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("EducationPosts");
                 });
@@ -440,7 +442,7 @@ namespace EducationalApplication.Migrations
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("ClassRoomId")
+                    b.Property<int>("ClassRoomId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -640,6 +642,10 @@ namespace EducationalApplication.Migrations
                     b.HasOne("EducationalApplication.Data.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("EducationalApplication.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("EducationalApplication.Models.Media", b =>
@@ -653,7 +659,7 @@ namespace EducationalApplication.Migrations
 
             modelBuilder.Entity("EducationalApplication.Models.Students", b =>
                 {
-                    b.HasOne("EducationalApplication.Models.ClassRoom", null)
+                    b.HasOne("EducationalApplication.Models.ClassRoom", "ClassRoom")
                         .WithMany("Students")
                         .HasForeignKey("ClassRoomId");
 
@@ -676,9 +682,11 @@ namespace EducationalApplication.Migrations
                         .WithMany()
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("EducationalApplication.Models.ClassRoom", null)
+                    b.HasOne("EducationalApplication.Models.ClassRoom", "ClassRoom")
                         .WithMany("TeachersToClassRoom")
-                        .HasForeignKey("ClassRoomId");
+                        .HasForeignKey("ClassRoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

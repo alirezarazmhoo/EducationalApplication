@@ -36,7 +36,7 @@ namespace EducationalApplication.Services
 
                 if (_File != null)
                 {
-                    var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + _File.FileName.Split('.')[1];
+                    var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(_File.FileName).ToLower(); ;
                     var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Banner\File", fileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
@@ -62,7 +62,7 @@ namespace EducationalApplication.Services
                         //    File.Delete($"wwwroot/{getBanner.Url}");
                         //}
                         //*************   Add Image
-                        var fileName = Guid.NewGuid().ToString().Replace('-', '0') + "." + _File.FileName.Split('.')[1];
+                        var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(_File.FileName).ToLower(); ;
                         var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Banner\File", fileName);
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {

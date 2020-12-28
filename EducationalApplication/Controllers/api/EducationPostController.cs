@@ -26,7 +26,6 @@ namespace EducationalApplication.Controllers.api
         {
             try
             {
-            
                 if (await _unitofwork.IUserRepo.GetById(model.ApplicationUserId) == null)
                 {
                     return ApiResponse.Fail(null ,404, $"معلمی با ای دی {model.ApplicationUserId} یافت نشد.");
@@ -38,7 +37,6 @@ namespace EducationalApplication.Controllers.api
             catch (Exception ex)
             {
                 return ApiResponse.Fail(ex.Message);
-
             }
         }
         [Route("GetAll")]
@@ -46,12 +44,6 @@ namespace EducationalApplication.Controllers.api
         {
             try
             {
-
-            //if (await _unitofwork.IUserRepo.GetById(Id)== null)
-            //{
-            //  return ApiResponse.Fail(null, 404, $"معلمی با ای دی {Id} یافت نشد.");
-            //}
-
                 return ApiResponse.Success(await _unitofwork.IEducationPostRepo.GetAll(Id));
             }
             catch (Exception ex)
