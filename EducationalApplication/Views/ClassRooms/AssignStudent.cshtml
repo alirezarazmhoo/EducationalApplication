@@ -1,0 +1,141 @@
+﻿@model EducationalApplication.Utility.PaginatedList<EducationalApplication.Models.Students>
+
+@{
+    ViewData["Title"] = "AssignStudent";
+}
+<section class="content-header">
+    <h1 style="float:right;margin-bottom:10px">
+        دانش آموزان در کلاس
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> خانه</a></li>
+        <li class="active"></li>
+    </ol>
+</section>
+<div class="row" style="margin-top:20px">
+    <div class="col-sm-12">
+        <div class="text-center" style="border-style: solid; border-color: dimgray">
+            <h2 style="font-size:medium">جستجو</h2>
+        </div>
+        @using (Html.BeginForm("AssignStudent",
+ "ClassRooms",
+ FormMethod.Post))
+        {
+
+            <div class="box zmdi-border-color" style="height:auto">
+                <div class="box-body table-responsive no-padding row ">
+                    <div style="width:90%;margin-right:40px;margin-top:10px">
+                        <div class="row">
+                            <label for="exampleInputEmail1">عنوان جستجو:</label>
+                            <input name="Id" value="@ViewBag.ClassId" hidden>
+                            <input name="searchString" placeholder="متن را وارد کنید" class="" style="width:260px">
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:20px" dir="rtl">
+                    <button style="margin-right:20px;" type="submit" class="btn btn-primary">جتسجو یا بارگزاری مجدد</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover text-center">
+                    <tr>
+                        <th>
+                            ردیف
+                        </th>
+                        <th>
+                            نام و نام خانوادگی
+                        </th>
+                        <th>
+                            عکس پرسنلی
+                        </th>
+                        <th>
+                            رشته
+                        </th>
+                        <th>
+                            مقطع
+                        </th>
+
+                        <th>
+                            عملیات
+                        </th>
+                    </tr>
+                    @{ int rowNo = 0; }
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @(rowNo += 1)
+                            </td>
+                            <td>
+                                @item.FullName
+                            </td>
+                            @{
+                                if (string.IsNullOrEmpty(item.Url))
+                                {
+                                    <td class="text text-danger">
+                                        بدون عکس
+                                    </td>
+                                }
+                                else
+                                {
+                                    <th>
+                                        <img src="..@item.Url" style="width:60px;height:50px" />
+                                    </th>
+                                }
+                            }
+                            <td>
+                                @item.Major.Name
+                            </td>
+                            <td>
+                                @item.Grade.Name
+                            </td>
+                            <td>
+                                @{
+
+                                    if (item.ClassRoomId.HasValue)
+                                    {
+
+                                        <a href="/ClassRooms/RemoveFromClassRoom?Id=@ViewBag.ClassId&UserId=@item.Id&Mode=1&pageNumber=@Model.PageIndex" class="btn btn-danger">حذف</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/ClassRooms/AddToClassRoom?Id=@ViewBag.ClassId&UserId=@item.Id&Mode=1&pageNumber=@Model.PageIndex" class="btn btn-success">تخصیص</a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+
+        @{
+            var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+        }
+
+        <a asp-action="AssignStudent"
+           asp-route-pageNumber="@(Model.PageIndex - 1)"
+           asp-route-Id="@ViewBag.ClassId"
+           class="btn btn-default @prevDisabled">
+            صفحه قبل
+        </a>
+        <a asp-action="AssignStudent"
+           asp-route-pageNumber="@(Model.PageIndex + 1)"
+           asp-route-Id="@ViewBag.ClassId"
+           class="btn btn-default @nextDisabled">
+            صفحه بعد
+        </a>
+        <a class="btn btn-warning btn-sm" asp-action="Index">بازگشت به لیست کلاس ها</a>
+
+    </div>
+
+</div>

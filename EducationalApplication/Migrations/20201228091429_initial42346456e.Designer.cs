@@ -4,14 +4,16 @@ using EducationalApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EducationalApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201228091429_initial42346456e")]
+    partial class initial42346456e
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,29 +236,6 @@ namespace EducationalApplication.Migrations
                     b.ToTable("ClassRooms");
                 });
 
-            modelBuilder.Entity("EducationalApplication.Models.CustomGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("CustomGroups");
-                });
-
             modelBuilder.Entity("EducationalApplication.Models.EducationPost", b =>
                 {
                     b.Property<int>("Id")
@@ -475,33 +454,6 @@ namespace EducationalApplication.Migrations
                     b.ToTable("TeachersToClassRooms");
                 });
 
-            modelBuilder.Entity("EducationalApplication.Models.UsersToCustomGroups", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ApplicationUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("CustomGroupId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StudentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("CustomGroupId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("UsersToCustomGroups");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -685,13 +637,6 @@ namespace EducationalApplication.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("EducationalApplication.Models.CustomGroup", b =>
-                {
-                    b.HasOne("EducationalApplication.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-                });
-
             modelBuilder.Entity("EducationalApplication.Models.EducationPost", b =>
                 {
                     b.HasOne("EducationalApplication.Data.ApplicationUser", "ApplicationUser")
@@ -742,23 +687,6 @@ namespace EducationalApplication.Migrations
                         .HasForeignKey("ClassRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("EducationalApplication.Models.UsersToCustomGroups", b =>
-                {
-                    b.HasOne("EducationalApplication.Data.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserId");
-
-                    b.HasOne("EducationalApplication.Models.CustomGroup", "CustomGroup")
-                        .WithMany()
-                        .HasForeignKey("CustomGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EducationalApplication.Models.Students", "Students")
-                        .WithMany()
-                        .HasForeignKey("StudentsId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

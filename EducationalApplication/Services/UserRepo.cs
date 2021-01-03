@@ -7,6 +7,7 @@ using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
 using EducationalApplication.Models;
 using EducationalApplication.Models.Enums;
+using EducationalApplication.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -128,6 +129,27 @@ namespace EducationalApplication.Services
 				return false;
 			}
 		}
-
+		public async Task<TeacherAndStudents> GetRelatedUsers(ApplicationUser model)
+		{
+			TeacherAndStudents MainList = new TeacherAndStudents();
+			List<Students> students = new List<Students>();
+			if(model.UserType == UserType.Manager)
+			{
+				MainList.Students =await _DbContext.Students.ToListAsync();
+				MainList.Teachers = await _DbContext.Users.Where(s=>s.UserType != UserType.Teacher).ToListAsync();
+				return MainList;
+			}
+			else
+			{
+			var Item =await _DbContext.TeachersToClassRooms.Include(s=>s.ClassRoom.Students).Where(s => s.ApplicationUserId == model.Id).ToListAsync();
+			foreach (var item in Item)
+			{
+				students.AddRange(item.ClassRoom.Students);
+			}
+			MainList.Students = students;
+			MainList.Teachers = null;
+	    	return MainList; 
+			}
+		}
 	}
 }

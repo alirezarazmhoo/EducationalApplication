@@ -1,5 +1,6 @@
 ﻿using EducationalApplication.Data;
 using EducationalApplication.Models;
+using EducationalApplication.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace EducationalApplication.Infrastructure
 		Task<IEnumerable<ApplicationUser>> GetAll();
 		Task<IEnumerable<ApplicationUser>> search(string txtsearch);
 		Task<bool> ForgetPassword(long Mobile);
-
-
+		Task<TeacherAndStudents> GetRelatedUsers(ApplicationUser model);
 	}
 }
