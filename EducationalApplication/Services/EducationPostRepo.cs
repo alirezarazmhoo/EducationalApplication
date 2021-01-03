@@ -146,5 +146,11 @@ namespace EducationalApplication.Services
        
             _DbContext.Medias.Remove(Item);
         }
+
+
+        public async Task<IEnumerable<EducationPost>> GetByCategory(int Id)
+        {
+            return await FindByCondition(s => s.CategoryId == Id).ToListAsync();
+        }
     }
 }

@@ -35,10 +35,6 @@ namespace EducationalApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-
-
-
             services.AddCors(options =>
             {
                 options.AddPolicy(MyAllowSpecificOrigins,
@@ -50,17 +46,11 @@ namespace EducationalApplication
                     });
             });
             services.AddOurSwaager();
-
             services.AddTransient<IBanerRepo, BanerRepo>();
-
-
-
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUnitOfWorkRepo, UnitOfWork>();
-
-
             services.AddDefaultIdentity<ApplicationUser>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;

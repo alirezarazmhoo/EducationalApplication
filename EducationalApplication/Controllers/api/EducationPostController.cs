@@ -95,6 +95,20 @@ namespace EducationalApplication.Controllers.api
             }
         }
 
+        [Route("GetByCategory")]
+        public async Task<ApiModel> GetByCategory(int Id)
+        {
+            try
+            {
+                return ApiResponse.Success(await _unitofwork.IEducationPostRepo.GetByCategory(Id));
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
+
+
 
     }
 }

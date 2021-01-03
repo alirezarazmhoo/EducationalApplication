@@ -13,6 +13,6 @@ namespace EducationalApplication.Infrastructure
        Task<Banner> GetById(int banerId);
        Task AddOrUpdate(Banner baner, IFormFile _File);
        void Remove(Banner model);
-        Task RemoveFile(int Id);
+      Task RemoveFile(int Id);
    }
 }

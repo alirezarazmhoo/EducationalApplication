@@ -11,7 +11,6 @@ namespace EducationalApplication.Services
 	public class UnitOfWork : IUnitOfWorkRepo
 	{
 		private ApplicationDbContext _DbContext;
-	
 		private IEducationPostRepo _IEducationPostRepo;
 		private IUserRepo _IUserRepo;
 		private ISchoolNameRepo _ISchoolNameRepo;
@@ -21,6 +20,8 @@ namespace EducationalApplication.Services
         private IBanerRepo _IBannerRepo;
 		private IClassRoomRepo _IClassRoomRepo;
 		private ICategoryRepo _ICategoryRepo;
+		private ICustomGroupRepo _ICustomGroupRepo;
+
 
 
 		public UnitOfWork(ApplicationDbContext DbContext)
@@ -93,6 +94,13 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _ICategoryRepo = _ICategoryRepo ?? new CategoryRepo(_DbContext);
+			}
+		}
+		public ICustomGroupRepo ICustomGroupRepo
+		{
+			get
+			{
+				return _ICustomGroupRepo = _ICustomGroupRepo ?? new CustomGroupRepo(_DbContext);
 			}
 		}
 

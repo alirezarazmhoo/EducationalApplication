@@ -97,5 +97,20 @@ namespace EducationalApplication.Controllers.api
                 }
             }
         }
+        [Route("GetRelatedUsers")]
+        [HttpGet]
+        public async Task<ApiModel> GetRelatedUsers(string Id)
+        {
+            if (await _unitofwork.IUserRepo.GetById(Id) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"کاربری با ای دی {Id} یافت نشد.");
+            }
+            else
+            {
+                return ApiResponse.Success(await _unitofwork.IUserRepo.GetRelatedUsers(await _unitofwork.IUserRepo.GetById(Id)));
+            }
+        }
+
+
     }
 }

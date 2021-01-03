@@ -45,5 +45,11 @@ namespace EducationalApplication.Models.ViewModels
 	    public List<TeacherToClassRoomViewModel> Teachers { get; set; }
 		public List<Students> Students { get; set; }
 	}
+	public class TeacherAndStudents
+	{
+		public List<Students> Students { get; set; }
+		public List<ApplicationUser> Teachers { get; set; }
+
+	}
 
 }
