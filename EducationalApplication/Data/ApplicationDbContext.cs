@@ -27,6 +27,10 @@ namespace EducationalApplication.Data
 		public DbSet<TeachersToClassRoom> TeachersToClassRooms { get; set; }
 		public DbSet<CustomGroup> CustomGroups { get; set; }
 		public DbSet<UsersToCustomGroups> UsersToCustomGroups { get; set; }
+		public DbSet<UsersToEducationPost> UsersToEducationPosts { get; set; }
+
+
+		
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

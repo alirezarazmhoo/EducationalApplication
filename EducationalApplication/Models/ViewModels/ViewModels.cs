@@ -51,5 +51,16 @@ namespace EducationalApplication.Models.ViewModels
 		public List<ApplicationUser> Teachers { get; set; }
 
 	}
+	public class ShortTeacherViewModel
+	{
+		public string Id { get; set; }
+	
+	
+	}
+	public class ShortStuudentViewModel
+	{
+		public int Id { get; set; }
+	}
+	
 
 }
