@@ -17,13 +17,10 @@ namespace EducationalApplication.Services
 		private IGradeRepo _IGradeRepo;
 		private IMajorRepo _IMajorRepo;
 		private IStudentRepo _IStudentRepo;
-        private IBanerRepo _IBannerRepo;
+		private IBanerRepo _IBannerRepo;
 		private IClassRoomRepo _IClassRoomRepo;
 		private ICategoryRepo _ICategoryRepo;
 		private ICustomGroupRepo _ICustomGroupRepo;
-
-
-
 		public UnitOfWork(ApplicationDbContext DbContext)
 		{
 			_DbContext = DbContext;
@@ -32,7 +29,7 @@ namespace EducationalApplication.Services
 		{
 			await _DbContext.SaveChangesAsync();
 		}
-		public IEducationPostRepo  IEducationPostRepo
+		public IEducationPostRepo IEducationPostRepo
 		{
 			get
 			{
@@ -46,7 +43,7 @@ namespace EducationalApplication.Services
 				return _IUserRepo = _IUserRepo ?? new UserRepo(_DbContext);
 			}
 		}
-		public ISchoolNameRepo  ISchoolNameRepo
+		public ISchoolNameRepo ISchoolNameRepo
 		{
 			get
 			{
@@ -74,13 +71,13 @@ namespace EducationalApplication.Services
 				return _IStudentRepo = _IStudentRepo ?? new StudentRepo(_DbContext);
 			}
 		}
-        public IBanerRepo IBannerRepo
+		public IBanerRepo IBannerRepo
 		{
-            get
-            {
-                return _IBannerRepo = _IBannerRepo ?? new BanerRepo(_DbContext);
-            }
-        }
+			get
+			{
+				return _IBannerRepo = _IBannerRepo ?? new BanerRepo(_DbContext);
+			}
+		}
 
 		public IClassRoomRepo IClassRoomRepo
 		{

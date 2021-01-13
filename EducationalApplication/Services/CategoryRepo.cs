@@ -20,7 +20,7 @@ namespace EducationalApplication.Services
 		}
 		public async Task<IEnumerable<Category>> GetAll(string Id)
 		{
-		return await FindAll(null).Where(s=>s.ApplicationUserId == Id)
+		return await FindAll(null)/*Where(s=>s.ApplicationUserId == Id)*/
 		  .OrderByDescending(s => s.Id)
 		  .ToListAsync();
 		}

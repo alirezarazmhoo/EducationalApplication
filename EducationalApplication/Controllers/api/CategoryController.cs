@@ -25,14 +25,14 @@ namespace EducationalApplication.Controllers.api
         {
             try
             {
-                if (await _unitofwork.IUserRepo.GetById(UserId) == null)
-                {
-                    return ApiResponse.Fail(null, 404, $"معلمی با ای دی {UserId} یافت نشد.");
-                }
-                if (await _unitofwork.ICategoryRepo.GetAll(UserId) == null)
-                {
-                    return ApiResponse.Fail(null, 404, $"اطلاعاتی یافت نشد.");
-                }
+                //if (await _unitofwork.IUserRepo.GetById(UserId) == null)
+                //{
+                //    return ApiResponse.Fail(null, 404, $"معلمی با ای دی {UserId} یافت نشد.");
+                //}
+                //if (await _unitofwork.ICategoryRepo.GetAll(UserId) == null)
+                //{
+                //    return ApiResponse.Fail(null, 404, $"اطلاعاتی یافت نشد.");
+                //}
                 return ApiResponse.Success(await _unitofwork.ICategoryRepo.GetAll(UserId));
             }
             catch (Exception ex)
