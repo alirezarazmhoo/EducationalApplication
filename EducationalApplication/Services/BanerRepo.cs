@@ -22,7 +22,7 @@ namespace EducationalApplication.Services
         }
         public async Task<List<Banner>> GetAll(string Id)
         {
-            return await FindAll(null).Include(c => c.BannerToPosts).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
+            return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
                 .ToListAsync();
         }
         public async Task<Banner> GetById(int Id)
@@ -31,9 +31,11 @@ namespace EducationalApplication.Services
         }
         public async Task AddOrUpdate(Banner model, IFormFile _File)
         {
-          if(model.Id == 0)
+           List<BannerToPost> bannerToPosts = new List<BannerToPost>();
+            string[] _BannerList = new string[] { };
+            int EducationId = 0; 
+            if (model.Id == 0)
             {
-
                 if (_File != null)
                 {
                     var fileName = Guid.NewGuid().ToString().Replace('-', '0') + Path.GetExtension(_File.FileName).ToLower(); ;
@@ -45,10 +47,26 @@ namespace EducationalApplication.Services
                     model.Url = "/Upload/Banner/File/" + fileName;
                 }
                 model.CreateDate=DateTime.Now;
-                model.AvailableDate = DateTime.Now; 
-              Create(model);
-            }
+                model.AvailableDate = DateTime.Now;
+                _DbContext.Banners.Add(model);
+                _DbContext.SaveChanges();
+                if(!string.IsNullOrEmpty(model.BannerToPosts) && string.IsNullOrEmpty(model.SocialNetWorkLink) && model.CategoryId == null )
+                {
+                    _BannerList = model.BannerToPosts.Split(",");
 
+                    for (int i = 0; i < _BannerList.Count(); i++)
+                    {
+                        EducationId = int.Parse(_BannerList[i]);
+                        if (await _DbContext.EducationPosts.AnyAsync(s => s.Id == EducationId))
+                        {
+
+                         bannerToPosts.Add(new BannerToPost() { BannerId = model.Id, EducationPostId = EducationId });
+                            
+                        }
+                    }
+                    await _DbContext.BannerToPosts.AddRangeAsync(bannerToPosts);
+                }
+            }
             else
             {
                 var getBanner = await GetById(model.Id);
@@ -81,6 +99,21 @@ namespace EducationalApplication.Services
                     getBanner.Url = model.Url;
                     getBanner.ApplicationUserId = model.ApplicationUserId;
                     Update(model);
+                    if (!string.IsNullOrEmpty(model.BannerToPosts) && string.IsNullOrEmpty(model.SocialNetWorkLink) && model.CategoryId == null)
+                    {
+                        _DbContext.BannerToPosts.RemoveRange(_DbContext.BannerToPosts.Where(s => s.BannerId == model.Id));
+                        _BannerList = model.BannerToPosts.Split(",");
+
+                        for (int i = 0; i < _BannerList.Count(); i++)
+                        {
+                            EducationId = int.Parse(_BannerList[i]);
+                            if (await _DbContext.EducationPosts.AnyAsync(s => s.Id == EducationId))
+                            {                             
+                            bannerToPosts.Add(new BannerToPost() { BannerId = model.Id, EducationPostId = EducationId });
+                            }
+                        }
+                        await _DbContext.BannerToPosts.AddRangeAsync(bannerToPosts);
+                    }
                 }
             }
         }
@@ -103,5 +136,33 @@ namespace EducationalApplication.Services
             }
 
         }
+        public async Task RemoveEducationPostFromBanner(int BannerId , int PostId)
+        {
+            if(await _DbContext.Banners.AnyAsync(s=>s.Id == BannerId) && await _DbContext.BannerToPosts.AnyAsync(s=>s.EducationPostId == PostId))
+            {
+                BannerToPost bannerToPost = await _DbContext.BannerToPosts.FirstOrDefaultAsync(s => s.BannerId == BannerId && s.EducationPostId == PostId);
+                _DbContext.BannerToPosts.Remove(bannerToPost);
+            }
+        }
+        public async Task AddPostToBanner(int BannerId , int PostId)
+        {
+            Banner banner = await _DbContext.Banners.FirstOrDefaultAsync(s => s.Id == BannerId);
+            EducationPost educationPost = await _DbContext.EducationPosts.FirstOrDefaultAsync(s => s.Id == PostId);
+            BannerToPost bannerToPost = new BannerToPost(); 
+            if(banner !=null && educationPost !=null)
+            {
+                if(string.IsNullOrEmpty(banner.SocialNetWorkLink) && banner.CategoryId == null)
+                {
+
+                    bannerToPost.EducationPostId = PostId;
+                    bannerToPost.BannerId = BannerId;
+                    await _DbContext.BannerToPosts.AddAsync(bannerToPost);
+                }
+            }
+        }
+
+
+
+
     }
 }

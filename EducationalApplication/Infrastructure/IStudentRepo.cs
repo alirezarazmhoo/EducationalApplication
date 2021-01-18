@@ -1,4 +1,5 @@
 ﻿using EducationalApplication.Models;
+using EducationalApplication.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace EducationalApplication.Infrastructure
 		void Remove(Students model);
 		Task<IEnumerable<Students>> GetAll();
 		Task<IEnumerable<Students>> search(string txtsearch);
+		Task<IEnumerable<ShortTeacherViewModel>> GetRelatedTeachers(int Id); 
 	}
 }

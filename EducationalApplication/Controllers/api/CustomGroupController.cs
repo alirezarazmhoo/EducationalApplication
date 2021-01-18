@@ -107,5 +107,78 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
+        [HttpPost("AddStudentToGroup")]
+        public async Task<ApiModel> AddStudentToGroup(StudentAndCustomGroupViewModel model)
+        {
+            try
+            {
+                if (await _unitofwork.ICustomGroupRepo.GetById(model.GroupId) == null)
+                {
+                    return ApiResponse.Fail(null, 404, $"گروهی با ای دی {model.GroupId} یافت نشد .");
+                }
+                await _unitofwork.ICustomGroupRepo.AddStudentToGroup(model);
+                await _unitofwork.SaveAsync();
+                return ApiResponse.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
+        [HttpPost("AddTeacherToGroup")]
+        public async Task<ApiModel> AddTeacherToGroup(TeacherAndCustomGroupViewModel model)
+        {
+            try
+            {
+                if (await _unitofwork.ICustomGroupRepo.GetById(model.GroupId) == null)
+                {
+                    return ApiResponse.Fail(null, 404, $"گروهی با ای دی {model.GroupId} یافت نشد .");
+                }
+                await _unitofwork.ICustomGroupRepo.AddTeacherToGroup(model);
+                await _unitofwork.SaveAsync();
+                return ApiResponse.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
+
+        [HttpPost("RemoveStudentFromGroup")]
+        public async Task<ApiModel> RemoveStudentFromGroup(RemoveUserFromCustomGroupViewModel<int> model)
+        {
+            if (await _unitofwork.ICustomGroupRepo.GetById(model. CustomGrupId) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"گروهی با ای دی {model. CustomGrupId} یافت نشد .");
+            }
+            try
+            {
+            await  _unitofwork.ICustomGroupRepo.RemoveStudentFromGroup(model. UserId,model. CustomGrupId);
+            await  _unitofwork.SaveAsync();
+            return ApiResponse.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
+        [HttpPost("RemoveTeacherFromGroup")]
+        public async Task<ApiModel> RemoveTeacherFromGroup(RemoveUserFromCustomGroupViewModel<string> model)
+        {
+            if (await _unitofwork.ICustomGroupRepo.GetById(model. CustomGrupId) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"گروهی با ای دی {model. CustomGrupId} یافت نشد .");
+            }
+            try
+            {
+                await _unitofwork.ICustomGroupRepo.RemoveTeacherFromGroup(model. UserId,model. CustomGrupId);
+                await _unitofwork.SaveAsync();
+                return ApiResponse.Success();
+            }
+            catch (Exception ex)
+            {
+                return ApiResponse.Fail(ex.Message);
+            }
+        }
     }
 }

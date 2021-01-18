@@ -28,13 +28,13 @@ namespace EducationalApplication.Data
 		public DbSet<CustomGroup> CustomGroups { get; set; }
 		public DbSet<UsersToCustomGroups> UsersToCustomGroups { get; set; }
 		public DbSet<UsersToEducationPost> UsersToEducationPosts { get; set; }
-
-
-		
+		public DbSet<Comment>  Comments { get; set; }
+		public DbSet<EducationPostView> EducationPostViews { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
 			modelBuilder.Seed();
+			//modelBuilder.Entity<Comment>().Property(s => s.date).HasDefaultValue(DateTime.MinValue);
 		}
 	}
 }

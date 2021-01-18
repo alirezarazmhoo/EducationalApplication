@@ -53,14 +53,38 @@ namespace EducationalApplication.Models.ViewModels
 	}
 	public class ShortTeacherViewModel
 	{
+		public string Name { get; set; }
 		public string Id { get; set; }
-	
-	
 	}
 	public class ShortStuudentViewModel
 	{
 		public int Id { get; set; }
 	}
-	
+
+	public class StudentAndCustomGroupViewModel 
+	{
+		public List<int> StudentId { get; set; }
+		public int GroupId { get; set; }
+	}
+	public class TeacherAndCustomGroupViewModel
+	{
+		public List<string> TeacherId { get; set; }
+		public int GroupId { get; set; }
+	}
+	public class  RemoveUserFromCustomGroupViewModel<TType>
+	{
+		public TType UserId { get; set; }
+		public int CustomGrupId { get; set; }
+	}
+
+	public class AddViewToPostViewModel<TType>
+	{
+
+		public TType UserId { get; set; }
+		public int EducationPostId { get; set; }
+	}
+
+
+
 
 }

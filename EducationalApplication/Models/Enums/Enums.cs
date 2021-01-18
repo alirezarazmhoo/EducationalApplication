@@ -11,13 +11,7 @@ namespace EducationalApplication.Models.Enums
 		IncludesCost
 	}
 
-	public enum category
-	{
-		Math,
-		Science,
-		Geography,
-		biology
-	}
+
 	public enum MediaType
 	{
 		Pdf,
@@ -40,6 +34,14 @@ namespace EducationalApplication.Models.Enums
 		Manager , 
 		Teacher , 
 		Student
+	}
+
+	public enum CommentStatus
+	{
+		Accepted , 
+		Waiting , 
+		Rejected ,
+
 	}
 
 

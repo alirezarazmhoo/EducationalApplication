@@ -17,7 +17,7 @@ namespace EducationalApplication.Infrastructure
 		IClassRoomRepo IClassRoomRepo { get; }
 		ICategoryRepo ICategoryRepo { get; }
         ICustomGroupRepo ICustomGroupRepo { get; }
-
+		ICommentRepo ICommentRepo { get; }
 		Task SaveAsync();
 	}
 }

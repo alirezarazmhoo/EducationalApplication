@@ -196,7 +196,6 @@ namespace EducationalApplication.Services
 			var Items = await _DbContext.EducationPosts.Include(s => s.Medias).Where(s => s.Id == Id).FirstOrDefaultAsync();
 			return Items;
 		}
-
 		public async Task Remove(EducationPost model)
 		{
 			var MainItem = await GetById(model.Id);
@@ -215,7 +214,6 @@ namespace EducationalApplication.Services
 			}
 			Delete(MainItem);
 		}
-
 		public async Task RemoveFile(int Id)
 		{
 			Media Item = await _DbContext.Medias.FindAsync(Id);
@@ -226,11 +224,73 @@ namespace EducationalApplication.Services
 
 			_DbContext.Medias.Remove(Item);
 		}
-
-
 		public async Task<IEnumerable<EducationPost>> GetByCategory(int Id)
 		{
 			return await FindByCondition(s => s.CategoryId == Id).ToListAsync();
 		}
+		public async Task<IEnumerable<Comment>> GetEducationPostCommnet(int Id)
+		{
+			List<Comment> comments = new List<Comment>();
+			var Item = _DbContext.EducationPosts.FirstOrDefaultAsync(s=>s.Id == Id);
+			if(Item != null)
+			{
+				var Comments = await _DbContext.Comments.Where(s => s.EducationPostId == Id).ToListAsync();
+				comments.AddRange(Comments);
+				return comments; 
+			}
+			else
+			{
+				return null; 
+			}
+		}
+
+		public async Task TeacherAddView(AddViewToPostViewModel<string> model)
+		{
+			var Teacher = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id == model.UserId);
+
+			EducationPostView educationPostView = new EducationPostView();
+
+			if(Teacher != null)
+			{
+				var EducationPost = await _DbContext.EducationPosts.FirstOrDefaultAsync(s => s.Id == model.EducationPostId);
+
+				if(await _DbContext.EducationPostViews.AnyAsync(s=>s.EducationPostId
+				== model.EducationPostId && s.TeacherId == model.UserId) == false)
+				{
+					EducationPost.ViewCount += 1;
+
+					educationPostView.EducationPostId = model.EducationPostId;
+					educationPostView.TeacherId = model.UserId; 
+				await	_DbContext.EducationPostViews.AddAsync(educationPostView);
+
+
+				}
+			  await	_DbContext.SaveChangesAsync();
+
+			}
+		}
+
+		public async Task StudentAddView(AddViewToPostViewModel<int> model)
+		{
+			EducationPostView educationPostView = new EducationPostView();
+
+			var Student = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == model.UserId);
+			if (Student != null)
+			{
+				var EducationPost = await _DbContext.EducationPosts.FirstOrDefaultAsync(s => s.Id == model.EducationPostId);
+
+				if (await _DbContext.EducationPostViews.AnyAsync(s => s.EducationPostId
+				 == model.EducationPostId && s.StudentId == model.UserId) == false)
+				{
+					EducationPost.ViewCount += 1;
+
+					educationPostView.EducationPostId = model.EducationPostId;
+					educationPostView.StudentId = model.UserId;
+					await _DbContext.EducationPostViews.AddAsync(educationPostView);
+				}
+				await _DbContext.SaveChangesAsync();
+			}
+		}
+
 	}
 }

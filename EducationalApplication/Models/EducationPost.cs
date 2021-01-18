@@ -21,6 +21,8 @@ namespace EducationalApplication.Models
 		public Category Category { get; set; }
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser  ApplicationUser { get; set; }
+		public ICollection<Comment> Comments { get; set; }
+		public int ViewCount { get; set; }
 	}
 
 

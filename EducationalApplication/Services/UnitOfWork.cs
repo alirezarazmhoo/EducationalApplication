@@ -21,6 +21,8 @@ namespace EducationalApplication.Services
 		private IClassRoomRepo _IClassRoomRepo;
 		private ICategoryRepo _ICategoryRepo;
 		private ICustomGroupRepo _ICustomGroupRepo;
+		private ICommentRepo _ICommentRepo;
+
 		public UnitOfWork(ApplicationDbContext DbContext)
 		{
 			_DbContext = DbContext;
@@ -98,6 +100,13 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _ICustomGroupRepo = _ICustomGroupRepo ?? new CustomGroupRepo(_DbContext);
+			}
+		}
+		public ICommentRepo ICommentRepo
+		{
+			get
+			{
+				return _ICommentRepo = _ICommentRepo ?? new CommentRepo(_DbContext);
 			}
 		}
 

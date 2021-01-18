@@ -1,6 +1,7 @@
 ﻿using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
 using EducationalApplication.Models;
+using EducationalApplication.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,7 @@ namespace EducationalApplication.Services
         }
         public async Task<CustomGroup> GetById(int Id)
         {
-            return await FindByCondition(b => b.Id.Equals(Id)).FirstOrDefaultAsync();
+            return await FindByCondition(b => b.Id.Equals(Id)).Include(s => s.UsersToCustomGroups).FirstOrDefaultAsync();
         }
         public async Task AddOrUpdate(CustomGroup model)
         {
@@ -41,5 +42,52 @@ namespace EducationalApplication.Services
             .ToListAsync();
         }
         public void Remove(CustomGroup model) => Delete(model);
+
+
+        public async Task AddStudentToGroup(StudentAndCustomGroupViewModel model)
+        {
+            List<UsersToCustomGroups> MainModel = new List<UsersToCustomGroups>();
+
+            foreach (var item in model.StudentId)
+            {
+                if(await _DbContext.Students.AnyAsync(s=>s.Id == item) && await _DbContext.UsersToCustomGroups.AnyAsync(s => s.StudentsId == item) == false)
+                {
+                MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, StudentsId = item });
+                }
+            }
+
+          await  _DbContext.UsersToCustomGroups.AddRangeAsync(MainModel);
+        }
+
+        public async Task AddTeacherToGroup(TeacherAndCustomGroupViewModel model)
+        {
+            List<UsersToCustomGroups> MainModel = new List<UsersToCustomGroups>();
+            foreach (var item in model.TeacherId)
+            {
+                if (await _DbContext.Users.AnyAsync(s => s.Id == item) && await _DbContext.UsersToCustomGroups.AnyAsync(s => s.ApplicationUserId == item) == false)
+                {
+                    MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, ApplicationUserId = item });
+                }
+            }
+            await _DbContext.UsersToCustomGroups.AddRangeAsync(MainModel);
+        }
+        public async Task RemoveStudentFromGroup(int UserId, int CustomGrupId)
+        {
+            CustomGroup customGroup =await _DbContext.CustomGroups.FindAsync(CustomGrupId);
+            UsersToCustomGroups  usersToCustomGroups = await _DbContext.UsersToCustomGroups.FirstOrDefaultAsync(s=>s.StudentsId == UserId);
+            if (await _DbContext.Students.AnyAsync(s=>s.Id == UserId) && customGroup !=null)
+            {
+                _DbContext.UsersToCustomGroups.Remove(usersToCustomGroups);
+            }
+        }
+        public async Task RemoveTeacherFromGroup(string UserId, int CustomGrupId)
+        {
+            CustomGroup customGroup = await _DbContext.CustomGroups.FindAsync(CustomGrupId);
+            UsersToCustomGroups usersToCustomGroups = await _DbContext.UsersToCustomGroups.FirstOrDefaultAsync(s => s.ApplicationUserId == UserId);
+            if (await _DbContext.Users.AnyAsync(s => s.Id == UserId) && customGroup != null)
+            {
+                _DbContext.UsersToCustomGroups.Remove(usersToCustomGroups);
+            }
+        }
     }
 }

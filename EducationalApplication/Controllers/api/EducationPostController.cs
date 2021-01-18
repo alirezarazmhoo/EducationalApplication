@@ -96,7 +96,6 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
-
 		[Route("GetByCategory")]
 		public async Task<ApiModel> GetByCategory(int Id)
 		{
@@ -109,6 +108,44 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
-
+		[Route("GetRelatedComment")]
+		public async Task<ApiModel> GetRelatedComment(int Id)
+		{
+			try
+			{
+				EducationPost item = await _unitofwork.IEducationPostRepo.GetById(Id);
+				return ApiResponse.Success(_unitofwork.IEducationPostRepo.GetEducationPostCommnet(Id));
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
+		[HttpPost("StudentAddView")]
+		public async Task<ApiModel> StudentAddVeiw(AddViewToPostViewModel<int> model)
+		{
+			try
+			{
+				await _unitofwork.IEducationPostRepo.StudentAddView(model); 
+				return ApiResponse.Success();
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
+		[HttpPost("TeacherAddView")]
+		public async Task<ApiModel> TeacherAddView(AddViewToPostViewModel<string> model)
+		{
+			try
+			{
+				await _unitofwork.IEducationPostRepo.TeacherAddView(model);
+				return ApiResponse.Success();
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
 	}
 }

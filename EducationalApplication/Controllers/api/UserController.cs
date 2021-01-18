@@ -110,7 +110,18 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Success(await _unitofwork.IUserRepo.GetRelatedUsers(await _unitofwork.IUserRepo.GetById(Id)));
             }
         }
-
-
+        [Route("GetRelatedTeachers")]
+        [HttpGet]
+        public async Task<ApiModel> GetRelatedTeachers(int Id)
+        {
+            if (await _unitofwork.IStudentRepo.GetById(Id) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"کاربری با ای دی {Id} یافت نشد.");
+            }
+            else
+            {
+                return ApiResponse.Success(await _unitofwork.IStudentRepo.GetRelatedTeachers(Id));
+            }
+        }
     }
 }

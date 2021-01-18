@@ -16,7 +16,8 @@ namespace EducationalApplication.Infrastructure
 	    Task Remove(EducationPost model);
 		Task RemoveFile(int Id);
 		Task<IEnumerable<EducationPost>> GetByCategory(int Id);
-
-
+		Task<IEnumerable<Comment>> GetEducationPostCommnet(int Id);
+		Task TeacherAddView(AddViewToPostViewModel<string> model);
+		Task StudentAddView(AddViewToPostViewModel<int> model); 
 	}
 }

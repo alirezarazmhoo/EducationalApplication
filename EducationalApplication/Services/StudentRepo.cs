@@ -1,6 +1,7 @@
 ﻿using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
 using EducationalApplication.Models;
+using EducationalApplication.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -104,5 +105,22 @@ namespace EducationalApplication.Services
 			return await FindByCondition(s => s.FullName.Contains(txtsearch)).Include(s => s.Grade).Include(s => s.Major)
 			.ToListAsync();
 		}
+		public async Task<IEnumerable<ShortTeacherViewModel>> GetRelatedTeachers(int Id)
+		{
+			List<ShortTeacherViewModel> shortTeacherViewModels = new List<ShortTeacherViewModel>();
+		    Students StudentItem =await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == Id);
+			if(StudentItem != null)
+			{
+				IEnumerable<TeachersToClassRoom>  teachersToClassRoom =await _DbContext.TeachersToClassRooms.Include(s=>s.ApplicationUser).Where(s => s.ClassRoomId == StudentItem.ClassRoomId).ToListAsync();
+
+				foreach (var item in teachersToClassRoom)
+				{
+					shortTeacherViewModels.Add(new ShortTeacherViewModel() { Id = item.ApplicationUserId, Name = item.ApplicationUser.FullName });
+				}
+				return shortTeacherViewModels;
+			}
+			return null; 
+		}
+
 	}
 }

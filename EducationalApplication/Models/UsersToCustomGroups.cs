@@ -15,5 +15,6 @@ namespace EducationalApplication.Models
 		public Students Students { get; set; }
 		public int CustomGroupId { get; set; }
 		public CustomGroup CustomGroup { get; set; }
+
 	}
 }
