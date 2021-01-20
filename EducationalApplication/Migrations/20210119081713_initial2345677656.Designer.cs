@@ -4,14 +4,16 @@ using EducationalApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EducationalApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210119081713_initial2345677656")]
+    partial class initial2345677656
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,9 +127,6 @@ namespace EducationalApplication.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("BannerPlace")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BannerStatus")
                         .HasColumnType("int");
 
                     b.Property<int?>("CategoryId")
@@ -323,9 +322,6 @@ namespace EducationalApplication.Migrations
 
                     b.Property<bool>("Pin")
                         .HasColumnType("bit");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");

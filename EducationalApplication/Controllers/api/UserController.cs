@@ -123,5 +123,20 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Success(await _unitofwork.IStudentRepo.GetRelatedTeachers(Id));
             }
         }
+
+
+        [Route("GetRelatedEducationPost")]
+        public async Task<ApiModel> GetRelatedEducationPostByTeacherId(string UserId, int StudentId)
+        {
+            if (await _unitofwork.IUserRepo.GetById(UserId) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"معلمی با ای دی {UserId} یافت نشد.");
+            }
+            if (await _unitofwork.IStudentRepo.GetById(StudentId) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"دانش آموزی با ای دی {StudentId} یافت نشد.");
+            }
+            return ApiResponse.Success(await _unitofwork.IStudentRepo.GetRelatedEducationPostByTeacherId(UserId, StudentId));
+        }
     }
 }

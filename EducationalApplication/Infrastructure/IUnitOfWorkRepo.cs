@@ -18,6 +18,8 @@ namespace EducationalApplication.Infrastructure
 		ICategoryRepo ICategoryRepo { get; }
         ICustomGroupRepo ICustomGroupRepo { get; }
 		ICommentRepo ICommentRepo { get; }
+		ISettingRepo ISettingRepo { get; }
+
 		Task SaveAsync();
 	}
 }

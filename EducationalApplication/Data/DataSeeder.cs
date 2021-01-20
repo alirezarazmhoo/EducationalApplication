@@ -17,6 +17,17 @@ namespace EducationalApplication.Data
                Name = "نامشخص"
 		   }
 			);
+			modelBuilder.Entity<Setting>().HasData(
+			 new Setting
+			 {
+				 Id = 1,
+				 NeedEducationPostsToAccept = false , 
+				 NeedBannersToAccept = false  , 
+				  PostCanShow  = 100 , 
+				  BannerCanShow =  100
+			 });
+			
+
 		}
 	}
 }

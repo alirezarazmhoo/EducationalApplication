@@ -4,14 +4,16 @@ using EducationalApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EducationalApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210119081605_initial234567765")]
+    partial class initial234567765
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,9 +127,6 @@ namespace EducationalApplication.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("BannerPlace")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BannerStatus")
                         .HasColumnType("int");
 
                     b.Property<int?>("CategoryId")
@@ -324,9 +323,6 @@ namespace EducationalApplication.Migrations
                     b.Property<bool>("Pin")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
@@ -490,10 +486,10 @@ namespace EducationalApplication.Migrations
                         new
                         {
                             Id = 1,
-                            BannerCanShow = 100,
+                            BannerCanShow = 0,
                             NeedBannersToAccept = false,
                             NeedEducationPostsToAccept = false,
-                            PostCanShow = 100
+                            PostCanShow = 0
                         });
                 });
 

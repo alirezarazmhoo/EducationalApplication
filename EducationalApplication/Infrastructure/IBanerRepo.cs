@@ -15,6 +15,11 @@ namespace EducationalApplication.Infrastructure
 		void Remove(Banner model);
 		Task RemoveFile(int Id);
 		Task RemoveEducationPostFromBanner(int BannerId, int PostId);
-		Task AddPostToBanner(int BannerId, int PostId); 
+		Task AddPostToBanner(int BannerId, int PostId);
+
+		Task<IEnumerable<Banner>> AdminGetAll();
+		Task Accept(int Id);
+		Task Reject(int Id);
+		Task<Banner> AdminGetById(int Id);
 	}
 }

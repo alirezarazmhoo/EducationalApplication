@@ -180,5 +180,19 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
+        [Route("GetRelatedStudentsFromCustomGroup")]
+        [HttpGet]
+        public async Task<ApiModel> GetRelatedStudentsFromCustomGroup(int groupId, string userId)
+        {
+
+            if (await _unitofwork.IUserRepo.GetById(userId) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"کاربری با ای دی {userId} یافت نشد.");
+            }
+            else
+            {
+                return ApiResponse.Success(await _unitofwork.IUserRepo.GetRelatedStudents(groupId, userId));
+            }
+        }
     }
 }

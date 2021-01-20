@@ -121,6 +121,22 @@ namespace EducationalApplication.Services
 			}
 			return null; 
 		}
+		public async Task<IEnumerable<EducationPost>> GetRelatedEducationPostByTeacherId(string UserId ,  int StudentId)
+		{
+			ApplicationUser TeacherItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id == UserId); 
+			Students studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == StudentId);
+			List<EducationPost> usersToEducationPosts = new List<EducationPost>();
+			if ( TeacherItem !=null && studentItem != null)
+			{
+				return (usersToEducationPosts = await _DbContext.UsersToEducationPosts.Include(s=>s.EducationPost).Where(s => s.StudentsId == StudentId && s.ApplicationUserId == UserId).Select(s => s.EducationPost).ToListAsync());
+			}
+			else
+			{
+				return null; 
+			}
+		}
+
+
 
 	}
 }

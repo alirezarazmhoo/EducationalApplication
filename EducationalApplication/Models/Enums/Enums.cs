@@ -43,6 +43,18 @@ namespace EducationalApplication.Models.Enums
 		Rejected ,
 
 	}
+	public enum EducationPostStatus
+	{
+		Accepted,
+		Waiting,
+		Rejected,
 
+	}
+	public enum BannerStatus
+	{
+		Accepted,
+		Waiting,
+		Rejected,
+	}
 
 }

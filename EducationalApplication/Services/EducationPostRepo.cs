@@ -16,14 +16,19 @@ namespace EducationalApplication.Services
 {
 	public class EducationPostRepo : RepositoryBase<EducationPost>, IEducationPostRepo
 	{
-		public EducationPostRepo(ApplicationDbContext DbContext)
+
+
+		public EducationPostRepo(ApplicationDbContext DbContext )
 		: base(DbContext)
 		{
 			_DbContext = DbContext;
+		 
 		}
 		public async Task AddOrUpdate(EducationPost model, IFormFile Icon, IFormFile[] files, string TeacherList, string StudentList)
 		{
 			List<UsersToEducationPost> usersToEducationPost = new List<UsersToEducationPost>();
+			var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+
 			string[] _StudentList = new string[] { };
 			string[] _TeacherList = new string[] { };
 			string TeacherId = string.Empty;
@@ -40,6 +45,7 @@ namespace EducationalApplication.Services
 					}
 					model.IconUrl = "/Upload/Post/Icon/" + fileName;
 				}
+				model.Status = SettingItem.NeedEducationPostsToAccept ? EducationPostStatus.Waiting : EducationPostStatus.Accepted; 
 				_DbContext.EducationPosts.Add(model);
 				_DbContext.SaveChanges();
 				if (files != null && files.Count() > 0)
@@ -143,6 +149,7 @@ namespace EducationalApplication.Services
 				MainItem.Description = model.Description;
 				MainItem.Number = model.Number;
 				MainItem.Title = model.Title;
+				MainItem.Status = SettingItem.NeedEducationPostsToAccept ? EducationPostStatus.Waiting : EducationPostStatus.Accepted;
 				//Studetns To Post
 				if (TeacherList.Length > 0 || StudentList.Length > 0)
 				{
@@ -188,13 +195,33 @@ namespace EducationalApplication.Services
 		}
 		public async Task<IEnumerable<EducationPost>> GetAll(string Id)
 		{
-			var Items = await _DbContext.EducationPosts.Include(s => s.Medias)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(s => s.Id).ToListAsync();
+			var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+			List<EducationPost> Items = new List<EducationPost>(); 
+
+			if (SettingItem.NeedEducationPostsToAccept)
+			{
+				Items = await _DbContext.EducationPosts.Where(s=>s.Status == EducationPostStatus.Accepted).Include(s => s.Medias)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(s => s.Id).ToListAsync();
+			}
+			else
+			{
+				Items = await _DbContext.EducationPosts.Include(s => s.Medias)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(s => s.Id).ToListAsync();
+			}
 			return Items;
 		}
 		public async Task<EducationPost> GetById(int Id)
 		{
-			var Items = await _DbContext.EducationPosts.Include(s => s.Medias).Where(s => s.Id == Id).FirstOrDefaultAsync();
-			return Items;
+		   EducationPost Item = new EducationPost();
+			var SettingItem =await _DbContext.Settings.FirstOrDefaultAsync();
+
+			if (SettingItem.NeedEducationPostsToAccept)
+			{
+				Item = await _DbContext.EducationPosts.Include(s => s.Medias).Where(s => s.Id == Id && s.Status == EducationPostStatus.Accepted).FirstOrDefaultAsync();
+			}
+			else
+			{
+				Item = await _DbContext.EducationPosts.Include(s => s.Medias).Where(s => s.Id == Id ).FirstOrDefaultAsync();
+			}
+			return Item;
 		}
 		public async Task Remove(EducationPost model)
 		{
@@ -226,7 +253,15 @@ namespace EducationalApplication.Services
 		}
 		public async Task<IEnumerable<EducationPost>> GetByCategory(int Id)
 		{
+			var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+			if (SettingItem.NeedEducationPostsToAccept)
+			{
+				return await FindByCondition(s => s.CategoryId == Id && s.Status == EducationPostStatus.Accepted).ToListAsync();
+			}
+			else
+			{
 			return await FindByCondition(s => s.CategoryId == Id).ToListAsync();
+			}
 		}
 		public async Task<IEnumerable<Comment>> GetEducationPostCommnet(int Id)
 		{
@@ -291,6 +326,36 @@ namespace EducationalApplication.Services
 				await _DbContext.SaveChangesAsync();
 			}
 		}
+
+		public async Task<IEnumerable<EducationPost>> AdminGetAll()
+		{
+			List<EducationPost> Items = new List<EducationPost>();
+			Items = await _DbContext.EducationPosts.Include(s => s.ApplicationUser).OrderByDescending(s => s.Id).ToListAsync();		
+			return Items;
+		}
+		public async Task Accept(int Id)
+		{
+			var Item =await _DbContext.EducationPosts.FirstOrDefaultAsync(s => s.Id == Id);
+			if(Item != null)
+			{
+				Item.Status = EducationPostStatus.Accepted; 
+			}
+		}
+		public async Task Reject(int Id)
+		{
+			var Item = await _DbContext.EducationPosts.FirstOrDefaultAsync(s => s.Id == Id);
+			if (Item != null)
+			{
+				Item.Status = EducationPostStatus.Rejected;
+			}
+		}
+		public async Task<EducationPost> AdminGetById(int Id)
+		{
+			EducationPost Item = new EducationPost();
+		    Item = await _DbContext.EducationPosts.Include(s => s.Medias).Include(s=>s.ApplicationUser).Where(s => s.Id == Id).FirstOrDefaultAsync();			
+			return Item;
+		}
+
 
 	}
 }

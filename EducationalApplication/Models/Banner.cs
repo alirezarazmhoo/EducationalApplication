@@ -28,5 +28,6 @@ namespace EducationalApplication.Models
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser ApplicationUser { get; set; }
 		public bool ShowOnMainPage { get; set; }
+		public BannerStatus BannerStatus { get; set; }
 	}
 }

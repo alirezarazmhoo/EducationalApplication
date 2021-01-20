@@ -1,0 +1,83 @@
+﻿
+@model EducationalApplication.Models.Setting
+@{
+	ViewData["Title"] = "Index";
+}
+<div class="text-center" style="border-style:solid;">
+	<h2 style="font-size:medium">تنظیمات</h2>
+</div>
+<br />
+<div class="row">
+	<div class="col-sm-12">
+		@*<p class="text text-danger">
+				@TempData["PriceError"]
+			</p>*@
+		<form asp-action="Update" method="post">
+			<div class="box zmdi-border-color" style="height:500px">
+				<div class="box-body table-responsive no-padding" dir="rtl">
+
+					<p style="margin-top:5px;margin-right:10px;">
+						<button type="submit" class="btn btn-success">ثبت </button>
+					</p>
+					<div style="margin-right:15px">
+
+						<label class="control-label">نیاز به تایید پست های آموزشی</label>
+						<div style="width:50%;margin-right:5px;">
+
+							@{
+								if (Model.NeedEducationPostsToAccept)
+								{
+									<input asp-for="NeedEducationPostsToAccept" checked />
+
+								}
+								else
+								{
+									<input asp-for="NeedEducationPostsToAccept" />
+
+								}
+							}
+						</div>
+						</div>
+						<div style="margin-right:15px">
+
+							<label class="control-label">نیاز به تایید بنرهای آموزشی  </label>
+
+							<div style="width:50%;margin-right:5px;">
+
+								@{
+									if (Model.NeedBannersToAccept)
+									{
+										<input asp-for="NeedBannersToAccept" checked />
+
+									}
+									else
+									{
+										<input asp-for="NeedBannersToAccept" />
+
+									}
+								}
+
+
+							</div>
+						</div>
+					
+						<div style="width:50%;margin-right:10px;margin-top:20px;">
+							<label>تعداد روز های پیش فرض برای نمایش پست</label>
+							<input  class="form-control" asp-for="PostCanShow" />
+						</div>
+						<div style="width:50%;margin-right:10px;margin-top:10px">
+							<input disabled class="form-control" value="@Model.PostCanShow روز" />
+						</div>
+					
+						<div style="width:50%;margin-right:10px;margin-top:20px;margin-top:10px">
+							<label>تعداد روز های پیش فرض برای بنر</label>
+							<input  class="form-control" asp-for="BannerCanShow" />
+						</div>
+						<div style="width:50%;margin-right:10px;margin-top:10px">
+							<input disabled class="form-control" value="@Model.BannerCanShow روز" />
+						</div>
+					</div>
+				</div>
+		</form>
+	</div>
+</div>

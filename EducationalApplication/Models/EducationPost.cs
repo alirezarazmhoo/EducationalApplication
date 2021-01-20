@@ -23,6 +23,8 @@ namespace EducationalApplication.Models
 		public ApplicationUser  ApplicationUser { get; set; }
 		public ICollection<Comment> Comments { get; set; }
 		public int ViewCount { get; set; }
+		public EducationPostStatus Status { get; set; }
+
 	}
 
 

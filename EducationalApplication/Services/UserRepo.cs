@@ -17,11 +17,11 @@ namespace EducationalApplication.Services
 {
 	public class UserRepo : RepositoryBase<ApplicationUser>, IUserRepo
 	{
-		public UserRepo(ApplicationDbContext DbContext  )
+		public UserRepo(ApplicationDbContext DbContext)
 	   : base(DbContext)
 		{
 			_DbContext = DbContext;
-	
+
 		}
 		public async Task<IEnumerable<ApplicationUser>> GetAll()
 		{
@@ -54,7 +54,7 @@ namespace EducationalApplication.Services
 				smsParameters.Add(new SmsParameters() { Parameter = "UserName", ParameterValue = user.UserName });
 				smsParameters.Add(new SmsParameters() { Parameter = "Password", ParameterValue = user.Password });
 				var mob = model.Mobile.ToString();
-			  	mob =mob.Insert(0, "0");
+				mob = mob.Insert(0, "0");
 				SendSms.CallSmSMethodAdvanced(Convert.ToInt64(mob), 38324, smsParameters);
 			}
 			else
@@ -87,22 +87,22 @@ namespace EducationalApplication.Services
 				}
 			}
 		}
-		public async Task<ApplicationUser>  GetById(string Id)
+		public async Task<ApplicationUser> GetById(string Id)
 		{
 			return await FindByCondition(s => s.Id.Equals(Id))
 				.FirstOrDefaultAsync();
-		
+
 		}
 		public IQueryable<ApplicationUser> Authorize(ApplicationUser model)
 		{
-			var item = FindByCondition(s=>s.UserName == model.UserName && s.Password == model.Password);
+			var item = FindByCondition(s => s.UserName == model.UserName && s.Password == model.Password);
 			return item;
 		}
-		public  void Remove(ApplicationUser model)
+		public void Remove(ApplicationUser model)
 		{
 			if (!string.IsNullOrEmpty(model.Url))
 			{
-	    	File.Delete($"wwwroot/{model.Url}");
+				File.Delete($"wwwroot/{model.Url}");
 			}
 			Delete(model);
 		}
@@ -114,8 +114,8 @@ namespace EducationalApplication.Services
 
 		public async Task<bool> ForgetPassword(long Mobile)
 		{
-			var TeacherItem =await _DbContext.Users.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
-			var StudentItem =await _DbContext.Students.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
+			var TeacherItem = await _DbContext.Users.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
+			var StudentItem = await _DbContext.Students.Where(s => s.Mobile == Mobile).FirstOrDefaultAsync();
 			if (TeacherItem != null)
 			{
 				return SendSms.CallSmSMethod(Mobile, 38082, "VerificationCode", TeacherItem.Password);
@@ -133,22 +133,52 @@ namespace EducationalApplication.Services
 		{
 			TeacherAndStudents MainList = new TeacherAndStudents();
 			List<Students> students = new List<Students>();
-			if(model.UserType == UserType.Manager)
+			if (model.UserType == UserType.Manager)
 			{
-				MainList.Students =await _DbContext.Students.ToListAsync();
-				MainList.Teachers = await _DbContext.Users.Where(s=>s.UserType != UserType.Teacher).ToListAsync();
+				MainList.Students = await _DbContext.Students.ToListAsync();
+				MainList.Teachers = await _DbContext.Users.Where(s => s.UserType != UserType.Teacher).ToListAsync();
 				return MainList;
 			}
 			else
 			{
-			var Item =await _DbContext.TeachersToClassRooms.Include(s=>s.ClassRoom.Students).Where(s => s.ApplicationUserId == model.Id).ToListAsync();
-			foreach (var item in Item)
-			{
-				students.AddRange(item.ClassRoom.Students);
+				var Item = await _DbContext.TeachersToClassRooms.Include(s => s.ClassRoom.Students).Where(s => s.ApplicationUserId == model.Id).ToListAsync();
+				foreach (var item in Item)
+				{
+					students.AddRange(item.ClassRoom.Students);
+				}
+				MainList.Students = students;
+				MainList.Teachers = null;
+				return MainList;
 			}
-			MainList.Students = students;
-			MainList.Teachers = null;
-	    	return MainList; 
+		}
+
+		public async Task<IEnumerable<Students>> GetRelatedStudents(int groupId, string userId)
+		{
+			CustomGroup customGroup = await _DbContext.CustomGroups.FirstOrDefaultAsync(s => s.Id == groupId);
+			if (customGroup != null && await _DbContext.Users.AnyAsync(s => s.Id == userId))
+			{
+				List<UsersToCustomGroups> usersToCustomGroups = await _DbContext.UsersToCustomGroups.Where(s => s.CustomGroupId == customGroup.Id).ToListAsync();
+				List<TeachersToClassRoom> TeacherClassRooms = await _DbContext.TeachersToClassRooms.Where(s => s.ApplicationUserId == userId).ToListAsync();
+				List<Students> AllStudents = new List<Students>();
+				List<Students> MainListStudent = new List<Students>();
+				foreach (var item in TeacherClassRooms)
+				{
+					var studentItem = await _DbContext.Students.Where(s=>s.ClassRoomId == item.ClassRoomId).ToListAsync();
+					AllStudents.AddRange(studentItem);
+				}
+				foreach (var item in AllStudents)
+				{
+					if (!usersToCustomGroups.Any(s => s.StudentsId == item.Id))
+					{
+						Students studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == item.Id);
+						MainListStudent.Add(studentItem);
+					}
+				}
+				return MainListStudent;
+			}
+			else
+			{
+				return null;
 			}
 		}
 	}

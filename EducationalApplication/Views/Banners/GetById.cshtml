@@ -1,0 +1,50 @@
+﻿@model EducationalApplication.Models.Banner
+
+@{
+    ViewData["Title"] = "GetById";
+}<div class="text-center" style="border-style:solid;">
+    <h2 style="font-size:medium">مشخصات بنر</h2>
+</div>
+<br />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="text-center text-blue" style="border-style:solid;">
+                <h2>جزییات </h2>
+            </div>
+            <div class="box zmdi-border-color" style="height:200px">
+                <div class="box-body table-responsive no-padding">
+
+                    <label style="margin-right:10px;margin-top:20px;">شخص ایجاد کننده :</label>
+
+                    <div style="width:50%;margin-right:5px;background-color:cornsilk;border-radius:8px">
+                        <text style="margin-right:10px;">
+                            @Model.ApplicationUser.FullName
+                        </text>
+                    </div>
+                    <hr />
+          
+
+                    @if (!string.IsNullOrEmpty(Model.SocialNetWorkLink))
+                    {
+                        <label style="margin-right:10px;margin-top:20px;">لینک :</label>
+                        <div style="width:50%;margin-right:5px;background-color:cornsilk;border-radius:8px">
+                            <a href="@Model.SocialNetWorkLink">کلیک کنید</a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class=" row">
+                <div class="col-md-offset-2 col-md-10 " style="height:200px;">
+                    <div class="row" style="margin-right:80px">
+
+                        <img src="~/Upload/Banner/File/@Model.Url" class="image zoom" style="width:80px;height:70px;margin-top:5px;cursor:pointer;margin-bottom:5px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p>
+            | @Html.ActionLink("بازگشت", "Index", new { @class = "btn btn-primary" })
+        </p>
+    </div>
+</div>

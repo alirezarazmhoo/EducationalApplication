@@ -30,8 +30,8 @@ namespace EducationalApplication.Controllers.api
 				{
 					return ApiResponse.Fail(null, 404, $"معلمی با ای دی {model.ApplicationUserId} یافت نشد.");
 				}
-				var TeacherList = HttpContext.Request.Form["TeacherList"];
-				var StudentList = HttpContext.Request.Form["StudentList"];
+				var TeacherList = HttpContext.Request.Form["TeacherListToPost"];
+				var StudentList = HttpContext.Request.Form["StudentListToPost"];
 				await _unitofwork.IEducationPostRepo.AddOrUpdate(model, Icon, file  , TeacherList , StudentList);
 				await _unitofwork.SaveAsync();
 				return ApiResponse.Success();
@@ -147,5 +147,11 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
+
+
+
+
+
+
 	}
 }

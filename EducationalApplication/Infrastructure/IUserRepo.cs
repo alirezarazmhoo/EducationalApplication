@@ -18,5 +18,6 @@ namespace EducationalApplication.Infrastructure
 		Task<IEnumerable<ApplicationUser>> search(string txtsearch);
 		Task<bool> ForgetPassword(long Mobile);
 		Task<TeacherAndStudents> GetRelatedUsers(ApplicationUser model);
+		Task<IEnumerable<Students>> GetRelatedStudents(int groupId, string userId); 
 	}
 }

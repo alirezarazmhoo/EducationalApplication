@@ -22,6 +22,8 @@ namespace EducationalApplication.Services
 		private ICategoryRepo _ICategoryRepo;
 		private ICustomGroupRepo _ICustomGroupRepo;
 		private ICommentRepo _ICommentRepo;
+		private ISettingRepo _ISettingRepo;
+
 
 		public UnitOfWork(ApplicationDbContext DbContext)
 		{
@@ -107,6 +109,14 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _ICommentRepo = _ICommentRepo ?? new CommentRepo(_DbContext);
+			}
+		}
+
+		public ISettingRepo ISettingRepo
+		{
+			get
+			{
+				return _ISettingRepo = _ISettingRepo ?? new SettingRepo(_DbContext);
 			}
 		}
 

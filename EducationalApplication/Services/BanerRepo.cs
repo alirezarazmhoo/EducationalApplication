@@ -22,16 +22,36 @@ namespace EducationalApplication.Services
         }
         public async Task<List<Banner>> GetAll(string Id)
         {
-            return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
-                .ToListAsync();
+            var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+
+            if (SettingItem.NeedBannersToAccept)
+            {
+                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category).Where(s=>s.BannerStatus ==Models.Enums.BannerStatus.Accepted)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
+                 .ToListAsync();
+            }
+            else
+            {
+                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
+                              .ToListAsync();
+            }         
         }
         public async Task<Banner> GetById(int Id)
         {
-             return await FindByCondition(b => b.Id.Equals(Id)).FirstOrDefaultAsync();
+            var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+            if (SettingItem.NeedBannersToAccept)
+            {
+                return await FindByCondition(b => b.Id.Equals(Id) && b.BannerStatus == Models.Enums.BannerStatus.Accepted).FirstOrDefaultAsync();
+            }
+            else
+            {
+                return await FindByCondition(b => b.Id.Equals(Id)).FirstOrDefaultAsync();
+            }
         }
         public async Task AddOrUpdate(Banner model, IFormFile _File)
         {
            List<BannerToPost> bannerToPosts = new List<BannerToPost>();
+            var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+
             string[] _BannerList = new string[] { };
             int EducationId = 0; 
             if (model.Id == 0)
@@ -48,6 +68,7 @@ namespace EducationalApplication.Services
                 }
                 model.CreateDate=DateTime.Now;
                 model.AvailableDate = DateTime.Now;
+                model.BannerStatus = SettingItem.NeedEducationPostsToAccept ? Models.Enums.BannerStatus.Waiting : Models.Enums.BannerStatus.Accepted;
                 _DbContext.Banners.Add(model);
                 _DbContext.SaveChanges();
                 if(!string.IsNullOrEmpty(model.BannerToPosts) && string.IsNullOrEmpty(model.SocialNetWorkLink) && model.CategoryId == null )
@@ -98,6 +119,7 @@ namespace EducationalApplication.Services
                     getBanner.SocialNetWorkLink = model.SocialNetWorkLink;
                     getBanner.Url = model.Url;
                     getBanner.ApplicationUserId = model.ApplicationUserId;
+                    model.BannerStatus = SettingItem.NeedEducationPostsToAccept ? Models.Enums.BannerStatus.Waiting : Models.Enums.BannerStatus.Accepted;
                     Update(model);
                     if (!string.IsNullOrEmpty(model.BannerToPosts) && string.IsNullOrEmpty(model.SocialNetWorkLink) && model.CategoryId == null)
                     {
@@ -161,8 +183,33 @@ namespace EducationalApplication.Services
             }
         }
 
-
-
-
+        public async Task<IEnumerable<Banner>> AdminGetAll()
+        {
+            List<Banner> Items = new List<Banner>();
+            Items = await _DbContext.Banners.Include(s => s.ApplicationUser).OrderByDescending(s => s.Id).ToListAsync();
+            return Items;
+        }
+        public async Task Accept(int Id)
+        {
+            var Item = await _DbContext.Banners.FirstOrDefaultAsync(s => s.Id == Id);
+            if (Item != null)
+            {
+                Item.BannerStatus = Models.Enums.BannerStatus.Accepted;
+            }
+        }
+        public async Task Reject(int Id)
+        {
+            var Item = await _DbContext.Banners.FirstOrDefaultAsync(s => s.Id == Id);
+            if (Item != null)
+            {
+                Item.BannerStatus = Models.Enums.BannerStatus.Rejected;
+            }
+        }
+        public async Task<Banner> AdminGetById(int Id)
+        {
+            Banner Item = new Banner();
+            Item = await _DbContext.Banners.Include(s=>s.ApplicationUser).Where(s => s.Id == Id).FirstOrDefaultAsync();
+            return Item;
+        }
     }
 }
