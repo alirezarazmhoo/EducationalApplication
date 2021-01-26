@@ -55,12 +55,12 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
-        [Route("Remove")]
-        public async Task<ApiModel> Remove(int Id)
+        [HttpPost("Remove")]
+        public async Task<ApiModel> Remove(InputIdViewModel model)
         {
             try
             {
-                Comment item = await _unitofwork.ICommentRepo.GetById(Id);
+                Comment item = await _unitofwork.ICommentRepo.GetById(model.Id);
                 if (item == null)
                 {
                     return ApiResponse.Fail(null, 404, $"کامنت مورد  نظر وجود ندارد ");

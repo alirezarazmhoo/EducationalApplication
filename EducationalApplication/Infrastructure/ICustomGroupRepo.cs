@@ -16,7 +16,7 @@ namespace EducationalApplication.Infrastructure
         Task<IEnumerable<CustomGroup>> search(string txtsearch, string UserId);
         Task AddStudentToGroup(StudentAndCustomGroupViewModel model);
         Task AddTeacherToGroup(TeacherAndCustomGroupViewModel model);
-        Task RemoveStudentFromGroup(int UserId, int CustomGrupId);
+        Task RemoveStudentFromGroup(List<int> UserId, int CustomGrupId);
         Task RemoveTeacherFromGroup(string UserId, int CustomGrupId); 
     }
 }

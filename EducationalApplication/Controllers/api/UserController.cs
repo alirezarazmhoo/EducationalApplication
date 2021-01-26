@@ -123,8 +123,6 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Success(await _unitofwork.IStudentRepo.GetRelatedTeachers(Id));
             }
         }
-
-
         [Route("GetRelatedEducationPost")]
         public async Task<ApiModel> GetRelatedEducationPostByTeacherId(string UserId, int StudentId)
         {

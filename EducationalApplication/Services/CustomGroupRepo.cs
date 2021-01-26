@@ -47,12 +47,14 @@ namespace EducationalApplication.Services
         public async Task AddStudentToGroup(StudentAndCustomGroupViewModel model)
         {
             List<UsersToCustomGroups> MainModel = new List<UsersToCustomGroups>();
-
+            Students student = new Students();
             foreach (var item in model.StudentId)
             {
-                if(await _DbContext.Students.AnyAsync(s=>s.Id == item) && await _DbContext.UsersToCustomGroups.AnyAsync(s => s.StudentsId == item) == false)
+                student = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == item); 
+
+                if ( student !=null &&  await _DbContext.UsersToCustomGroups.AnyAsync(s => s.StudentsId == item) == false)
                 {
-                MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, StudentsId = item });
+                MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, StudentsId = item,StudentName = student.FullName });
                 }
             }
 
@@ -71,15 +73,24 @@ namespace EducationalApplication.Services
             }
             await _DbContext.UsersToCustomGroups.AddRangeAsync(MainModel);
         }
-        public async Task RemoveStudentFromGroup(int UserId, int CustomGrupId)
+        public async Task RemoveStudentFromGroup(List<int> UserId, int CustomGrupId)
         {
-            CustomGroup customGroup =await _DbContext.CustomGroups.FindAsync(CustomGrupId);
-            UsersToCustomGroups  usersToCustomGroups = await _DbContext.UsersToCustomGroups.FirstOrDefaultAsync(s=>s.StudentsId == UserId);
-            if (await _DbContext.Students.AnyAsync(s=>s.Id == UserId) && customGroup !=null)
+            CustomGroup customGroup = await _DbContext.CustomGroups.FindAsync(CustomGrupId);
+            UsersToCustomGroups usersToCustomGroups = new UsersToCustomGroups();
+            if (customGroup != null)
             {
-                _DbContext.UsersToCustomGroups.Remove(usersToCustomGroups);
+                for (int i = 0; i < UserId.Count(); i++)
+                {
+                    usersToCustomGroups = await _DbContext.UsersToCustomGroups.FirstOrDefaultAsync(s => s.StudentsId == UserId[i] && s.CustomGroupId == CustomGrupId);
+                    if (usersToCustomGroups != null)
+                    {
+                        _DbContext.UsersToCustomGroups.Remove(usersToCustomGroups);
+                    }
+                }
             }
+        
         }
+        
         public async Task RemoveTeacherFromGroup(string UserId, int CustomGrupId)
         {
             CustomGroup customGroup = await _DbContext.CustomGroups.FindAsync(CustomGrupId);

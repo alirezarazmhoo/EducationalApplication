@@ -113,8 +113,7 @@ namespace EducationalApplication.Controllers.api
 		{
 			try
 			{
-				EducationPost item = await _unitofwork.IEducationPostRepo.GetById(Id);
-				return ApiResponse.Success(_unitofwork.IEducationPostRepo.GetEducationPostCommnet(Id));
+				return ApiResponse.Success(await _unitofwork.IEducationPostRepo.GetEducationPostCommnet(Id));
 			}
 			catch (Exception ex)
 			{
@@ -147,11 +146,17 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
-
-
-
-
-
-
+		[HttpGet("GetTotalComment")]
+		public async Task<ApiModel> GetTotalComment(int Id)
+		{
+			try
+			{
+				return ApiResponse.Success(await _unitofwork.IEducationPostRepo.CommentCount(Id));
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
 	}
 }

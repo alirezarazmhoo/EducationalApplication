@@ -153,7 +153,7 @@ namespace EducationalApplication.Controllers.api
             }
             try
             {
-            await  _unitofwork.ICustomGroupRepo.RemoveStudentFromGroup(model. UserId,model. CustomGrupId);
+            await  _unitofwork.ICustomGroupRepo.RemoveStudentFromGroup(model.UsersId,model. CustomGrupId);
             await  _unitofwork.SaveAsync();
             return ApiResponse.Success();
             }
@@ -162,24 +162,25 @@ namespace EducationalApplication.Controllers.api
                 return ApiResponse.Fail(ex.Message);
             }
         }
-        [HttpPost("RemoveTeacherFromGroup")]
-        public async Task<ApiModel> RemoveTeacherFromGroup(RemoveUserFromCustomGroupViewModel<string> model)
-        {
-            if (await _unitofwork.ICustomGroupRepo.GetById(model. CustomGrupId) == null)
-            {
-                return ApiResponse.Fail(null, 404, $"گروهی با ای دی {model. CustomGrupId} یافت نشد .");
-            }
-            try
-            {
-                await _unitofwork.ICustomGroupRepo.RemoveTeacherFromGroup(model. UserId,model. CustomGrupId);
-                await _unitofwork.SaveAsync();
-                return ApiResponse.Success();
-            }
-            catch (Exception ex)
-            {
-                return ApiResponse.Fail(ex.Message);
-            }
-        }
+        
+        //[HttpPost("RemoveTeacherFromGroup")]
+        //public async Task<ApiModel> RemoveTeacherFromGroup(RemoveUserFromCustomGroupViewModel<string> model)
+        //{
+        //    if (await _unitofwork.ICustomGroupRepo.GetById(model. CustomGrupId) == null)
+        //    {
+        //        return ApiResponse.Fail(null, 404, $"گروهی با ای دی {model. CustomGrupId} یافت نشد .");
+        //    }
+        //    try
+        //    {
+        //        await _unitofwork.ICustomGroupRepo.RemoveTeacherFromGroup(model. UserId,model. CustomGrupId);
+        //        await _unitofwork.SaveAsync();
+        //        return ApiResponse.Success();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return ApiResponse.Fail(ex.Message);
+        //    }
+        //}
         [Route("GetRelatedStudentsFromCustomGroup")]
         [HttpGet]
         public async Task<ApiModel> GetRelatedStudentsFromCustomGroup(int groupId, string userId)

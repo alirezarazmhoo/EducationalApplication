@@ -31,6 +31,9 @@ namespace EducationalApplication.Services
 
 			string[] _StudentList = new string[] { };
 			string[] _TeacherList = new string[] { };
+			string[] _GroupsIdes = new string[] { };
+			int groupId = 0; 
+
 			string TeacherId = string.Empty;
 			int StudentId = 0;
 			if (model.Id == 0)
@@ -70,6 +73,20 @@ namespace EducationalApplication.Services
 					}
 				}
 				//Studetns To Post
+				//if (!string.IsNullOrEmpty(model.GroupsIds))
+				//{
+				//	_GroupsIdes = model.GroupsIds.Split(",");
+				//	for (int i = 0; i < _GroupsIdes.Count(); i++)
+				//	{
+				//		groupId = Int32.Parse(_GroupsIdes[i]);
+				//		var R = await _DbContext.UsersToCustomGroups.Where(s => s.CustomGroupId == groupId).Select(s=>s.StudentsId).ToListAsync();
+
+				//		for (int j = 0; j < R.Count(); j++)
+				//		{
+				//			_StudentList[j] = R[j].ToString(); 
+				//		}
+				//	}
+				//}
 				if (StudentList != null && StudentList.Length > 0)
 				{
 					_StudentList = StudentList.Split(",");
@@ -266,7 +283,7 @@ namespace EducationalApplication.Services
 		public async Task<IEnumerable<Comment>> GetEducationPostCommnet(int Id)
 		{
 			List<Comment> comments = new List<Comment>();
-			var Item = _DbContext.EducationPosts.FirstOrDefaultAsync(s=>s.Id == Id);
+			var Item =await _DbContext.EducationPosts.FirstOrDefaultAsync(s=>s.Id == Id);
 			if(Item != null)
 			{
 				var Comments = await _DbContext.Comments.Where(s => s.EducationPostId == Id).ToListAsync();
@@ -355,6 +372,19 @@ namespace EducationalApplication.Services
 		    Item = await _DbContext.EducationPosts.Include(s => s.Medias).Include(s=>s.ApplicationUser).Where(s => s.Id == Id).FirstOrDefaultAsync();			
 			return Item;
 		}
+		public async Task<int> CommentCount(int Id)
+		{
+			EducationPost educationPostItem =await _DbContext.EducationPosts.FirstOrDefaultAsync(s=>s.Id == Id);
+			if(educationPostItem != null)
+			{
+				return await _DbContext.Comments.Where(s => s.EducationPostId == Id).CountAsync();
+			}
+			else
+			{
+				return 0;  
+			}
+		}
+
 
 
 	}

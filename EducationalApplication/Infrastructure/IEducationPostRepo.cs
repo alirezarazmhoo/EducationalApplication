@@ -22,6 +22,7 @@ namespace EducationalApplication.Infrastructure
 		Task<IEnumerable<EducationPost>> AdminGetAll();
 		Task Accept(int Id);
 		Task Reject(int Id);
-		Task<EducationPost> AdminGetById(int Id); 
+		Task<EducationPost> AdminGetById(int Id);
+		Task<int> CommentCount(int Id); 
 	}
 }

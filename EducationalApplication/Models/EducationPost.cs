@@ -2,6 +2,7 @@
 using EducationalApplication.Models.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,9 @@ namespace EducationalApplication.Models
 		public ICollection<Comment> Comments { get; set; }
 		public int ViewCount { get; set; }
 		public EducationPostStatus Status { get; set; }
+		[NotMapped]
+		public string GroupsIds { get; set; }
+
 
 	}
 

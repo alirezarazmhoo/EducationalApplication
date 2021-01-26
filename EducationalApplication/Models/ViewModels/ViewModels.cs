@@ -70,7 +70,8 @@ namespace EducationalApplication.Models.ViewModels
 	}
 	public class  RemoveUserFromCustomGroupViewModel<TType>
 	{
-		public TType UserId { get; set; }
+		public List<TType> UsersId { get; set; }
+
 		public int CustomGrupId { get; set; }
 	}
 
@@ -79,5 +80,12 @@ namespace EducationalApplication.Models.ViewModels
 		public TType UserId { get; set; }
 		public int EducationPostId { get; set; }
 	}
+	public class InputIdViewModel
+	{
+
+		public int Id { get; set; }
+	}
+
+
 
 }

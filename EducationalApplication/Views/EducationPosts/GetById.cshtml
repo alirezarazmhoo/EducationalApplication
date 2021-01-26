@@ -36,18 +36,18 @@
 						{
 							if (item.MediaType == EducationalApplication.Models.Enums.MediaType.Picture)
 							{
-								<img src="~/Upload/Post/Media/@item.Url" class="image zoom" style="width:80px;height:70px;margin-top:5px;cursor:pointer;margin-bottom:5px;">
+								<img src="@item.Url" class="image zoom" style="width:80px;height:70px;margin-top:5px;cursor:pointer;margin-bottom:5px;">
 							}
 							else
 							{
-								<a href="~/Upload/Post/Media/@item.Url">
+								<a href="@item.Url">
 								<img src="~/StaticImages/file.png" style="width:80px;height:70px;margin-top:5px;cursor:pointer;margin-bottom:5px;" />
 								</a>
 							}
 						}
 						@if (!string.IsNullOrEmpty(Model.IconUrl))
 						{
-						<img src="~/Upload/Post/Icon/@Model.IconUrl" class="image zoom" style="width:80px;height:70px;margin-top:5px;cursor:pointer;margin-bottom:5px;">
+						<img src="@Model.IconUrl" class="image zoom" style="width:80px;height:70px;margin-top:5px;cursor:pointer;margin-bottom:5px;">
 						}
 					</div>
 				</div>
