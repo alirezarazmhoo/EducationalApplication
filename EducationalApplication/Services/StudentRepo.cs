@@ -128,7 +128,7 @@ namespace EducationalApplication.Services
 			List<EducationPost> usersToEducationPosts = new List<EducationPost>();
 			if ( TeacherItem !=null && studentItem != null)
 			{
-				return (usersToEducationPosts = await _DbContext.UsersToEducationPosts.Include(s=>s.EducationPost).Where(s => s.StudentsId == StudentId && s.ApplicationUserId == UserId).Select(s => s.EducationPost).ToListAsync());
+				return (usersToEducationPosts = await _DbContext.UsersToEducationPosts.Include(s=>s.EducationPost).Where(s => s.StudentsId == StudentId && s.EducationPost.ApplicationUserId == UserId).Select(s => s.EducationPost).ToListAsync());
 			}
 			else
 			{

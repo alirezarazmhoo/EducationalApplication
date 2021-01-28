@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationalApplication.Data;
-using EducationalApplication.Models; 
+using EducationalApplication.Models;
+using EducationalApplication.Models.Enums;
+
 namespace EducationalApplication.Models.ViewModels
 {
 	public class EditViewModels
@@ -82,10 +84,30 @@ namespace EducationalApplication.Models.ViewModels
 	}
 	public class InputIdViewModel
 	{
-
 		public int Id { get; set; }
 	}
 
+	public class EducationPostViewModel
+	{
+		public int Id { get; set; }
+		public string Title { get; set; }
+		public string Description { get; set; }
+		public string IconUrl { get; set; }
+		public ICollection<Media> Medias { get; set; }
+		public int Number { get; set; }
+		public accessType AccessType { get; set; }
+		public bool Pin { get; set; }
+		public int? CategoryId { get; set; }
+		public Category Category { get; set; }
+		public string ApplicationUserId { get; set; }
+		public ApplicationUser ApplicationUser { get; set; }
+		public ICollection<Comment> Comments { get; set; }
+		public int ViewCount { get; set; }
+		public EducationPostStatus Status { get; set; }
+
+		public IEnumerable<int> Students { get; set; }
+
+	}
 
 
 }

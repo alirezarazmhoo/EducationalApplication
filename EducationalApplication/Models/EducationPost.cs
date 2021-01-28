@@ -28,6 +28,15 @@ namespace EducationalApplication.Models
 		[NotMapped]
 		public string GroupsIds { get; set; }
 
+		[NotMapped]
+		public string StudentListToPost { get; set; }
+
+		[NotMapped]
+		public string TeacherListToPost { get; set; }
+
+
+
+		public ICollection<UsersToEducationPost> UsersToEducationPosts { get; set;  }
 
 	}
 

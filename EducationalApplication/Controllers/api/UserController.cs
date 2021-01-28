@@ -21,7 +21,6 @@ namespace EducationalApplication.Controllers.api
         private ApplicationDbContext _Context;
         UsersViewModel UsersViewModel = new UsersViewModel();
         ApplicationUser _UserItem = new  ApplicationUser();
-
         public UserController(IUnitOfWorkRepo unitOfWork , ApplicationDbContext DbContext)
         {
             _unitofwork = unitOfWork;

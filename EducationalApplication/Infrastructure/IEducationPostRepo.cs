@@ -11,9 +11,9 @@ namespace EducationalApplication.Infrastructure
    public interface IEducationPostRepo
 	{
 		Task AddOrUpdate(EducationPost model, IFormFile Icon, IFormFile[] files , string TeacherList, string StudentList);
-		Task<IEnumerable<EducationPost>> GetAll(string Id);
-		Task<EducationPost>  GetById(int Id);
-	    Task Remove(EducationPost model);
+		Task<IEnumerable<EducationPostViewModel>> GetAll(string Id);
+		Task<EducationPostViewModel> GetById(int Id);
+	    Task Remove(EducationPostViewModel model);
 		Task RemoveFile(int Id);
 		Task<IEnumerable<EducationPost>> GetByCategory(int Id);
 		Task<IEnumerable<Comment>> GetEducationPostCommnet(int Id);

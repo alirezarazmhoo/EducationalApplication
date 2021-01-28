@@ -85,7 +85,7 @@ namespace EducationalApplication.Controllers.api
                 {
                     return ApiResponse.Fail(null, 404, $"کامنت مورد  نظر وجود ندارد ");
                 }
-                await _unitofwork.ICommentRepo.ChaneStatus(item);
+                await _unitofwork.ICommentRepo.ChaneStatus(model);
                 await _unitofwork.SaveAsync();
                 return ApiResponse.Success();
             }
