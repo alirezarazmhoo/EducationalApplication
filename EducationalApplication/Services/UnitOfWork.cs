@@ -23,6 +23,8 @@ namespace EducationalApplication.Services
 		private ICustomGroupRepo _ICustomGroupRepo;
 		private ICommentRepo _ICommentRepo;
 		private ISettingRepo _ISettingRepo;
+		private IFavoritRepo _IFavoritRepo;
+
 
 
 		public UnitOfWork(ApplicationDbContext DbContext)
@@ -119,6 +121,12 @@ namespace EducationalApplication.Services
 				return _ISettingRepo = _ISettingRepo ?? new SettingRepo(_DbContext);
 			}
 		}
-
+		public IFavoritRepo IFavoritRepo
+		{
+			get
+			{
+				return _IFavoritRepo = _IFavoritRepo ?? new FavoritRepo(_DbContext);
+			}
+		}
 	}
 }

@@ -31,7 +31,7 @@ namespace EducationalApplication.Data
 		public DbSet<Comment>  Comments { get; set; }
 		public DbSet<EducationPostView> EducationPostViews { get; set; }
 		public DbSet<Setting> Settings { get; set; }
-
+		public DbSet<Favorit> Favorits { get; set; }
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

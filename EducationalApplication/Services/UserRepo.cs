@@ -181,5 +181,36 @@ namespace EducationalApplication.Services
 				return null;
 			}
 		}
+
+
+		public async Task EditProfile(ApplicationUser model, IFormFile _File)
+		{
+			ApplicationUser UserItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(model.Id));
+			if (UserItem != null)
+			{
+				UserItem.Address = model.Address;
+				UserItem.FullName = model.FullName;
+				UserItem.Mobile = model.Mobile;
+				UserItem.Password = model.Password;
+				if (!string.IsNullOrEmpty(model.Url))
+				{
+					if (!string.IsNullOrEmpty(model.Url))
+					{
+						File.Delete($"wwwroot/{model.Url}");
+					}
+					var fileName = Path.GetFileName(_File.FileName);
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\Upload\Student\File", fileName);
+					using (var stream = new FileStream(filePath, FileMode.Create))
+					{
+						_File.CopyTo(stream);
+					}
+					UserItem.Url = "/Upload/Teacher/File/" + fileName;
+
+				}
+			}
+		}
+
+
+
 	}
 }

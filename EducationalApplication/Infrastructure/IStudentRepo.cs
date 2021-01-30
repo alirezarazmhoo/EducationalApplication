@@ -17,6 +17,7 @@ namespace EducationalApplication.Infrastructure
 		Task<IEnumerable<Students>> GetAll();
 		Task<IEnumerable<Students>> search(string txtsearch);
 		Task<IEnumerable<ShortTeacherViewModel>> GetRelatedTeachers(int Id);
-		Task<IEnumerable<EducationPost>> GetRelatedEducationPostByTeacherId(string UserId, int StudentId); 
+		Task<IEnumerable<EducationPost>> GetRelatedEducationPostByTeacherId(string UserId, int StudentId);
+		Task EditProfile(Students model, IFormFile _File); 
 	}
 }

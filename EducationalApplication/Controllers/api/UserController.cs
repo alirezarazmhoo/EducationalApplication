@@ -135,5 +135,53 @@ namespace EducationalApplication.Controllers.api
             }
             return ApiResponse.Success(await _unitofwork.IStudentRepo.GetRelatedEducationPostByTeacherId(UserId, StudentId));
         }
+
+        [Route("TeacherEditProfile")]
+        [HttpPost]
+
+        public async Task<ApiModel> TeacherEditProfile(ApplicationUser model , IFormFile _File)
+        {
+            if (await _unitofwork.IUserRepo.GetById(model.Id) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"کاربری با ای دی {model.Id} یافت نشد.");
+            }
+            else
+            {
+              await  _unitofwork.IUserRepo.EditProfile(model , _File);
+               return ApiResponse.Success();
+            }
+        }
+        [Route("StudentEditProfile")]
+        [HttpPost]
+
+        public async Task<ApiModel> StudentEditProfile(Students model, IFormFile _File)
+        {
+            if (await _unitofwork.IStudentRepo.GetById(model.Id) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"کاربری با ای دی {model.Id} یافت نشد.");
+            }
+            else
+            {
+                await _unitofwork.IStudentRepo.EditProfile(model, _File);
+                return ApiResponse.Success();
+            }
+        }
+        [Route("GetStudentById")]
+        [HttpPost]
+
+        public async Task<ApiModel> GetStudentById(int Id)
+        {
+          
+           return ApiResponse.Fail(await _unitofwork.IStudentRepo.GetById(Id));
+           
+        }
+        [Route("GetTeacherById")]
+        [HttpPost]
+        public async Task<ApiModel> GetTeacherById(string Id)
+        {
+
+            return ApiResponse.Fail(await _unitofwork.IUserRepo.GetById(Id));
+
+        }
     }
 }
