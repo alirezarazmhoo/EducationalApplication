@@ -14,10 +14,9 @@ namespace EducationalApplication.Controllers
         {
             _unitofwork = unitOfWork;
         }
-
         public IActionResult Index()
         {
-            return View();
+            return View(_unitofwork.IAboutUsRepo.Get());
         }
     }
 }

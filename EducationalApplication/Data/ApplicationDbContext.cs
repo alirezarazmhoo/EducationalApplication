@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using EducationalApplication.Models;
 using EducationalApplication.Models.Enums;
+using Microsoft.AspNetCore.Identity;
 
 namespace EducationalApplication.Data
 {
@@ -38,6 +39,7 @@ namespace EducationalApplication.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
+	
 			modelBuilder.Seed();
 			//modelBuilder.Entity<Comment>().Property(s => s.date).HasDefaultValue(DateTime.MinValue);
 		}

@@ -1,0 +1,40 @@
+﻿
+@model EducationalApplication.Models.AboutUs
+
+<div class="text-center" style="border-style:solid;">
+    <h2 style="font-size:medium">ایجاد متن درباره ما</h2>
+</div>
+<br />
+<div class="row">
+    <div class="col-sm-12">
+
+        <form asp-action="Update" method="post">
+            <div class="box zmdi-border-color" style="height:500px">
+                <div class="box-body table-responsive no-padding" dir="rtl">
+
+                    <p style="margin-top:5px;margin-right:10px;">
+                        <button type="submit" class="btn btn-success">ثبت </button>
+                    </p>
+                    <div style="margin-right:15px">
+                        <div id="editor">
+
+
+                        </div>
+                    </div>
+                    <div style="width:50%;margin-right:10px;margin-top:20px;">
+                        <label>متن فعلی</label>
+                        <input class="form-control" value="@Html.Raw(Model.Text)" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.ckeditor.com/ckeditor5/25.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>
