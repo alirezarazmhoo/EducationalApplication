@@ -84,7 +84,7 @@ namespace EducationalApplication.Services
 		}
 		public async Task<Students> GetById(int Id)
 		{
-			return await FindByCondition(s => s.Id.Equals(Id))
+			return await FindByCondition(s => s.Id.Equals(Id)).Include(s=>s.Major).Include(s=>s.Grade)
 				.FirstOrDefaultAsync();
 		}
 		public IQueryable<Students> Authorize(string UserName,string Password)

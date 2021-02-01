@@ -32,6 +32,9 @@ namespace EducationalApplication.Data
 		public DbSet<EducationPostView> EducationPostViews { get; set; }
 		public DbSet<Setting> Settings { get; set; }
 		public DbSet<Favorit> Favorits { get; set; }
+		public DbSet<Announcements>  Announcements { get; set; }
+		public DbSet<AboutUs> AboutUs { get; set; }
+
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

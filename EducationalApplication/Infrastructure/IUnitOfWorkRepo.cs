@@ -20,7 +20,8 @@ namespace EducationalApplication.Infrastructure
 		ICommentRepo ICommentRepo { get; }
 		ISettingRepo ISettingRepo { get; }
 		IFavoritRepo IFavoritRepo { get; }
-
+		IAnnouncementRepo IAnnouncementRepo { get;}
+		IAboutUsRepo IAboutUsRepo { get; }
 
 		Task SaveAsync();
 	}

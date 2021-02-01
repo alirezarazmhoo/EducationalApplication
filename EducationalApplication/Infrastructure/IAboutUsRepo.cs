@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace EducationalApplication.Infrastructure
 {
-	public interface IFavoritRepo
+public interface IAboutUsRepo
 	{
-		Task Create(Favorit model);
-		void Remove(Favorit model);
-		Task<IEnumerable<Favorit>> GetAll(string UserId); 
+		AboutUs Get();
 	}
 }

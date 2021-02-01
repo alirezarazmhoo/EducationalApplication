@@ -167,20 +167,15 @@ namespace EducationalApplication.Controllers.api
             }
         }
         [Route("GetStudentById")]
-        [HttpPost]
-
         public async Task<ApiModel> GetStudentById(int Id)
-        {
-          
-           return ApiResponse.Fail(await _unitofwork.IStudentRepo.GetById(Id));
-           
+        {        
+           return ApiResponse.Success(await _unitofwork.IStudentRepo.GetById(Id));       
         }
         [Route("GetTeacherById")]
-        [HttpPost]
+
         public async Task<ApiModel> GetTeacherById(string Id)
         {
-
-            return ApiResponse.Fail(await _unitofwork.IUserRepo.GetById(Id));
+            return ApiResponse.Success(await _unitofwork.IUserRepo.GetById(Id));
 
         }
     }

@@ -24,8 +24,8 @@ namespace EducationalApplication.Services
 		private ICommentRepo _ICommentRepo;
 		private ISettingRepo _ISettingRepo;
 		private IFavoritRepo _IFavoritRepo;
-
-
+		private IAnnouncementRepo _IAnnouncementRepo;
+		private IAboutUsRepo _IAboutUsRepo;
 
 		public UnitOfWork(ApplicationDbContext DbContext)
 		{
@@ -126,6 +126,20 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _IFavoritRepo = _IFavoritRepo ?? new FavoritRepo(_DbContext);
+			}
+		}
+		public IAnnouncementRepo IAnnouncementRepo
+		{
+			get
+			{
+				return _IAnnouncementRepo = _IAnnouncementRepo ?? new AnnouncementRepo(_DbContext);
+			}
+		}
+		public IAboutUsRepo IAboutUsRepo
+		{
+			get
+			{
+				return _IAboutUsRepo = _IAboutUsRepo ?? new AboutUsRepo(_DbContext);
 			}
 		}
 	}
