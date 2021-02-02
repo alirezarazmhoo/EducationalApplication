@@ -9,5 +9,6 @@ namespace EducationalApplication.Infrastructure
 public interface IAboutUsRepo
 	{
 		AboutUs Get();
+		Task UpdateAbutus(AboutUs model);  
 	}
 }

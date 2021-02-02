@@ -22,6 +22,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="~/Admin/dist/css/AdminLTE.css">
     <link rel="stylesheet" href="~/Admin/dist/css/skins/skin-blue.min.css">
+
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -30,6 +31,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     @RenderSection("head", false)
 </head>
 
@@ -64,6 +66,8 @@
                     <li class="active"><a href="/Banners/Index"><i class="fa fa-calendar-check-o"></i> <span>مدیریت بنر های آموزشی</span></a></li>
                     <li class="active"><a href="/AbutUs/Index"><i class="fa fa-address-card-o"></i> <span>مدیریت متن درباره ما</span></a></li>
                     <li class="active"><a href="/Settings/Index"><i class="fa fa-gear"></i> <span>تنظیمات</span></a></li>
+                    <li class="active"><a asp-area="Identity" asp-page="/Account/Login"><i class="fa fa-power-off"></i> <span>خروج</span></a></li>
+
                     @*<li class="active"><a href="#"><i class="fa fa-sign-out"></i> <span>خروج</span></a></li>*@
                 </ul>
             </section>

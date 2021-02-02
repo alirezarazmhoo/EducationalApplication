@@ -21,5 +21,15 @@ namespace EducationalApplication.Services
 		return	_DbContext.AboutUs.FirstOrDefault();
 		}
 
+		public async Task UpdateAbutus(AboutUs model)
+		{
+			var Item = _DbContext.AboutUs.FirstOrDefault();
+			if(Item != null)
+			{
+				Item.Text = model.Text; 
+			}
+		}
+
+
 	}
 }

@@ -29,19 +29,32 @@ namespace EducationalApplication.Data
                  BannerCanShow = 100
              });
 
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole { Id = "2c5e174e-3b0e-446f-86af-483d56fd7210", Name = "Administrator", NormalizedName = "ADMINISTRATOR".ToUpper() });
+			var userId = UserConfiguration.MainAdminId;
+			var adminUser = new ApplicationUser
+			{
+				Id = userId,
+				UserName = "MainOwner",
+				NormalizedUserName = "mainowner",
+				Email = "mainowner@email.com",
+				NormalizedEmail = "mainowner@email.com",
+				EmailConfirmed = true,
+				LockoutEnabled = false,
+				SecurityStamp = Guid.NewGuid().ToString(),
+			};
 
- //           var hasher = new PasswordHasher<ApplicationUser>();
+			var ph = new PasswordHasher<ApplicationUser>();
+			adminUser.PasswordHash = ph.HashPassword(adminUser, "123456");
 
- //         modelBuilder.Entity<ApplicationUser>().HasData(
- //    new ApplicationUser
- //    {
- //        Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", // primary key
- //        UserName = "MainOwner",
- //        NormalizedUserName = "MainOwner",
- //        PasswordHash = hasher.HashPassword(null, "123456")
- //    }
- //);
-        }
+			modelBuilder.Entity<ApplicationUser>().HasData(adminUser);
+			var adminRoleId = UserConfiguration.AdminRoleId;
+			modelBuilder.Entity<IdentityRole>().HasData(
+				new IdentityRole { Name = "admin", NormalizedName = "admin", Id = adminRoleId, ConcurrencyStamp = adminRoleId }			
+			);
+			modelBuilder.Entity<IdentityUserRole<string>>().HasData(new IdentityUserRole<string>
+			{
+				RoleId = adminRoleId,
+				UserId = userId
+			});
+		}
     }
 }
