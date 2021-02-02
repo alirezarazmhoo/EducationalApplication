@@ -4,14 +4,16 @@ using EducationalApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EducationalApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210202083608_PinForBanner")]
+    partial class PinForBanner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -115,17 +117,17 @@ namespace EducationalApplication.Migrations
                         {
                             Id = "02174cf0–9412–4cfe-afbf-59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "62648aa8-fa05-44ac-ae81-fbaa63d5b53a",
-                            CreateDate = new DateTime(2021, 2, 2, 12, 20, 0, 374, DateTimeKind.Local).AddTicks(9530),
+                            ConcurrencyStamp = "97981410-92ae-4abe-8119-3c0a302d0b97",
+                            CreateDate = new DateTime(2021, 2, 2, 12, 6, 8, 346, DateTimeKind.Local).AddTicks(1628),
                             Email = "mainowner@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Mobile = 0L,
                             NormalizedEmail = "mainowner@email.com",
                             NormalizedUserName = "mainowner",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJARqAZCTprbNaxerTAV0ENW/Cdm8G5DVP19O/vzw+FsUX+RwQ2HKE9MDofdnAuN7Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE34NjP5qt7Lbc3L6B3B3HQ/OYYg2VEgQgcSBQiy9vCYJBAUq7glbaGcwnOIN5iZFw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "72aa3472-4ad0-4ee0-80d3-84fa1e1cf6d6",
+                            SecurityStamp = "3f3ee2ae-a93a-4fbe-afe0-bf2a09e100c8",
                             TwoFactorEnabled = false,
                             UserName = "MainOwner",
                             UserType = 0
@@ -156,9 +158,6 @@ namespace EducationalApplication.Migrations
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AvailableDays")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -568,9 +567,6 @@ namespace EducationalApplication.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Announcement")
-                        .HasColumnType("int");
-
                     b.Property<int>("BannerCanShow")
                         .HasColumnType("int");
 
@@ -591,7 +587,6 @@ namespace EducationalApplication.Migrations
                         new
                         {
                             Id = 1,
-                            Announcement = 0,
                             BannerCanShow = 100,
                             NeedBannersToAccept = false,
                             NeedEducationPostsToAccept = false,

@@ -15,6 +15,7 @@ namespace EducationalApplication.Models
 
 		public int BannerCanShow { get; set; }
 		public int PostCanShow { get; set; }
+		public int Announcement { get; set; }
 
 	}
 }

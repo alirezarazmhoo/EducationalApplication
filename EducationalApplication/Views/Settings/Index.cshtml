@@ -37,46 +37,50 @@
 								}
 							}
 						</div>
-						</div>
-						<div style="margin-right:15px">
+					</div>
+					<div style="margin-right:15px">
 
-							<label class="control-label">نیاز به تایید بنرهای آموزشی  </label>
+						<label class="control-label">نیاز به تایید بنرهای آموزشی  </label>
 
-							<div style="width:50%;margin-right:5px;">
+						<div style="width:50%;margin-right:5px;">
 
-								@{
-									if (Model.NeedBannersToAccept)
-									{
-										<input asp-for="NeedBannersToAccept" checked />
+							@{
+								if (Model.NeedBannersToAccept)
+								{
+									<input asp-for="NeedBannersToAccept" checked />
 
-									}
-									else
-									{
-										<input asp-for="NeedBannersToAccept" />
-
-									}
 								}
+								else
+								{
+									<input asp-for="NeedBannersToAccept" />
+
+								}
+							}
 
 
-							</div>
-						</div>
-					
-						<div style="width:50%;margin-right:10px;margin-top:20px;">
-							<label>تعداد روز های پیش فرض برای نمایش پست</label>
-							<input  class="form-control" asp-for="PostCanShow" />
-						</div>
-						<div style="width:50%;margin-right:10px;margin-top:10px">
-							<input disabled class="form-control" value="@Model.PostCanShow روز" />
-						</div>
-					
-						<div style="width:50%;margin-right:10px;margin-top:20px;margin-top:10px">
-							<label>تعداد روز های پیش فرض برای بنر</label>
-							<input  class="form-control" asp-for="BannerCanShow" />
-						</div>
-						<div style="width:50%;margin-right:10px;margin-top:10px">
-							<input disabled class="form-control" value="@Model.BannerCanShow روز" />
 						</div>
 					</div>
+
+					<div style="width:50%;margin-right:10px;margin-top:20px;">
+						<label>تعداد روز های پیش فرض برای نمایش پست</label>
+						<input class="form-control" asp-for="PostCanShow" />
+					</div>
+					<div style="width:50%;margin-right:10px;margin-top:10px">
+						<input disabled class="form-control" value="@Model.PostCanShow روز" />
+					</div>
+
+					<div style="width:50%;margin-right:10px;margin-top:20px;margin-top:10px">
+						<label>تعداد روز های پیش فرض برای نمایش بنر</label>
+						<input class="form-control" asp-for="BannerCanShow" />
+					</div>
+					<div style="width:50%;margin-right:10px;margin-top:20px;margin-top:10px">
+						<label>تعداد روز های پیش فرض برای نمایش اطلاعیه</label>
+						<input class="form-control" asp-for="Announcement" />
+					</div>
+					<div style="width:50%;margin-right:10px;margin-top:10px">
+						<input disabled class="form-control" value="@Model.Announcement روز" />
+					</div>
+				</div>
 				</div>
 		</form>
 	</div>

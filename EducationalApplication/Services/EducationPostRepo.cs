@@ -226,7 +226,7 @@ namespace EducationalApplication.Services
 			{
 				educationPostViewModel.Add(new EducationPostViewModel() { AccessType = item.AccessType, ApplicationUserId = item.ApplicationUserId, CategoryId = item.CategoryId, Description = item.Description, IconUrl = item.IconUrl, Id = item.Id, Medias = item.Medias, Number = item.Number, Pin = item.Pin, Status = item.Status, Title = item.Title, ViewCount = item.ViewCount  , Students = item.UsersToEducationPosts.Select(s=>s.StudentsId.Value) });
 			}
-			return educationPostViewModel;
+			return educationPostViewModel.OrderByDescending(s=>s.Pin == true);
 		}
 		public async Task<EducationPostViewModel> GetById(int Id)
 		{
@@ -269,6 +269,7 @@ namespace EducationalApplication.Services
 		public async Task Remove(EducationPostViewModel model)
 		{
 			var MainItem = await _DbContext.EducationPosts.FirstOrDefaultAsync(s=>s.Id == model.Id);
+			List<Favorit> favorits = new List<Favorit>();
 			await GetById(model.Id);
 			if (!string.IsNullOrEmpty(MainItem.IconUrl))
 			{
@@ -281,6 +282,8 @@ namespace EducationalApplication.Services
 					File.Delete($"wwwroot/{item.Url}");
 				}
 			}
+
+			_DbContext.Favorits.RemoveRange(await _DbContext.Favorits.Where(s => s.EducationPostId == model.Id).ToListAsync());
 			Delete(MainItem);
 		}
 		public async Task RemoveFile(int Id)
@@ -311,7 +314,7 @@ namespace EducationalApplication.Services
 			var Item = await _DbContext.EducationPosts.FirstOrDefaultAsync(s => s.Id == Id);
 			if (Item != null)
 			{
-				var Comments = await _DbContext.Comments.Where(s => s.EducationPostId == Id).ToListAsync();
+				var Comments = await _DbContext.Comments.Include(s=>s.ApplicationUser).Include(s=>s.Students).Where(s => s.EducationPostId == Id && s.CommentStatus == CommentStatus.Accepted).ToListAsync();
 				comments.AddRange(Comments);
 				return comments;
 			}

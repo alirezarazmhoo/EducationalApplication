@@ -12,5 +12,6 @@ namespace EducationalApplication.Models
 		public DateTime CreateDate { get; set; } = DateTime.Now;
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser ApplicationUser { get; set; }
+		public int AvailableDays { get; set; }
 	}
 }

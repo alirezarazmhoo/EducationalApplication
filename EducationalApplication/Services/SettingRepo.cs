@@ -26,7 +26,8 @@ namespace EducationalApplication.Services
 			Item.BannerCanShow = model.BannerCanShow;
 			Item.PostCanShow = model.PostCanShow;
 			Item.NeedBannersToAccept = model.NeedBannersToAccept;
-			Item.NeedEducationPostsToAccept = model.NeedEducationPostsToAccept; 
+			Item.NeedEducationPostsToAccept = model.NeedEducationPostsToAccept;
+				Item.Announcement = model.Announcement; 
 			}
 		}
 

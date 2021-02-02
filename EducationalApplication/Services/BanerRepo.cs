@@ -23,16 +23,15 @@ namespace EducationalApplication.Services
         public async Task<List<Banner>> GetAll(string Id)
         {
             var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
-
             if (SettingItem.NeedBannersToAccept)
             {
-                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category).Where(s=>s.BannerStatus ==Models.Enums.BannerStatus.Accepted)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
+                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category).Where(s=>s.BannerStatus ==Models.Enums.BannerStatus.Accepted)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id)
                  .ToListAsync();
             }
             else
             {
-                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Id)
-                              .ToListAsync();
+                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id)
+                   .ToListAsync();
             }         
         }
         public async Task<Banner> GetById(int Id)
@@ -119,6 +118,7 @@ namespace EducationalApplication.Services
                     getBanner.SocialNetWorkLink = model.SocialNetWorkLink;
                     getBanner.Url = model.Url;
                     getBanner.ApplicationUserId = model.ApplicationUserId;
+                    getBanner.Pin = model.Pin; 
                     model.BannerStatus = SettingItem.NeedEducationPostsToAccept ? Models.Enums.BannerStatus.Waiting : Models.Enums.BannerStatus.Accepted;
                     Update(model);
                     if (!string.IsNullOrEmpty(model.BannerToPosts) && string.IsNullOrEmpty(model.SocialNetWorkLink) && model.CategoryId == null)

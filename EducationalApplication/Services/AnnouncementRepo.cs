@@ -29,13 +29,20 @@ namespace EducationalApplication.Services
 		}
 		public async Task AddOrUpdate(Announcements model)
 		{
-			if(model.Id == 0)
+			var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+			Announcements announcements = new Announcements();
+			if (model.Id == 0)
 			{
-			await _DbContext.Announcements.AddAsync(model);
+				announcements.Text = model.Text;
+				announcements.ApplicationUserId = model.ApplicationUserId;
+				announcements.AvailableDays = model.AvailableDays == 0 ? SettingItem.Announcement : model.AvailableDays;
+				await _DbContext.Announcements.AddAsync(announcements);
 			}
 			else
 			{
-				Update(model);
+				announcements =await _DbContext.Announcements.FirstOrDefaultAsync(s => s.Id == model.Id);
+				announcements.AvailableDays = model.AvailableDays;
+				announcements.Text = model.Text; 
 			}
 		}
 		public async Task<List<Announcements>> GetForStudent(int Id)
