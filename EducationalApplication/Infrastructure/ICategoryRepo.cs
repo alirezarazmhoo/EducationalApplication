@@ -15,5 +15,6 @@ namespace EducationalApplication.Infrastructure
 		void Remove(Category model);
 		Task<IEnumerable<Category>> search(string txtsearch , string UserId);
 		Task RemoveFile(int Id);
+		Task<List<Category>> GetAllForMainPage(string Id); 
 	}
 }

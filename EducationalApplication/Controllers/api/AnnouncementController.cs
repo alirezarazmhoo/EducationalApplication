@@ -59,7 +59,6 @@ namespace EducationalApplication.Controllers.api
 				{
 					return ApiResponse.Fail(null, 404, $"معلمی با ای دی {model.ApplicationUserId} یافت نشد.");
 				}
-
 				await _unitofwork.IAnnouncementRepo.AddOrUpdate(model);
 				await _unitofwork.SaveAsync();
 				return ApiResponse.Success();
@@ -89,25 +88,17 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
-		[Route("GetForStudent")]
-		public async Task<ApiModel> GetForStudent(int Id)
+		[Route("GetForMainPage")]
+		public async Task<ApiModel> GetForMainPage(string Id)
 		{
 			try
 			{
-			if (await _unitofwork.IStudentRepo.GetById(Id) == null)
-			{
-				return ApiResponse.Fail(null, 404, $"دانش آموزی با ای دی {Id} یافت نشد.");
+				return ApiResponse.Success(await _unitofwork.IAnnouncementRepo.GetAllForMainPage(Id));
 			}
-				else
-				{
-					return ApiResponse.Success(await _unitofwork.IAnnouncementRepo.GetForStudent(Id));
-
-				}
-			}
-				catch (Exception ex)
+			catch (Exception ex)
 			{
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
-		}
+	}
 }

@@ -23,6 +23,10 @@ namespace EducationalApplication.Infrastructure
 		Task Accept(int Id);
 		Task Reject(int Id);
 		Task<EducationPost> AdminGetById(int Id);
-		Task<int> CommentCount(int Id); 
+		Task<int> CommentCount(int Id);
+		Task<IEnumerable<EducationPostViewModel>> GetRelatedEducationPostsInCateogry(int Id);
+		Task<IEnumerable<EducationPostViewModel>> GetEducationPostByArray(string Id); 
+
+
 	}
 }

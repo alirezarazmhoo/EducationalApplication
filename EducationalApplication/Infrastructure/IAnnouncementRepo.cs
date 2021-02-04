@@ -11,8 +11,8 @@ namespace EducationalApplication.Infrastructure
 		Task<List<Announcements>> GetAll(string Id);
 		Task<Announcements> GetById(int Id);
 		Task AddOrUpdate(Announcements baner);
-		Task<List<Announcements>> GetForStudent(int Id);
         Task Remove(Announcements model);
 		//Task<List<Announcements>> GetForTeacher(int Id);
+		Task<List<Announcements>> GetAllForMainPage(string Id); 
 	}
 }

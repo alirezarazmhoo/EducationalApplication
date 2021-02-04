@@ -60,7 +60,6 @@ namespace EducationalApplication.Controllers.api
 			{
 				EducationPostViewModel item = await _unitofwork.IEducationPostRepo.GetById(Id);
 				return ApiResponse.Success(item);
-
 			}
 			catch (Exception ex)
 			{
@@ -158,5 +157,35 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
+		[HttpGet("GetRelatedPostsByCategory")]
+		public async Task<ApiModel> GetRelatedPostsByCategory(int Id)
+		{
+			try
+			{
+				 var items = await _unitofwork.IEducationPostRepo.GetRelatedEducationPostsInCateogry(Id);
+				return ApiResponse.Success(items);
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
+		[HttpGet("GetCollectionPosts")]
+		public async Task<ApiModel> GetCollectionPosts(string Id)
+		{
+			try
+			{
+				var items = await _unitofwork.IEducationPostRepo.GetEducationPostByArray(Id);
+				return ApiResponse.Success(items);
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
+
+
+
+
 	}
 }

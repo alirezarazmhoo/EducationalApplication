@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using EducationalApplication.Data;
 using EducationalApplication.Infrastructure;
 using EducationalApplication.Models;
+using EducationalApplication.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -20,20 +21,46 @@ namespace EducationalApplication.Services
         {
             _DbContext = DbContext;
         }
-        public async Task<List<Banner>> GetAll(string Id)
+        public async Task<List<BannerViewModel>> GetAll(string Id)
         {
             var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+            List<Banner> banners = new List<Banner>();
+            List<BannerViewModel> bannerViewModels = new List<BannerViewModel>();
             if (SettingItem.NeedBannersToAccept)
             {
-                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category).Where(s=>s.BannerStatus ==Models.Enums.BannerStatus.Accepted)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id)
+                banners = await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).Where(s=>s.ApplicationUserId == Id).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id)
                  .ToListAsync();
             }
             else
             {
-                return await FindAll(null).Include(c => c.PostsInBanner).Include(c => c.Category)/*.Where(s=>s.ApplicationUserId == Id)*/.OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id)
-                   .ToListAsync();
-            }         
-        }
+                banners = await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).Where(s=>s.ApplicationUserId == Id).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id)
+                .ToListAsync();
+            }
+                foreach (var item in banners)
+                {
+                    bannerViewModels.Add(new BannerViewModel()
+                    {
+                        ApplicationUser = item.ApplicationUser,
+                        ApplicationUserId = item.ApplicationUserId,
+                        AvailableDate = item.AvailableDate,
+                        BannerPlace = item.BannerPlace,
+                        BannerStatus = item.BannerStatus,
+                        Category = item.Category,
+                        CategoryId = item.CategoryId,
+                        CreateDate = item.CreateDate,
+                        CreditDays = item.CreditDays,
+                        Description = item.Description,
+                        Id = item.Id,
+                        IsOnlyForTeacher = item.IsOnlyForTeacher,
+                        Pin = item.Pin,
+                        ShowOnMainPage = item.ShowOnMainPage,
+                        SocialNetWorkLink = item.SocialNetWorkLink,
+                        Url = item.Url,
+                        PostsInBanner = item.PostsInBanner.Select(s => s.EducationPostId).ToList()
+                    });
+                }
+            return bannerViewModels; 
+            }
         public async Task<Banner> GetById(int Id)
         {
             var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
@@ -118,7 +145,8 @@ namespace EducationalApplication.Services
                     getBanner.SocialNetWorkLink = model.SocialNetWorkLink;
                     getBanner.Url = model.Url;
                     getBanner.ApplicationUserId = model.ApplicationUserId;
-                    getBanner.Pin = model.Pin; 
+                    getBanner.Pin = model.Pin;
+                    getBanner.IsOnlyForTeacher = model.IsOnlyForTeacher; 
                     model.BannerStatus = SettingItem.NeedEducationPostsToAccept ? Models.Enums.BannerStatus.Waiting : Models.Enums.BannerStatus.Accepted;
                     Update(model);
                     if (!string.IsNullOrEmpty(model.BannerToPosts) && string.IsNullOrEmpty(model.SocialNetWorkLink) && model.CategoryId == null)
@@ -182,7 +210,6 @@ namespace EducationalApplication.Services
                 }
             }
         }
-
         public async Task<IEnumerable<Banner>> AdminGetAll()
         {
             List<Banner> Items = new List<Banner>();
@@ -210,6 +237,79 @@ namespace EducationalApplication.Services
             Banner Item = new Banner();
             Item = await _DbContext.Banners.Include(s=>s.ApplicationUser).Where(s => s.Id == Id).FirstOrDefaultAsync();
             return Item;
+        }
+        public async Task<List<BannerViewModel>> GetAllForMainPage(string Id)
+        {
+            ClassRoom classRoomItem = new ClassRoom();
+            List<ApplicationUser> TeacherList = new List<ApplicationUser>();
+            List<TeachersToClassRoom> teachersToClassRooms = new List<TeachersToClassRoom>();
+            List<Banner> banners = new List<Banner>();
+            Students studentItem = new Students();
+            ApplicationUser ApplicationUserItem = new ApplicationUser();
+            List<BannerViewModel> bannerViewModels = new List<BannerViewModel>();
+            int _StudentId = 0; 
+            var SettingItem = await _DbContext.Settings.FirstOrDefaultAsync();
+            if (int.TryParse(Id, out int n))
+            {
+             _StudentId = Convert.ToInt32(Id);
+             studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id.Equals(_StudentId));
+                classRoomItem = await _DbContext.ClassRooms.FirstOrDefaultAsync(s => s.Id.Equals(studentItem.ClassRoomId));
+                teachersToClassRooms = await _DbContext.TeachersToClassRooms.Where(s => s.ClassRoomId == classRoomItem.Id).ToListAsync();
+                foreach (var item in teachersToClassRooms)
+                {
+                        TeacherList.Add(await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(item.ApplicationUserId)));
+                }
+                foreach (var item in TeacherList)
+                {
+                    if (SettingItem.NeedBannersToAccept)
+                    {
+                    banners.AddRange(await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).Where(s => s.ApplicationUserId.Equals(item.Id) && s.BannerStatus == Models.Enums.BannerStatus.Accepted && s.IsOnlyForTeacher == false).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id).ToListAsync());
+                    }
+                    else
+                    {
+                        banners.AddRange(await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).Where(s => s.ApplicationUserId.Equals(item.Id) &&  s.IsOnlyForTeacher == false).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id).ToListAsync());
+                    }
+                }
+            }
+            else
+            {
+                 ApplicationUserItem  = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(Id));
+                if(ApplicationUserItem != null)
+                {
+                    if(ApplicationUserItem.UserType == Models.Enums.UserType.Teacher)
+                    {
+                        banners = await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).Where(s =>s.IsOnlyForTeacher == true).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id).ToListAsync();
+                    }
+                    else
+                    {
+                        banners   =  await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id).ToListAsync();
+                    }
+                }       
+            }
+            foreach (var item in banners)
+            {
+                bannerViewModels.Add(new BannerViewModel()
+                {
+                    ApplicationUser = item.ApplicationUser,
+                    ApplicationUserId = item.ApplicationUserId,
+                    AvailableDate = item.AvailableDate,
+                    BannerPlace = item.BannerPlace,
+                    BannerStatus = item.BannerStatus,
+                    Category = item.Category,
+                    CategoryId = item.CategoryId,
+                    CreateDate = item.CreateDate,
+                    CreditDays = item.CreditDays,
+                    Description = item.Description,
+                    Id = item.Id,
+                    IsOnlyForTeacher = item.IsOnlyForTeacher,
+                    Pin = item.Pin,
+                    ShowOnMainPage = item.ShowOnMainPage,
+                    SocialNetWorkLink = item.SocialNetWorkLink,
+                    Url = item.Url,
+                    PostsInBanner = item.PostsInBanner.Select(s => s.EducationPostId).ToList()
+                });
+            }
+            return bannerViewModels;
         }
     }
 }

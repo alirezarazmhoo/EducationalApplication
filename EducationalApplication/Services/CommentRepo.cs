@@ -18,7 +18,7 @@ namespace EducationalApplication.Services
 		}
 		public async Task<IEnumerable<Comment>> GetAll(int Id)
 		{
-			return await FindByCondition(s=>s.EducationPostId == Id)
+			return await FindByCondition(s=>s.EducationPostId == Id).Include(s=>s.Students)
 			  .OrderByDescending(s => s.Id)
 			  .ToListAsync();
 		}

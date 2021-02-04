@@ -20,7 +20,7 @@ namespace EducationalApplication.Services
 		}
 		public async Task<IEnumerable<Category>> GetAll(string Id)
 		{
-		return await FindAll(null)/*Where(s=>s.ApplicationUserId == Id)*/
+		return await FindAll(null).Where(s=>s.ApplicationUserId == Id)
 		  .OrderByDescending(s => s.Id)
 		  .ToListAsync();
 		}
@@ -66,8 +66,8 @@ namespace EducationalApplication.Services
 						getCategory.Url = "/Upload/Category/File/" + fileName;
 					}
 				    model.Name = model.Name;
-					model.Url = getCategory.Url; 
-					
+					model.Url = getCategory.Url;
+					model.IsOnlyForTeacher = model.IsOnlyForTeacher; 
 				Update(model);
 				}
 			}
@@ -93,6 +93,48 @@ namespace EducationalApplication.Services
 		{
 	   return await FindByCondition(s => s.Name.Contains(txtsearch) && s.ApplicationUserId.Equals(UserId))
 		.ToListAsync();
+		}
+		public async Task<List<Category>> GetAllForMainPage(string Id)
+		{
+			ClassRoom classRoomItem = new ClassRoom();
+			List<ApplicationUser> TeacherList = new List<ApplicationUser>();
+			List<TeachersToClassRoom> teachersToClassRooms = new List<TeachersToClassRoom>();
+			List<Category> categories = new List<Category>();
+			Students studentItem = new Students();
+			ApplicationUser ApplicationUserItem = new ApplicationUser();
+			int _StudentId = 0;
+			if (int.TryParse(Id, out int n))
+			{
+				_StudentId = Convert.ToInt32(Id);
+				studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id.Equals(_StudentId));
+				classRoomItem = await _DbContext.ClassRooms.FirstOrDefaultAsync(s => s.Id.Equals(studentItem.ClassRoomId));
+				teachersToClassRooms = await _DbContext.TeachersToClassRooms.Where(s => s.ClassRoomId == classRoomItem.Id).ToListAsync();
+				foreach (var item in teachersToClassRooms)
+				{
+					TeacherList.Add(await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(item.ApplicationUserId)));
+				}
+				foreach (var item in TeacherList)
+				{
+					categories.AddRange(await _DbContext.Categories.Where(s => s.ApplicationUserId.Equals(item.Id)).ToListAsync());	
+				}
+			}
+			else
+			{
+				ApplicationUserItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(Id));
+				if (ApplicationUserItem != null)
+				{
+					if (ApplicationUserItem.UserType == Models.Enums.UserType.Teacher)
+					{
+						categories.AddRange(await _DbContext.Categories.Where(s => s.ApplicationUserId.Equals(ApplicationUserItem.Id) || s.IsOnlyForTeacher  ).ToListAsync());
+					}
+					else
+					{
+					categories.AddRange(await _DbContext.Categories.ToListAsync());
+
+					}
+				}
+			}
+			return categories;
 		}
 	}
 }

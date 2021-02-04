@@ -30,6 +30,7 @@ namespace EducationalApplication.Models
 		public bool ShowOnMainPage { get; set; }
 		public BannerStatus BannerStatus { get; set; }
 		public bool Pin { get; set; }
+		public bool IsOnlyForTeacher { get; set; } = false;
 
 	}
 }

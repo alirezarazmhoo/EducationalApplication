@@ -18,7 +18,7 @@ namespace EducationalApplication.Services
 		}
 		public async Task<List<Announcements>> GetAll(string Id)
 		{
-			return await FindByCondition(s=>s.ApplicationUserId == Id)
+			return await FindByCondition(s=>s.ApplicationUserId == Id && s.ExpireDate >= DateTime.Now )
 		  .OrderByDescending(s => s.Id )
 		  .ToListAsync();
 		}
@@ -35,40 +35,21 @@ namespace EducationalApplication.Services
 			{
 				announcements.Text = model.Text;
 				announcements.ApplicationUserId = model.ApplicationUserId;
+
 				announcements.AvailableDays = model.AvailableDays == 0 ? SettingItem.Announcement : model.AvailableDays;
+
+				announcements.ExpireDate = DateTime.Now.AddDays(announcements.AvailableDays);
 				await _DbContext.Announcements.AddAsync(announcements);
 			}
 			else
 			{
 				announcements =await _DbContext.Announcements.FirstOrDefaultAsync(s => s.Id == model.Id);
-				announcements.AvailableDays = model.AvailableDays;
+				announcements.AvailableDays = model.AvailableDays == 0 ? SettingItem.Announcement : model.AvailableDays;
 				announcements.Text = model.Text; 
+				//announcements.ExpireDate = DateTime.Now.AddDays(announcements.AvailableDays);
 			}
 		}
-		public async Task<List<Announcements>> GetForStudent(int Id)
-		{
-			Students studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id.Equals(Id));
-			ClassRoom classRoomItem = new ClassRoom();
-			List<ApplicationUser> TeacherList = new List<ApplicationUser>();
-			List<TeachersToClassRoom> teachersToClassRooms = new List<TeachersToClassRoom>();
-			List<Announcements> announcements = new List<Announcements>();
- 			if(studentItem != null)
-			{
-				classRoomItem = await _DbContext.ClassRooms.FirstOrDefaultAsync(s=>s.Id.Equals(studentItem.ClassRoomId));
-				teachersToClassRooms = await _DbContext.TeachersToClassRooms.Where(s => s.ClassRoomId == classRoomItem.Id).ToListAsync();
-				foreach (var item in teachersToClassRooms)
-				{
-					TeacherList.Add(await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(item.ApplicationUserId)));
-				}
-				foreach (var item in TeacherList)
-				{
-					announcements.AddRange(await _DbContext.Announcements.Where(s => s.ApplicationUserId.Equals(item.Id)).ToListAsync());
-				}
-				return announcements;
-			}
-			return null; 
-
-		}
+	
 		public async Task Remove(Announcements model)
 		{
 			Announcements announcementsItem =await _DbContext.Announcements.FirstOrDefaultAsync(s => s.Id.Equals(model.Id));
@@ -77,6 +58,47 @@ namespace EducationalApplication.Services
 			_DbContext.Announcements.Remove(announcementsItem);
 			}
 		}
-	
+		public async Task<List<Announcements>> GetAllForMainPage(string Id)
+		{
+			ClassRoom classRoomItem = new ClassRoom();
+			List<ApplicationUser> TeacherList = new List<ApplicationUser>();
+			List<TeachersToClassRoom> teachersToClassRooms = new List<TeachersToClassRoom>();
+			List<Announcements> announcements = new List<Announcements>();
+			Students studentItem = new Students();
+			ApplicationUser ApplicationUserItem = new ApplicationUser();
+			int _StudentId = 0;
+			if (int.TryParse(Id, out int n))
+			{
+				_StudentId = Convert.ToInt32(Id);
+				studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id.Equals(_StudentId));
+				classRoomItem = await _DbContext.ClassRooms.FirstOrDefaultAsync(s => s.Id.Equals(studentItem.ClassRoomId));
+				teachersToClassRooms = await _DbContext.TeachersToClassRooms.Where(s => s.ClassRoomId == classRoomItem.Id).ToListAsync();
+				foreach (var item in teachersToClassRooms)
+				{
+					TeacherList.Add(await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(item.ApplicationUserId)));
+				}
+				foreach (var item in TeacherList)
+				{
+					announcements.AddRange(await _DbContext.Announcements.Where(s => s.ApplicationUserId.Equals(item.Id) &&  s.ExpireDate >= DateTime.Now).ToListAsync());
+				}
+			}
+			else
+			{
+				ApplicationUserItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(Id));
+				if (ApplicationUserItem != null)
+				{
+					if (ApplicationUserItem.UserType == Models.Enums.UserType.Teacher)
+					{
+						announcements.AddRange(await _DbContext.Announcements.Where(s => s.ApplicationUserId.Equals(ApplicationUserItem.Id) || s.IsOnlyForTeacher &&  s.ExpireDate >= DateTime.Now).ToListAsync());
+					}
+					else
+					{
+						announcements.AddRange(await _DbContext.Announcements.Where(s=> s.ExpireDate >= DateTime.Now).ToListAsync());
+					}
+				}
+			}
+			return announcements;
+		}
+
 	}
 }

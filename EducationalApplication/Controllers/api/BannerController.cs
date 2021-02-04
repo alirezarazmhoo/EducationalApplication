@@ -138,5 +138,18 @@ namespace EducationalApplication.Controllers.api
 				return ApiResponse.Fail(ex.Message);
 			}
 		}
+
+		[Route("GetForMainPage")]
+		public async Task<ApiModel> GetForMainPage(string Id)
+		{
+			try
+			{
+              return ApiResponse.Success(await _unitofwork.IBannerRepo.GetAllForMainPage(Id));
+			}
+			catch (Exception ex)
+			{
+				return ApiResponse.Fail(ex.Message);
+			}
+		}
 	}
 }

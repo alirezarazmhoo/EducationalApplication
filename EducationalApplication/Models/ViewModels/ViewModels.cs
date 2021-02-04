@@ -108,6 +108,38 @@ namespace EducationalApplication.Models.ViewModels
 		public IEnumerable<int> Students { get; set; }
 
 	}
+	public class ShortEducationPostViewModel
+	{
+		public int Id { get; set; }
+		public string Title { get; set; }
+
+	}
+	public class ArrayInputIdViewModel
+	{
+		public int[] Id { get; set; }
+	}
+	public class BannerViewModel
+	{
+		public int Id { get; set; }
+		public string Description { get; set; }
+		public string SocialNetWorkLink { get; set; }
+		public string Url { get; set; }
+		public DateTime CreateDate { get; set; }
+		public DateTime AvailableDate { get; set; }
+		public int CreditDays { get; set; }
+		public BannerPlace BannerPlace { get; set; }
+	
+		public ICollection<int> PostsInBanner { get; set; }
+		public int? CategoryId { get; set; }
+		public Category Category { get; set; }
+		public string ApplicationUserId { get; set; }
+		public ApplicationUser ApplicationUser { get; set; }
+		public bool ShowOnMainPage { get; set; }
+		public BannerStatus BannerStatus { get; set; }
+		public bool Pin { get; set; }
+		public bool IsOnlyForTeacher { get; set; }
+	}
 
 
-}
+
+	}

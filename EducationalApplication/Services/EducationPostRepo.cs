@@ -413,7 +413,50 @@ namespace EducationalApplication.Services
 			}
 		}
 
+		public async Task<IEnumerable<EducationPostViewModel>> GetRelatedEducationPostsInCateogry(int Id)
+		{
+			Category categoryItem = await _DbContext.Categories.FirstOrDefaultAsync(s => s.Id.Equals(Id));
+			List<EducationPostViewModel> educationPostViewModels = new List<EducationPostViewModel>();
 
+			if(categoryItem != null)
+			{
+			
+				foreach (var item in await _DbContext.EducationPosts.Where(s => s.CategoryId.Equals(categoryItem.Id)).ToListAsync())
+				{
+					educationPostViewModels.Add(new EducationPostViewModel() { AccessType = item.AccessType, ApplicationUserId = item.ApplicationUserId, CategoryId = item.CategoryId, Description = item.Description, IconUrl = item.IconUrl, Id = item.Id, Medias = item.Medias, Number = item.Number, Pin = item.Pin, Status = item.Status, Title = item.Title, ViewCount = item.ViewCount, Students = item.UsersToEducationPosts.Select(s => s.StudentsId.Value) });
+				}
+				return educationPostViewModels; 
+			}
+			else
+			{
+				return null; 
+			}
+		}
+		public async Task<IEnumerable<EducationPostViewModel>> GetEducationPostByArray(string Id)
+		{
+			List<EducationPost> educationPosts = new List<EducationPost>();
+		     List<EducationPostViewModel>shortEducationPostViewModel = new List<EducationPostViewModel>();
+			string[] _EducationIdes = new string[] { };
+			int EducationPostId = 0; 
+			if (! string.IsNullOrEmpty(Id))
+			{
+				_EducationIdes = Id.Split(",");
+				for (int i = 0; i < _EducationIdes.Count(); i++)
+				{
+					EducationPostId = Int32.Parse(_EducationIdes[i]);
 
-	}
+					if (await _DbContext.EducationPosts.AnyAsync(s=>s.Id.Equals(EducationPostId)))
+					{
+						var educationpostitem = await _DbContext.EducationPosts.Include(s=>s.Medias).Include(s => s.UsersToEducationPosts).FirstOrDefaultAsync(s => s.Id.Equals(EducationPostId));
+						shortEducationPostViewModel.Add(new EducationPostViewModel() { AccessType = educationpostitem.AccessType, ApplicationUserId = educationpostitem.ApplicationUserId, CategoryId = educationpostitem.CategoryId, Description = educationpostitem.Description, IconUrl = educationpostitem.IconUrl, Id = educationpostitem.Id, Medias = educationpostitem.Medias, Number = educationpostitem.Number, Pin = educationpostitem.Pin, Status = educationpostitem.Status, Title = educationpostitem.Title, ViewCount = educationpostitem.ViewCount, Students = educationpostitem.UsersToEducationPosts.Select(s => s.StudentsId.Value) });
+					}
+				}
+				return shortEducationPostViewModel; 
+			}
+			else
+			{
+				return null; 
+			}
+		}
+		}
 }
