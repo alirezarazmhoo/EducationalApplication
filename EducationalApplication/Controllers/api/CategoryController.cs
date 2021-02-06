@@ -132,11 +132,11 @@ namespace EducationalApplication.Controllers.api
             }
         }
         [Route("GetForMainPage")]
-        public async Task<ApiModel> GetForMainPage(string Id)
+        public async Task<ApiModel> GetForMainPage(string UserId)
         {
             try
             {
-                return ApiResponse.Success(await _unitofwork.ICategoryRepo.GetAllForMainPage(Id));
+                return ApiResponse.Success(await _unitofwork.ICategoryRepo.GetAllForMainPage(UserId));
             }
             catch (Exception ex)
             {

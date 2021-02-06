@@ -35,6 +35,7 @@ namespace EducationalApplication.Data
 		public DbSet<Favorit> Favorits { get; set; }
 		public DbSet<Announcements>  Announcements { get; set; }
 		public DbSet<AboutUs> AboutUs { get; set; }
+		public DbSet<CustomGroupsToEducationPosts>  CustomGroupsToEducationPosts { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{

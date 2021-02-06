@@ -52,7 +52,7 @@ namespace EducationalApplication.Services
             {
                 student = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == item); 
 
-                if ( student !=null &&  await _DbContext.UsersToCustomGroups.AnyAsync(s => s.StudentsId == item) == false)
+                if ( student !=null &&  await _DbContext.UsersToCustomGroups.AnyAsync(s => s.StudentsId == item && s.CustomGroupId == model.GroupId) == false)
                 {
                 MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, StudentsId = item,StudentName = student.FullName });
                 }

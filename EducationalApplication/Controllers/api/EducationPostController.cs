@@ -32,7 +32,7 @@ namespace EducationalApplication.Controllers.api
 				}
 				var TeacherList = model.TeacherListToPost;
 				var StudentList =model.StudentListToPost;
-				await _unitofwork.IEducationPostRepo.AddOrUpdate(model, Icon, file  , TeacherList , StudentList);
+				await _unitofwork.IEducationPostRepo.AddOrUpdate(model, Icon, file  , TeacherList , StudentList ,model.GroupsIds,model.TeacherGroupsIds);
 				await _unitofwork.SaveAsync();
 				return ApiResponse.Success();
 			}
