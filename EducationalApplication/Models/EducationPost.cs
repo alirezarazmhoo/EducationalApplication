@@ -38,6 +38,8 @@ namespace EducationalApplication.Models
 		public string TeacherGroupsIds { get; set; }
 
 		public ICollection<UsersToEducationPost> UsersToEducationPosts { get; set;  }
+		public ICollection<CustomGroupsToEducationPosts>  CustomGroupsToEducationPosts { get; set; }
+
 
 	}
 

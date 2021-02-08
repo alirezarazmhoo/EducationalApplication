@@ -102,6 +102,8 @@ namespace EducationalApplication.Services
 			List<Category> categories = new List<Category>();
 			Students studentItem = new Students();
 			ApplicationUser ApplicationUserItem = new ApplicationUser();
+			List<int> categorylist = new List<int>();
+			List<Category> categoriesFinalList = new List<Category>();
 			int _StudentId = 0;
 			if (int.TryParse(Id, out int n))
 			{
@@ -115,7 +117,16 @@ namespace EducationalApplication.Services
 				}
 				foreach (var item in TeacherList)
 				{
-					categories.AddRange(await _DbContext.Categories.Where(s => s.ApplicationUserId.Equals(item.Id)).ToListAsync());	
+
+					categories.AddRange(await _DbContext.Categories.Where(s => s.ApplicationUserId.Equals(item.Id)).ToListAsync());
+					categorylist.AddRange(categories.Select(s => s.Id));
+					foreach (var item2 in categorylist)
+					{
+						if(await _DbContext.EducationPosts.AnyAsync(s=>s.CategoryId == item2))
+						{
+							categoriesFinalList.Add(await _DbContext.Categories.FirstOrDefaultAsync(s => s.Id == item2));
+						}
+					}
 				}
 			}
 			else
@@ -126,15 +137,23 @@ namespace EducationalApplication.Services
 					if (ApplicationUserItem.UserType == Models.Enums.UserType.Teacher)
 					{
 						categories.AddRange(await _DbContext.Categories.Where(s => s.ApplicationUserId.Equals(ApplicationUserItem.Id) || s.IsOnlyForTeacher  ).ToListAsync());
+						categorylist.AddRange(categories.Select(s => s.Id));
+						foreach (var item2 in categorylist)
+						{
+							if (await _DbContext.EducationPosts.AnyAsync(s => s.CategoryId == item2))
+							{
+								categoriesFinalList.Add(await _DbContext.Categories.FirstOrDefaultAsync(s => s.Id == item2));
+							}
+						}
 					}
 					else
 					{
-					categories.AddRange(await _DbContext.Categories.ToListAsync());
+						categoriesFinalList.AddRange(await _DbContext.Categories.ToListAsync());
 
 					}
 				}
 			}
-			return categories;
+			return categoriesFinalList;
 		}
 	}
 }

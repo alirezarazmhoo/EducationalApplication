@@ -19,7 +19,17 @@ namespace EducationalApplication.Services
         }
         public async Task<List<CustomGroup>> GetAll(string Id)
         {
+            ApplicationUser applicationUserItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(Id)); 
+            if(applicationUserItem.UserType == Models.Enums.UserType.Manager)
+			{
+                return await FindByCondition(s => s.ApplicationUserId == Id && s.ApplicationUser.UserType == Models.Enums.UserType.Manager).ToListAsync();
+            }
+			else
+			{
+
             return await FindByCondition(s=>s.ApplicationUserId == Id). ToListAsync();
+			}
+
         }
         public async Task<CustomGroup> GetById(int Id)
         {
@@ -66,9 +76,11 @@ namespace EducationalApplication.Services
             List<UsersToCustomGroups> MainModel = new List<UsersToCustomGroups>();
             foreach (var item in model.TeacherId)
             {
-                if (await _DbContext.Users.AnyAsync(s => s.Id == item) && await _DbContext.UsersToCustomGroups.AnyAsync(s => s.ApplicationUserId == item) == false)
+               var  teacherItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id == item);
+
+                if (await _DbContext.Users.AnyAsync(s => s.Id == item) && await _DbContext.UsersToCustomGroups.AnyAsync(s => s.ApplicationUserId == item &&  s.CustomGroupId == model.GroupId) == false)
                 {
-                    MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, ApplicationUserId = item });
+                    MainModel.Add(new UsersToCustomGroups() { CustomGroupId = model.GroupId, ApplicationUserId = item , StudentName = teacherItem.FullName});
                 }
             }
             await _DbContext.UsersToCustomGroups.AddRangeAsync(MainModel);
@@ -91,13 +103,21 @@ namespace EducationalApplication.Services
         
         }
         
-        public async Task RemoveTeacherFromGroup(string UserId, int CustomGrupId)
+        public async Task RemoveTeacherFromGroup(List<string>  UserId, int CustomGrupId)
         {
             CustomGroup customGroup = await _DbContext.CustomGroups.FindAsync(CustomGrupId);
-            UsersToCustomGroups usersToCustomGroups = await _DbContext.UsersToCustomGroups.FirstOrDefaultAsync(s => s.ApplicationUserId == UserId);
-            if (await _DbContext.Users.AnyAsync(s => s.Id == UserId) && customGroup != null)
+            UsersToCustomGroups usersToCustomGroups = new UsersToCustomGroups();
+           
+            if (customGroup != null)
             {
-                _DbContext.UsersToCustomGroups.Remove(usersToCustomGroups);
+                for (int i = 0; i < UserId.Count(); i++)
+                {
+                    usersToCustomGroups = await _DbContext.UsersToCustomGroups.FirstOrDefaultAsync(s => s.ApplicationUserId == UserId[i] && s.CustomGroupId == CustomGrupId);
+                    if (usersToCustomGroups != null)
+                    {
+                        _DbContext.UsersToCustomGroups.Remove(usersToCustomGroups);
+                    }
+                }
             }
         }
     }

@@ -10,6 +10,7 @@ namespace EducationalApplication.Data
 	public class ApplicationUser :IdentityUser
 	{
 	
+		public int IdHelper { get; set; }
 		public string FullName { get; set; }
 		public long Mobile { get; set; }
 		public string Address { get; set; }

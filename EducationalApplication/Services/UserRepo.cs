@@ -136,7 +136,7 @@ namespace EducationalApplication.Services
 			if (model.UserType == UserType.Manager)
 			{
 				MainList.Students = await _DbContext.Students.ToListAsync();
-				MainList.Teachers = await _DbContext.Users.Where(s => s.UserType != UserType.Teacher).ToListAsync();
+				MainList.Teachers = await _DbContext.Users.Where(s => s.UserType == UserType.Teacher).ToListAsync();
 				return MainList;
 			}
 			else

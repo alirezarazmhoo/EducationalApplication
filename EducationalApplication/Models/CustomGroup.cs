@@ -8,6 +8,7 @@ namespace EducationalApplication.Models
 	{
 		public int Id { get; set; }
 		public string Name { get; set; }
+		public bool IsForTeacher { get; set; }
 		public DateTime Date { get; set; } = DateTime.Now;
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser ApplicationUser { get; set; }

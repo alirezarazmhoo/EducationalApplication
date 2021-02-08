@@ -4,14 +4,16 @@ using EducationalApplication.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EducationalApplication.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210207092302_IdHelperForTeacher")]
+    partial class IdHelperForTeacher
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,8 +120,8 @@ namespace EducationalApplication.Migrations
                         {
                             Id = "02174cf0–9412–4cfe-afbf-59f706d72cf6",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ac6e418-8607-46ca-82b8-e3a56d668de7",
-                            CreateDate = new DateTime(2021, 2, 7, 15, 18, 4, 783, DateTimeKind.Local).AddTicks(6330),
+                            ConcurrencyStamp = "e9631d06-37a6-4c24-b77e-fd9498d00453",
+                            CreateDate = new DateTime(2021, 2, 7, 12, 53, 1, 646, DateTimeKind.Local).AddTicks(6101),
                             Email = "mainowner@email.com",
                             EmailConfirmed = true,
                             IdHelper = 0,
@@ -127,9 +129,9 @@ namespace EducationalApplication.Migrations
                             Mobile = 0L,
                             NormalizedEmail = "mainowner@email.com",
                             NormalizedUserName = "mainowner",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMntdqyUgyauC8Zcf/DLSDFpUAJ4TqwjEsr+wUEIHBRUmJFuwgAi1VVB089TmqQOMg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEER1caswt2k3DZACRiHOdfeI6l7RCoNck9n9Wr115bJgFq7TZVi/v8+OAl8v55FAUg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "9bb93642-4a8a-4b49-8ad0-2658b8340b3a",
+                            SecurityStamp = "63426104-9fc6-415a-b54e-b178c3be9c1e",
                             TwoFactorEnabled = false,
                             UserName = "MainOwner",
                             UserType = 0
@@ -367,9 +369,6 @@ namespace EducationalApplication.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsForTeacher")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

@@ -106,6 +106,10 @@ namespace EducationalApplication.Models.ViewModels
 		public EducationPostStatus Status { get; set; }
 
 		public IEnumerable<int> Students { get; set; }
+		public IEnumerable<string> Teachers { get; set; }
+		public IEnumerable<CustomGroupsToEducationPostsViewModel>  CustomGroupsToEducationPosts { get; set; }
+
+
 
 	}
 	public class ShortEducationPostViewModel
@@ -140,6 +144,13 @@ namespace EducationalApplication.Models.ViewModels
 		public bool IsOnlyForTeacher { get; set; }
 	}
 
+	public class CustomGroupsToEducationPostsViewModel
+	{
+		public int  Id { get; set;  }
+		public bool IsForStudent { get; set; }
+		public int IdHelper { get; set; }
+
+	}
 
 
 	}

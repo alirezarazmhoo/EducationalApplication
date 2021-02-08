@@ -138,7 +138,6 @@ namespace EducationalApplication.Controllers.api
 
         [Route("TeacherEditProfile")]
         [HttpPost]
-
         public async Task<ApiModel> TeacherEditProfile(ApplicationUser model , IFormFile _File)
         {
             if (await _unitofwork.IUserRepo.GetById(model.Id) == null)
@@ -153,7 +152,6 @@ namespace EducationalApplication.Controllers.api
         }
         [Route("StudentEditProfile")]
         [HttpPost]
-
         public async Task<ApiModel> StudentEditProfile(Students model, IFormFile _File)
         {
             if (await _unitofwork.IStudentRepo.GetById(model.Id) == null)
@@ -172,11 +170,16 @@ namespace EducationalApplication.Controllers.api
            return ApiResponse.Success(await _unitofwork.IStudentRepo.GetById(Id));       
         }
         [Route("GetTeacherById")]
-
         public async Task<ApiModel> GetTeacherById(string Id)
         {
             return ApiResponse.Success(await _unitofwork.IUserRepo.GetById(Id));
-
         }
+        [Route("GetAllTeachers")]
+        public async Task<ApiModel> GetAllTeachers(string Id)
+        {
+            return ApiResponse.Success(await _unitofwork.IUserRepo.GetById(Id));
+        }
+
+
     }
 }

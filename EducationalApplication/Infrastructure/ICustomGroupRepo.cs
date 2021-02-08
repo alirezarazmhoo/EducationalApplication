@@ -17,6 +17,6 @@ namespace EducationalApplication.Infrastructure
         Task AddStudentToGroup(StudentAndCustomGroupViewModel model);
         Task AddTeacherToGroup(TeacherAndCustomGroupViewModel model);
         Task RemoveStudentFromGroup(List<int> UserId, int CustomGrupId);
-        Task RemoveTeacherFromGroup(string UserId, int CustomGrupId); 
+        Task RemoveTeacherFromGroup(List<string> UserId, int CustomGrupId); 
     }
 }
