@@ -38,7 +38,7 @@ namespace EducationalApplication.Controllers.api
         {
             try
             {
-                CustomGroup item = await _unitofwork.ICustomGroupRepo.GetById(Id);
+                var item = await _unitofwork.ICustomGroupRepo.GetById(Id);
                 return ApiResponse.Success(item);
 
             }
@@ -70,12 +70,12 @@ namespace EducationalApplication.Controllers.api
         {
             try
             {
-                CustomGroup item = await _unitofwork.ICustomGroupRepo.GetById(Id);
+                var item = await _unitofwork.ICustomGroupRepo.GetById(Id);
                 if (item == null)
                 {
                     return ApiResponse.Fail(null, 404, $"گروه مورد  نظر وجود ندارد ");
                 }
-                _unitofwork.ICustomGroupRepo.Remove(item);
+                _unitofwork.ICustomGroupRepo.Remove(item.Id);
                 await _unitofwork.SaveAsync();
                 return ApiResponse.Success();
             }
@@ -191,6 +191,20 @@ namespace EducationalApplication.Controllers.api
             else
             {
                 return ApiResponse.Success(await _unitofwork.IUserRepo.GetRelatedStudents(groupId, userId));
+            }
+        }
+        [Route("GetRelatedTeachersFromCustomGroup")]
+        [HttpGet]
+        public async Task<ApiModel> GetRelatedTeachersFromCustomGroup(int groupId, string userId)
+        {
+
+            if (await _unitofwork.IUserRepo.GetById(userId) == null)
+            {
+                return ApiResponse.Fail(null, 404, $"کاربری با ای دی {userId} یافت نشد.");
+            }
+            else
+            {
+                return ApiResponse.Success(await _unitofwork.IUserRepo.GetRelatedTeachres(groupId, userId));
             }
         }
     }

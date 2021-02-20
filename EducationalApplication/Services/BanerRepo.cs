@@ -278,7 +278,7 @@ namespace EducationalApplication.Services
                 {
                     if(ApplicationUserItem.UserType == Models.Enums.UserType.Teacher)
                     {
-                        banners = await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).Where(s =>s.IsOnlyForTeacher == true).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id).ToListAsync();
+                        banners = await _DbContext.Banners.Include(c => c.PostsInBanner).Include(c => c.Category).OrderByDescending(c => c.Pin == true).ThenByDescending(s => s.Id).ToListAsync();
                     }
                     else
                     {

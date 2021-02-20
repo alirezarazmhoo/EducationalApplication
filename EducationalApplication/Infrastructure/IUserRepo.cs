@@ -19,6 +19,7 @@ namespace EducationalApplication.Infrastructure
 		Task<bool> ForgetPassword(long Mobile);
 		Task<TeacherAndStudents> GetRelatedUsers(ApplicationUser model);
 		Task<IEnumerable<Students>> GetRelatedStudents(int groupId, string userId);
+		Task<IEnumerable<ApplicationUser>> GetRelatedTeachres(int groupId, string userId); 
 		Task EditProfile(ApplicationUser model, IFormFile _File); 
 
 	}

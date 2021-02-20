@@ -161,6 +161,22 @@ namespace EducationalApplication.Services
 				List<TeachersToClassRoom> TeacherClassRooms = await _DbContext.TeachersToClassRooms.Where(s => s.ApplicationUserId == userId).ToListAsync();
 				List<Students> AllStudents = new List<Students>();
 				List<Students> MainListStudent = new List<Students>();
+				ApplicationUser applicationUserItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(userId));
+				if(applicationUserItem.UserType == UserType.Manager)
+				{
+					AllStudents = await _DbContext.Students.ToListAsync();
+					foreach (var item in AllStudents)
+					{
+						if (!usersToCustomGroups.Any(s => s.StudentsId == item.Id))
+						{
+							Students studentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id == item.Id);
+							MainListStudent.Add(studentItem);
+						}
+					}
+				}
+				else
+				{
+
 				foreach (var item in TeacherClassRooms)
 				{
 					var studentItem = await _DbContext.Students.Where(s=>s.ClassRoomId == item.ClassRoomId).ToListAsync();
@@ -174,6 +190,7 @@ namespace EducationalApplication.Services
 						MainListStudent.Add(studentItem);
 					}
 				}
+				}
 				return MainListStudent;
 			}
 			else
@@ -181,8 +198,36 @@ namespace EducationalApplication.Services
 				return null;
 			}
 		}
+		public async Task<IEnumerable<ApplicationUser>> GetRelatedTeachres(int groupId, string userId)
+		{
+			CustomGroup customGroup = await _DbContext.CustomGroups.FirstOrDefaultAsync(s => s.Id == groupId);
+			List<UsersToCustomGroups> usersToCustomGroups = new List<UsersToCustomGroups>();
+			List<ApplicationUser> applicationUsers = new List<ApplicationUser>();
+			List<ApplicationUser> MainList = new List<ApplicationUser>();
 
-
+			if (customGroup != null && await _DbContext.Users.AnyAsync(s => s.Id == userId))
+			{
+				usersToCustomGroups = await _DbContext.UsersToCustomGroups.Where(s => s.CustomGroupId == customGroup.Id && s.ApplicationUserId!=null ).ToListAsync();
+				applicationUsers = await _DbContext.Users.Where(s=> s.UserType != UserType.Manager).ToListAsync();
+				foreach (var item in applicationUsers)
+				{
+					if(! usersToCustomGroups.Any(s=>s.CustomGroupId.Equals(groupId)  && s.ApplicationUserId.Equals(item.Id)))
+					{
+						MainList.Add(item);
+					}
+				}
+				foreach (var item in MainList)
+				{
+					
+					item.Mobile = 0; 
+				}
+				return MainList;
+			}
+			else
+			{
+				return null;
+			}
+		}
 		public async Task EditProfile(ApplicationUser model, IFormFile _File)
 		{
 			ApplicationUser UserItem = await _DbContext.Users.FirstOrDefaultAsync(s => s.Id.Equals(model.Id));

@@ -10,9 +10,9 @@ namespace EducationalApplication.Infrastructure
  public	interface ICustomGroupRepo
 	{
         Task<List<CustomGroup>> GetAll(string Id);
-        Task<CustomGroup> GetById(int banerId);
+        Task<CustomGroupViewModel> GetById(int banerId);
         Task AddOrUpdate(CustomGroup model);
-        void Remove(CustomGroup model);
+        void Remove( int id);
         Task<IEnumerable<CustomGroup>> search(string txtsearch, string UserId);
         Task AddStudentToGroup(StudentAndCustomGroupViewModel model);
         Task AddTeacherToGroup(TeacherAndCustomGroupViewModel model);

@@ -106,7 +106,7 @@ namespace EducationalApplication.Models.ViewModels
 		public EducationPostStatus Status { get; set; }
 
 		public IEnumerable<int> Students { get; set; }
-		public IEnumerable<string> Teachers { get; set; }
+		public IEnumerable<int> Teachers { get; set; }
 		public IEnumerable<CustomGroupsToEducationPostsViewModel>  CustomGroupsToEducationPosts { get; set; }
 
 
@@ -151,6 +151,40 @@ namespace EducationalApplication.Models.ViewModels
 		public int IdHelper { get; set; }
 
 	}
+
+
+	public class CustomGroupViewModel
+	{
+		public int Id { get; set; }
+		public string Name { get; set; }
+		public bool IsForTeacher { get; set; }
+		public DateTime Date { get; set; } = DateTime.Now;
+		public string ApplicationUserId { get; set; }
+		public ApplicationUser ApplicationUser { get; set; }
+		public List<UsersToCustomGroupsViewModel> UsersToCustomGroups { get; set; }
+
+
+	}
+	
+	public class UsersToCustomGroupsViewModel
+	{
+		public int Id { get; set; }
+		public int ApplicationUserId { get; set; }
+		public ApplicationUser ApplicationUser { get; set; }
+
+		public string StudentName { get; set; }
+		public int? StudentsId { get; set; }
+		public Students Students { get; set; }
+		public int CustomGroupId { get; set; }
+		public CustomGroup CustomGroup { get; set; }
+
+
+
+	}
+
+
+
+
 
 
 	}

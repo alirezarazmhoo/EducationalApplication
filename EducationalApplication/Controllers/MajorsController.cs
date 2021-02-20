@@ -87,6 +87,7 @@ namespace EducationalApplication.Controllers
         {
             try
             {
+               
                 var item = await _unitofwork.IMajorRepo.GetById(ItemId);
                 if (item == null)
                 {
@@ -104,6 +105,7 @@ namespace EducationalApplication.Controllers
             {
                 return Json(new { success = false, responseText = CustomeMessages.Fail });
             }
+           
         }
     }
 }

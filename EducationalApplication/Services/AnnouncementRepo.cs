@@ -35,9 +35,8 @@ namespace EducationalApplication.Services
 			{
 				announcements.Text = model.Text;
 				announcements.ApplicationUserId = model.ApplicationUserId;
-
+				announcements.IsOnlyForTeacher = model.IsOnlyForTeacher; 
 				announcements.AvailableDays = model.AvailableDays == 0 ? SettingItem.Announcement : model.AvailableDays;
-
 				announcements.ExpireDate = DateTime.Now.AddDays(announcements.AvailableDays);
 				await _DbContext.Announcements.AddAsync(announcements);
 			}
