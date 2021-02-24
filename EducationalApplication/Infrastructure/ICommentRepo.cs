@@ -1,4 +1,5 @@
 ﻿using EducationalApplication.Models;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace EducationalApplication.Infrastructure
 	{
 		Task<IEnumerable<Comment>> GetAll(int Id);
 		Task<Comment> GetById(int Id);
-		Task Create(Comment model);
+		Task Create(Comment model, IFormFile[] files);
 		Task Remove(Comment model);
 		Task ChaneStatus(Comment model); 
 

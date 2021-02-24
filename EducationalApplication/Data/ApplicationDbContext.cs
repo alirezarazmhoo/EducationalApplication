@@ -36,7 +36,7 @@ namespace EducationalApplication.Data
 		public DbSet<Announcements>  Announcements { get; set; }
 		public DbSet<AboutUs> AboutUs { get; set; }
 		public DbSet<CustomGroupsToEducationPosts>  CustomGroupsToEducationPosts { get; set; }
-
+		public DbSet<CommentMedia>  CommentMedias { get; set; }	
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);

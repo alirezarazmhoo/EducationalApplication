@@ -10,6 +10,7 @@ namespace EducationalApplication.Models
 	public class Comment
 	{
 		public int Id { get; set; }
+		public int IdParent { get; set;  }
 		public string ApplicationUserId { get; set; }
 		public ApplicationUser ApplicationUser { get; set; }
 		public int StudentsId { get; set; }
@@ -19,5 +20,6 @@ namespace EducationalApplication.Models
 		public CommentStatus CommentStatus { get; set; } = CommentStatus.Waiting; 
 		public int EducationPostId { get; set; }
 		public EducationPost EducationPost { get; set; }
+		public ICollection<CommentMedia> CommentMedias { get; set;  }
 	}
 }

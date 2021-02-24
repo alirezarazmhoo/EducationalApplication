@@ -2,6 +2,7 @@
 using EducationalApplication.Models;
 using EducationalApplication.Models.ViewModels;
 using EducationalApplication.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace EducationalApplication.Controllers.api
             }
         }
         [HttpPost("Add")]
-        public async Task<ApiModel> Add(Comment model)
+        public async Task<ApiModel> Add([FromForm]Comment model , IFormFile[] file)
         {
             try
             {
@@ -46,7 +47,7 @@ namespace EducationalApplication.Controllers.api
                 {
                     return ApiResponse.Fail(null, 404, $"دانش آموزی با ای دی {model.StudentsId} یافت نشد.");
                 }
-                await _unitofwork.ICommentRepo.Create(model);
+                await _unitofwork.ICommentRepo.Create(model , file);
                 await _unitofwork.SaveAsync();
                 return ApiResponse.Success();
             }
