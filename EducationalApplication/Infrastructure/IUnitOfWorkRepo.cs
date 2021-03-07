@@ -22,7 +22,7 @@ namespace EducationalApplication.Infrastructure
 		IFavoritRepo IFavoritRepo { get; }
 		IAnnouncementRepo IAnnouncementRepo { get;}
 		IAboutUsRepo IAboutUsRepo { get; }
-
+		ITiketRepo ITiketRepo { get; }
 		Task SaveAsync();
 	}
 }

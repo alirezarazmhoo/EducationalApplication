@@ -26,6 +26,8 @@ namespace EducationalApplication.Services
 		private IFavoritRepo _IFavoritRepo;
 		private IAnnouncementRepo _IAnnouncementRepo;
 		private IAboutUsRepo _IAboutUsRepo;
+		private ITiketRepo _ITiketRepo;
+
 
 		public UnitOfWork(ApplicationDbContext DbContext)
 		{
@@ -140,6 +142,13 @@ namespace EducationalApplication.Services
 			get
 			{
 				return _IAboutUsRepo = _IAboutUsRepo ?? new AboutUsRepo(_DbContext);
+			}
+		}
+		public ITiketRepo ITiketRepo
+		{
+			get
+			{
+				return _ITiketRepo = _ITiketRepo ?? new TicketRepo(_DbContext);
 			}
 		}
 	}

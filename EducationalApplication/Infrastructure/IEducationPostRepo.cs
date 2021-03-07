@@ -25,8 +25,8 @@ namespace EducationalApplication.Infrastructure
 		Task<EducationPost> AdminGetById(int Id);
 		Task<int> CommentCount(int Id);
 		Task<IEnumerable<EducationPostViewModel>> GetRelatedEducationPostsInCateogry(int Id);
-		Task<IEnumerable<EducationPostViewModel>> GetEducationPostByArray(string Id); 
-
+		Task<IEnumerable<EducationPostViewModel>> GetEducationPostByArray(string Id);
+		Task<IEnumerable<EducationPostViewModel>> GetRecentlyPosts(int Id); 
 
 	}
 }

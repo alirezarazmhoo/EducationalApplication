@@ -50,6 +50,7 @@
     <Folder Include="wwwroot\Upload\Post\Icon\" />
     <Folder Include="wwwroot\Upload\Student\File\" />
     <Folder Include="wwwroot\Upload\Teacher\File\" />
+    <Folder Include="wwwroot\Upload\Tiket\File\" />
   </ItemGroup>
 
 

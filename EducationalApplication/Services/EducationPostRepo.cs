@@ -22,7 +22,7 @@ namespace EducationalApplication.Services
 			_DbContext = DbContext;
 
 		}
-		public async Task AddOrUpdate(EducationPost model, IFormFile Icon, IFormFile[] files, string TeacherList, string StudentList, string customgrouplist , string teachercustomgrouplist)
+		public async Task AddOrUpdate(EducationPost model, IFormFile Icon, IFormFile[] files, string TeacherList, string StudentList, string customgrouplist, string teachercustomgrouplist)
 		{
 			#region Parameters
 			List<UsersToEducationPost> usersToEducationPost = new List<UsersToEducationPost>();
@@ -155,14 +155,14 @@ namespace EducationalApplication.Services
 						}
 					}
 				}
-				if (! string.IsNullOrEmpty(TeacherList))
+				if (!string.IsNullOrEmpty(TeacherList))
 				{
 					_TeacherList = TeacherList.Split(",");
 					for (int i = 0; i < _TeacherList.Count(); i++)
 					{
 						TeacherId = _TeacherList[i];
-						var TecherItemHelper = await _DbContext.Users.FirstOrDefaultAsync(s => s.IdHelper == Convert.ToInt32(TeacherId)); 
-						if (TecherItemHelper !=null)
+						var TecherItemHelper = await _DbContext.Users.FirstOrDefaultAsync(s => s.IdHelper == Convert.ToInt32(TeacherId));
+						if (TecherItemHelper != null)
 						{
 							if (!usersToEducationPost.Any(s => s.ApplicationUserId == TecherItemHelper.Id && s.EducationPostId == model.Id))
 							{
@@ -230,7 +230,7 @@ namespace EducationalApplication.Services
 					}
 					if (string.IsNullOrEmpty(TeacherList) && string.IsNullOrEmpty(teachercustomgrouplist))
 					{
-						_DbContext.UsersToEducationPosts.RemoveRange(_DbContext.UsersToEducationPosts.Where(s => s.EducationPostId == MainItem.Id && s.ApplicationUserId !=null));
+						_DbContext.UsersToEducationPosts.RemoveRange(_DbContext.UsersToEducationPosts.Where(s => s.EducationPostId == MainItem.Id && s.ApplicationUserId != null));
 					}
 
 					if (!string.IsNullOrEmpty(teachercustomgrouplist))
@@ -272,7 +272,7 @@ namespace EducationalApplication.Services
 							var UserEducationPostItem = await _DbContext.UsersToEducationPosts.FirstOrDefaultAsync(s => s.ApplicationUserId == item.ApplicationUserId && s.EducationPostId == item.EducationPostId);
 							if (UserEducationPostItem != null)
 							{
-							_DbContext.UsersToEducationPosts.Remove(UserEducationPostItem);
+								_DbContext.UsersToEducationPosts.Remove(UserEducationPostItem);
 							}
 						}
 					}
@@ -288,8 +288,8 @@ namespace EducationalApplication.Services
 				}
 				if (!string.IsNullOrEmpty(customgrouplist))
 				{
-				
-					if(await _DbContext.CustomGroupsToEducationPosts.Where(s=>s.EducationPostId.Equals(model.Id)).CountAsync()> 0)
+
+					if (await _DbContext.CustomGroupsToEducationPosts.Where(s => s.EducationPostId.Equals(model.Id)).CountAsync() > 0)
 					{
 						var CustomGroupList = await _DbContext.CustomGroupsToEducationPosts.Where(s => s.EducationPostId.Equals(model.Id)).ToListAsync();
 						foreach (var item in CustomGroupList)
@@ -297,16 +297,16 @@ namespace EducationalApplication.Services
 							var StudentItems = await _DbContext.UsersToCustomGroups.Where(s => s.CustomGroupId.Equals(item.CustomGroupId)).Select(s => s.StudentsId).ToListAsync();
 							foreach (var item2 in StudentItems)
 							{
-								var studentitem = await _DbContext.UsersToEducationPosts.FirstOrDefaultAsync(s => s.StudentsId == item2 && s.EducationPostId == model.Id); 
-								if(studentitem != null)
+								var studentitem = await _DbContext.UsersToEducationPosts.FirstOrDefaultAsync(s => s.StudentsId == item2 && s.EducationPostId == model.Id);
+								if (studentitem != null)
 								{
-								 _DbContext.UsersToEducationPosts.Remove(studentitem);
+									_DbContext.UsersToEducationPosts.Remove(studentitem);
 								}
 							}
 						}
 						_DbContext.CustomGroupsToEducationPosts.RemoveRange(await _DbContext.CustomGroupsToEducationPosts.Where(s => s.EducationPostId == model.Id).ToListAsync());
 					}
-				
+
 					customGroupsToEducationPosts.Clear();
 					_GroupsIdes = customgrouplist.Split(",");
 					for (int i = 0; i < _GroupsIdes.Count(); i++)
@@ -335,7 +335,7 @@ namespace EducationalApplication.Services
 							}
 						}
 					}
-				
+
 				}
 				//End
 				//Studetns To Post
@@ -359,7 +359,7 @@ namespace EducationalApplication.Services
 						}
 					}
 				}
-				if (! string.IsNullOrEmpty(TeacherList))
+				if (!string.IsNullOrEmpty(TeacherList))
 				{
 					_TeacherList = TeacherList.Split(",");
 					for (int i = 0; i < _TeacherList.Count(); i++)
@@ -374,8 +374,8 @@ namespace EducationalApplication.Services
 						}
 					}
 				}
-		        if (usersToEducationPost.Count() > 0)
-			    {
+				if (usersToEducationPost.Count() > 0)
+				{
 					await _DbContext.UsersToEducationPosts.AddRangeAsync(usersToEducationPost);
 				}
 			}
@@ -388,15 +388,15 @@ namespace EducationalApplication.Services
 			List<EducationPostViewModel> educationPostViewModel = new List<EducationPostViewModel>();
 			if (SettingItem.NeedEducationPostsToAccept)
 			{
-				Items = await _DbContext.EducationPosts.Where(s => s.Status == EducationPostStatus.Accepted).Include(s => s.Medias).Include(s => s.UsersToEducationPosts).Where(s=>s.ApplicationUserId == Id).OrderByDescending(s => s.Id).ToListAsync();
+				Items = await _DbContext.EducationPosts.Where(s => s.Status == EducationPostStatus.Accepted).Include(s => s.Medias).Include(s => s.UsersToEducationPosts).Where(s => s.ApplicationUserId == Id).OrderByDescending(s => s.Id).ToListAsync();
 			}
 			else
 			{
-				Items = await _DbContext.EducationPosts.Include(s => s.Medias).Include(s => s.UsersToEducationPosts).Include(s=>s.CustomGroupsToEducationPosts).Where(s=>s.ApplicationUserId == Id).OrderByDescending(s => s.Id).ToListAsync();
+				Items = await _DbContext.EducationPosts.Include(s => s.Medias).Include(s => s.UsersToEducationPosts).Include(s => s.CustomGroupsToEducationPosts).Where(s => s.ApplicationUserId == Id).OrderByDescending(s => s.Id).ToListAsync();
 			}
 			foreach (var item in Items)
 			{
-				educationPostViewModel.Add(new EducationPostViewModel() { AccessType = item.AccessType, ApplicationUserId = item.ApplicationUserId, CategoryId = item.CategoryId, Description = item.Description, IconUrl = item.IconUrl, Id = item.Id, Medias = item.Medias, Number = item.Number, Pin = item.Pin, Status = item.Status, Title = item.Title, ViewCount = item.ViewCount, Students = GetStudentsFromEducationPost(item.Id) , Teachers = GetTeachersFromEducationPost(item.Id) ,  CustomGroupsToEducationPosts = GetGroups(item.Id) });
+				educationPostViewModel.Add(new EducationPostViewModel() { AccessType = item.AccessType, ApplicationUserId = item.ApplicationUserId, CategoryId = item.CategoryId, Description = item.Description, IconUrl = item.IconUrl, Id = item.Id, Medias = item.Medias, Number = item.Number, Pin = item.Pin, Status = item.Status, Title = item.Title, ViewCount = item.ViewCount, Students = GetStudentsFromEducationPost(item.Id), Teachers = GetTeachersFromEducationPost(item.Id), CustomGroupsToEducationPosts = GetGroups(item.Id) });
 			}
 			return educationPostViewModel.OrderByDescending(s => s.Pin == true);
 		}
@@ -404,9 +404,9 @@ namespace EducationalApplication.Services
 		{
 			List<int> MainList = new List<int>();
 
-			foreach (var item in _DbContext.UsersToEducationPosts.Include(s=>s.ApplicationUser).Where(s => s.EducationPostId.Equals(id)).ToList())
+			foreach (var item in _DbContext.UsersToEducationPosts.Include(s => s.ApplicationUser).Where(s => s.EducationPostId.Equals(id)).ToList())
 			{
-				if (! string.IsNullOrEmpty(item.ApplicationUserId))
+				if (!string.IsNullOrEmpty(item.ApplicationUserId))
 				{
 					MainList.Add(item.ApplicationUser.IdHelper);
 				}
@@ -416,7 +416,7 @@ namespace EducationalApplication.Services
 		private IEnumerable<int> GetStudentsFromEducationPost(int id)
 		{
 			List<int> MainList = new List<int>();
-			foreach (var item in _DbContext.UsersToEducationPosts.Where(s=>s.EducationPostId.Equals(id)).ToList())
+			foreach (var item in _DbContext.UsersToEducationPosts.Where(s => s.EducationPostId.Equals(id)).ToList())
 			{
 				if (item.StudentsId.HasValue)
 				{
@@ -427,29 +427,29 @@ namespace EducationalApplication.Services
 		}
 		private IEnumerable<CustomGroupsToEducationPostsViewModel> GetGroups(int id)
 		{
-			var customGroupsItem =  _DbContext.CustomGroupsToEducationPosts.Where(s => s.EducationPostId == id).ToList();
+			var customGroupsItem = _DbContext.CustomGroupsToEducationPosts.Where(s => s.EducationPostId == id).ToList();
 			List<CustomGroupsToEducationPostsViewModel> customGroupsToEducationPostsViewModel = new List<CustomGroupsToEducationPostsViewModel>();
 			foreach (var item in customGroupsItem)
 			{
-				var CustomGropItem = _DbContext.CustomGroups.Include(s=>s.ApplicationUser).FirstOrDefault(s => s.Id.Equals(item.CustomGroupId));
+				var CustomGropItem = _DbContext.CustomGroups.Include(s => s.ApplicationUser).FirstOrDefault(s => s.Id.Equals(item.CustomGroupId));
 				if (CustomGropItem != null)
 				{
 					customGroupsToEducationPostsViewModel.Add(new CustomGroupsToEducationPostsViewModel() { Id = item.CustomGroupId, IdHelper = item.EducationPost.ApplicationUser.IdHelper, IsForStudent = CheckCustomGroupType(item.CustomGroupId) });
 				}
 			}
-			return customGroupsToEducationPostsViewModel; 
+			return customGroupsToEducationPostsViewModel;
 		}
 		private bool CheckCustomGroupType(int Id)
 		{
-			CustomGroup customGroupItem = _DbContext.CustomGroups.FirstOrDefault(s=>s.Id.Equals(Id));
-			
-			if(_DbContext.UsersToCustomGroups.Any(s=>s.CustomGroupId == customGroupItem.Id && s.StudentsId.HasValue))
+			CustomGroup customGroupItem = _DbContext.CustomGroups.FirstOrDefault(s => s.Id.Equals(Id));
+
+			if (_DbContext.UsersToCustomGroups.Any(s => s.CustomGroupId == customGroupItem.Id && s.StudentsId.HasValue))
 			{
-				return true; 
+				return true;
 			}
 			else
 			{
-				return false; 
+				return false;
 			}
 		}
 		public async Task<EducationPostViewModel> GetById(int Id)
@@ -678,5 +678,28 @@ namespace EducationalApplication.Services
 				return null;
 			}
 		}
+
+
+		public async Task<IEnumerable<EducationPostViewModel>> GetRecentlyPosts(int Id)
+		{
+			List<EducationPostViewModel> educationPostViewModels = new List<EducationPostViewModel>();
+			var StudentItem = await _DbContext.Students.FirstOrDefaultAsync(s => s.Id.Equals(Id));
+
+			if(StudentItem != null)
+			{
+				var educationposts = await _DbContext.UsersToEducationPosts.Include(s=>s.EducationPost).Where(s => s.StudentsId.Equals(Id)).ToListAsync() ;
+				foreach (var item in educationposts)
+				{
+					educationPostViewModels.Add(new EducationPostViewModel() { AccessType = item.EducationPost.AccessType, ApplicationUserId = item.EducationPost.ApplicationUserId, CategoryId = item.EducationPost.CategoryId, Id = item.EducationPostId, Description = item.EducationPost.Description, IconUrl = item.EducationPost.IconUrl, Number = item.EducationPost.Number });
+				}
+				return educationPostViewModels; 
+			}
+			else
+			{
+				return null; 
+			}
+		}
+
+
 	}
 }

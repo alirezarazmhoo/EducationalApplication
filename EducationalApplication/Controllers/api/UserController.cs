@@ -179,7 +179,11 @@ namespace EducationalApplication.Controllers.api
         {
             return ApiResponse.Success(await _unitofwork.IUserRepo.GetById(Id));
         }
-
+        [Route("GetRecentlyPosts")]
+        public async Task<ApiModel> GetRecentlyPosts(int Id)
+        {
+            return ApiResponse.Success(await _unitofwork.IEducationPostRepo.GetRecentlyPosts(Id));
+        }
 
     }
 }
